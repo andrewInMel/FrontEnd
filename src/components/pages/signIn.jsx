@@ -44,11 +44,13 @@ const styles = {
   notchedOutline: {
     borderWidth: "2px",
     borderColor: "grey",
-    "&:focus": {
+    "&:hover": {
       borderColor: "grey",
     },
   },
 };
+
+const userId = "";
 
 class SignIn extends Component {
   constructor(props) {
@@ -186,3 +188,4 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
+export { userId };

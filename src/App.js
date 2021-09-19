@@ -1,8 +1,9 @@
 import React from "react";
 import Greating from "./components/pages/Greating.jsx";
-import Signin from "./components/pages/signIn.jsx";
-import Signup from "./components/pages/signUp.jsx";
-import Dashboard from "./components/pages/dashboard.jsx";
+import Signin from "./components/pages/SignIn.jsx";
+import Signup from "./components/pages/SignUp.jsx";
+import Dashboard from "./components/pages/Dashboard.jsx";
+import Setting from "./components/pages/Setting.jsx";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
@@ -10,9 +11,10 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" component={Greating} />
-        <Route exact path="/Signin" component={Signin} />
-        <Route exact path="/Signup" component={Signup} />
-        <Route exact path="/Dashboard" component={Dashboard} />
+        <Route exact path="/signin" component={Signin} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/setting" component={Setting} />
+        <Route path="/dashboard" component={Dashboard} />
       </Switch>
     </Router>
   );

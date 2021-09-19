@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../imgs/logo.svg";
+import logo from "../../imgs/Logo.svg";
 import { Link } from "react-router-dom";
 import { Typography, Container, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
