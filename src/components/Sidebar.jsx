@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
   middleStyle: {
     flexGrow: "1",
-    padding: "0 0 0 60px",
+    padding: "0 0 0 70px",
   },
   bottomStyle: {
     height: "150px",
@@ -32,12 +32,9 @@ const useStyles = makeStyles({
     color: "#4F7E83",
   },
   hyphen: {
-    margin: "0 20px 0 0",
+    margin: "0 15px 0 -15px",
   },
 });
-{
-  /* Handler */
-}
 
 function Sidebar(props) {
   const [clicked, setClicked] = useState([true, false, false]);
@@ -67,7 +64,9 @@ function Sidebar(props) {
         className={classes.middleStyle}
       >
         <Grid item onClick={() => setClicked([true, false, false])}>
-          {clicked[0] ? <img src={Hyphen} className={classes.hyphen} /> : null}
+          {clicked[0] ? (
+            <img src={Hyphen} alt="" className={classes.hyphen} />
+          ) : null}
           <Typography
             className={classes.text}
             component={Link}
@@ -77,7 +76,9 @@ function Sidebar(props) {
           </Typography>
         </Grid>
         <Grid item onClick={() => setClicked([false, true, false])}>
-          {clicked[1] ? <img src={Hyphen} className={classes.hyphen} /> : null}
+          {clicked[1] ? (
+            <img src={Hyphen} alt="" className={classes.hyphen} />
+          ) : null}
           <Typography
             className={classes.text}
             component={Link}
@@ -87,7 +88,9 @@ function Sidebar(props) {
           </Typography>
         </Grid>
         <Grid item onClick={() => setClicked([false, false, true])}>
-          {clicked[2] ? <img src={Hyphen} className={classes.hyphen} /> : null}
+          {clicked[2] ? (
+            <img src={Hyphen} alt="" className={classes.hyphen} />
+          ) : null}
           <Typography
             className={classes.text}
             component={Link}

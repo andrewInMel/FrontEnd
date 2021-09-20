@@ -1,9 +1,9 @@
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
-import Task from "./Task.jsx";
+import TaskList from "./TaskList.jsx";
 import Connection from "./Connection.jsx";
 import MainContent from "./MainContent.jsx";
 import Header from "../Header.jsx";
@@ -56,7 +56,7 @@ function DashBd() {
               <Switch>
                 <Route exact path={`${path}`} component={MainContent} />
                 <Route path={`${path}/connection`} component={Connection} />
-                <Route path={`${path}/task`} component={Task} />
+                <Route path={`${path}/task`} component={TaskList} />
               </Switch>
             </Grid>
 
@@ -70,7 +70,7 @@ function DashBd() {
               alignItems="flex-end"
             >
               <Grid>
-                <img src={Add} className={classes.addStyle} />
+                <img src={Add} alt="" className={classes.addStyle} />
               </Grid>
             </Grid>
           </Grid>

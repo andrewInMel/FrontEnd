@@ -1,7 +1,5 @@
 import React from "react";
 
-function Connection() {
-  return <div> I am at Task </div>;
+export default function Task(props) {
+  return <div>This is Task page {props.open}</div>;
 }
-
-export default Connection;
