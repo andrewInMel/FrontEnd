@@ -1,5 +1,5 @@
 import React from "react";
-import Greating from "./components/pages/greating";
+import Greating from "./components/pages/Greating.jsx";
 import Signin from "./components/pages/signIn.jsx";
 import Signup from "./components/pages/signUp.jsx";
 import Dashboard from "./components/pages/dashboard.jsx";
