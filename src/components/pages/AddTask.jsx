@@ -8,12 +8,14 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@mui/material/IconButton";
 import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 const useStyles = makeStyles({
   rootStyle: {
-    width: "1080px",
-    height: "600px",
-    padding: "30px",
+    width: "980px",
+    height: "475px",
+    padding: "40px 30px 10px 40px",
   },
   closeIcon: {
     margin: "0 auto",
@@ -22,10 +24,16 @@ const useStyles = makeStyles({
     fontWeight: "600",
   },
   textPosition: {
-    paddingTop: "10%",
+    paddingTop: "8%",
   },
   rowSpace: {
     padding: "10px 0",
+  },
+  midStyle: {
+    padding: "100px 0 125px 75px",
+  },
+  chipStyle: {
+    margin: "10px 0 10px 10px",
   },
 });
 
@@ -33,10 +41,21 @@ export default function AddTask(props) {
   const classes = useStyles();
   const [count, setCount] = useState(0);
   const [members, setMembers] = useState([]);
-  const [textState, setTextState] = useState("");
-  const [priority, setPriority] = useState("");
+  const [text, setText] = useState("");
+  const [priority, setPriority] = useState("critical");
+  const [status, setStatus] = useState("progress");
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [taskName, setTaskName] = useState("");
+
+  const taskData = {
+    description: text,
+    priority: priority,
+    status: status,
+    members: members,
+    taskName: taskName,
+  };
 
   /* add task memeber, popOver state */
   const open = Boolean(anchorEl);
@@ -45,24 +64,69 @@ export default function AddTask(props) {
   };
   const handleAssignmentClose = () => {
     setAnchorEl(null);
+    setName("");
   };
-
+  /* control methods */
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
   };
 
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+  };
+
   const handleTextChange = (event) => {
-    setTextState(event.target.value);
+    setText(event.target.value);
+  };
+
+  const handleTaskNameChange = (event) => {
+    setTaskName(event.target.value);
   };
 
   const handleMemberName = (event) => {
     setName(event.target.value);
   };
 
+  const handleDueDateChange = (event) => {
+    setDueDate(event.target.value);
+  };
+  /* remove and add task member */
   const addMember = () => {
     setMembers(members.concat({ chipName: name, chipCount: count }));
     setAnchorEl(null);
     setCount(count + 1);
+    setName("");
+  };
+
+  const removeMember = (memberToRemove) => () => {
+    setMembers(members.filter((oneMember) => oneMember !== memberToRemove));
+  };
+
+  /* sent data to backend */
+  const createTask = () => {
+    axios
+      .post("url", taskData)
+      .then((res) => {
+        console.log(res);
+        resetAll();
+        props.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  /* reset all state */
+  const resetAll = () => {
+    setCount(0);
+    setMembers([]);
+    setText("");
+    setPriority("critical");
+    setStatus("progress");
+    setAnchorEl(null);
+    setName("");
+    setDueDate("");
+    setTaskName("");
   };
 
   return (
@@ -81,13 +145,29 @@ export default function AddTask(props) {
             <Grid item>
               <Typography variant="h3">Create task</Typography>
             </Grid>
+            {/* title */}
+            <Grid item className={classes.textPosition}>
+              <Typography className={classes.bold} align="left">
+                Task Name
+              </Typography>
+              <TextField
+                value={taskName}
+                size="small"
+                variant="outlined"
+                onChange={handleTaskNameChange}
+                multiline={true}
+                fullWidth={true}
+                placeholder="Task Name ..."
+                minRows="1"
+              />
+            </Grid>
             {/* Description */}
             <Grid item className={classes.textPosition}>
               <Typography align="left" className={classes.bold}>
                 Description
               </Typography>
               <TextField
-                value={textState}
+                value={text}
                 variant="outlined"
                 onChange={handleTextChange}
                 multiline={true}
@@ -97,16 +177,15 @@ export default function AddTask(props) {
               />
             </Grid>
           </Grid>
-          <Grid item xs={1} />
           {/* middle section */}
           <Grid
             item
-            xs={5}
+            xs={6}
             container
             direction="column"
             justifyContent="center"
             alignItems="flex-start"
-            style={{ padding: "105px 50px 200px 100px" }}
+            className={classes.midStyle}
           >
             {/* status */}
             <Grid
@@ -117,11 +196,26 @@ export default function AddTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={7}>
+              <Grid item xs={5}>
                 <Typography> Status</Typography>
               </Grid>
-              <Grid item xs={5} style={{ marginLeft: "-5px" }}>
-                <img src="/imgs/status/progress.svg" alt="" />
+              <Grid item xs={7}>
+                <TextField
+                  select
+                  value={status}
+                  onChange={handleStatusChange}
+                  InputProps={{ disableUnderline: true }}
+                >
+                  <MenuItem value="progress">
+                    <img src="/imgs/status/progress.svg" alt="progress" />
+                  </MenuItem>
+                  <MenuItem value="review">
+                    <img src="/imgs/status/review.svg" alt="review" />
+                  </MenuItem>
+                  <MenuItem value="complete">
+                    <img src="/imgs/status/complete.svg" alt="complete" />
+                  </MenuItem>
+                </TextField>
               </Grid>
             </Grid>
             {/* Priority */}
@@ -133,17 +227,16 @@ export default function AddTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={7}>
+              <Grid item xs={5}>
                 <Typography> Priority</Typography>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={7}>
                 <TextField
                   select
                   value={priority}
                   onChange={handlePriorityChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="unselected" />
                   <MenuItem value="critical">
                     <img src="/imgs/priority/critical.svg" alt="critical" />
                   </MenuItem>
@@ -155,9 +248,6 @@ export default function AddTask(props) {
                   </MenuItem>
                   <MenuItem value="low">
                     <img src="/imgs/priority/low.svg" alt="low" />
-                  </MenuItem>
-                  <MenuItem value="review">
-                    <img src="/imgs/priority/review.svg" alt="review" />
                   </MenuItem>
                   <MenuItem value="unknown">
                     <img src="/imgs/priority/unknown.svg" alt="unknown" />
@@ -174,11 +264,19 @@ export default function AddTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={7}>
+              <Grid item xs={5}>
                 <Typography> Due date</Typography>
               </Grid>
-              <Grid item xs={5}>
-                {"12 sep 2021"}
+              <Grid item xs={7}>
+                <TextField
+                  id="date"
+                  type="date"
+                  value={dueDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleDueDateChange}
+                />
               </Grid>
             </Grid>
             {/* Assign chips */}
@@ -190,16 +288,17 @@ export default function AddTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={7}>
+              <Grid item xs={5}>
                 <Typography> Assign </Typography>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={7}>
                 {members.map((member) => {
                   return (
                     <Chip
                       key={member.chipCount}
                       label={member.chipName}
                       variant="outlined"
+                      onDelete={removeMember(member)}
                     />
                   );
                 })}
@@ -234,7 +333,7 @@ export default function AddTask(props) {
                         id="Member Name"
                         label="Member Name"
                         variant="outlined"
-                        style={{ margin: "10px 0 10px 10px" }}
+                        className={classes.chipStyle}
                         onChange={handleMemberName}
                         value={name}
                       />
@@ -259,7 +358,7 @@ export default function AddTask(props) {
             item
             xs={1}
             direction="column"
-            justifyContent="flex-start"
+            justifyContent="space-between"
             alignItems="flex-end"
           >
             <Grid item>
@@ -267,6 +366,11 @@ export default function AddTask(props) {
                 onClick={props.onClose}
                 className={classes.closeIcon}
               />
+            </Grid>
+            <Grid item>
+              <Button onClick={createTask} variant="contained" color="primary">
+                Create
+              </Button>
             </Grid>
           </Grid>
         </Grid>

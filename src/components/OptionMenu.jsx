@@ -3,29 +3,34 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Dialog from "@mui/material/Dialog";
 import Task from "./pages/Task";
 
 const options = ["View", "Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
-
-function deleteTask(id) {
-  //useing Delete request to delete the task record
-  console.log(`${id}`);
-}
+const taskId = "";
 
 export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [TaskOpen, setTaskOpen] = React.useState(false);
+
+  /* open/close option menu */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  /*  task delete fucntion */
+  const deleteTask = (id) => {
+    //useing Delete request to delete the task record
+    console.log(`${id}`);
+  };
+
+  /* choice of view/edit or delete task record */
   const handleOptionClick = (e) => {
     e.currentTarget.id === "Delete" ? deleteTask(props.id) : setTaskOpen(true);
     setAnchorEl(null);
@@ -34,6 +39,7 @@ export default function LongMenu(props) {
   const handleDialogClose = () => {
     setTaskOpen(false);
   };
+
   return (
     <div>
       <IconButton
@@ -64,9 +70,8 @@ export default function LongMenu(props) {
           </MenuItem>
         ))}
       </Menu>
-      <Dialog open={TaskOpen} onClose={handleDialogClose}>
-        <Task />
-      </Dialog>
+
+      <Task open={TaskOpen} onClose={handleDialogClose} id={taskId} />
     </div>
   );
 }
