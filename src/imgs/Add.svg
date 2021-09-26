@@ -1,9 +1,11 @@
-<svg width="70" height="68" viewBox="0 0 70 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="93" height="83" viewBox="0 0 93 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="93" height="8" fill="white"/>
 <g filter="url(#filter0_d)">
-<ellipse cx="35" cy="30" rx="31" ry="30" fill="#CEC4C4"/>
+<ellipse cx="47" cy="39" rx="31" ry="30" fill="#CEC4C4"/>
 </g>
+<path d="M46.5 31C46.7818 31 47.052 31.1054 47.2513 31.2929C47.4506 31.4804 47.5625 31.7348 47.5625 32V38H53.9375C54.2193 38 54.4895 38.1054 54.6888 38.2929C54.8881 38.4804 55 38.7348 55 39C55 39.2652 54.8881 39.5196 54.6888 39.7071C54.4895 39.8946 54.2193 40 53.9375 40H47.5625V46C47.5625 46.2652 47.4506 46.5196 47.2513 46.7071C47.052 46.8946 46.7818 47 46.5 47C46.2182 47 45.948 46.8946 45.7487 46.7071C45.5494 46.5196 45.4375 46.2652 45.4375 46V40H39.0625C38.7807 40 38.5105 39.8946 38.3112 39.7071C38.1119 39.5196 38 39.2652 38 39C38 38.7348 38.1119 38.4804 38.3112 38.2929C38.5105 38.1054 38.7807 38 39.0625 38H45.4375V32C45.4375 31.7348 45.5494 31.4804 45.7487 31.2929C45.948 31.1054 46.2182 31 46.5 31V31Z" fill="#DEE2E3"/>
 <defs>
-<filter id="filter0_d" x="0" y="0" width="70" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d" x="12" y="9" width="70" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="4"/>
@@ -15,4 +17,5 @@
 </filter>
 </defs>
 </svg>
+
 

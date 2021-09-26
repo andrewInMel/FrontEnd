@@ -2,36 +2,36 @@ import React from "react";
 import { useRouteMatch } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import TaskList from "./TaskList.jsx";
 import Connection from "./Connection.jsx";
 import MainContent from "./MainContent.jsx";
 import Header from "../Header.jsx";
 import Sidebar from "../Sidebar";
 import Footer from "../Footer.jsx";
-import Add from "../../imgs/Add.svg";
+import Add from "../Add.jsx";
+import { loggedIn } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
     height: "100vh",
   },
-  addStyle: {
+  pushFooter: {
     flexGrow: "1",
+  },
+  addBtnStyle: {
+    margin: "0 50px 50px 0",
   },
 });
 
 function DashBd() {
   const classes = useStyles();
   let { url, path } = useRouteMatch();
-  return (
-    <div>
-      <Grid
-        container
-        direction="row"
-        justifyContent="felx-start"
-        alignItems="stretch"
-        className={classes.rootStyle}
-      >
+  if (!loggedIn) {
+    return <Redirect to="/Signin" />;
+  } else {
+    return (
+      <Grid container direction="row" className={classes.rootStyle}>
         {/* Sidebar */}
         <Sidebar linkPath={url} />
         {/* Content page*/}
@@ -41,16 +41,17 @@ function DashBd() {
           container
           direction="column"
           justifyContent="flex-start"
-          alignItems="strench"
+          alignItems="stretch"
         >
+          {/* header */}
           <Header />
           {/* nest routes */}
           <Grid
             container
-            itemdirection="row"
-            justifyContent="flex-start"
-            alignItems="strench"
-            style={{ flexGrow: "1" }}
+            item
+            direction="row"
+            alignItems="flex-end"
+            className={classes.pushFooter}
           >
             <Grid item xs={11}>
               <Switch>
@@ -61,24 +62,16 @@ function DashBd() {
             </Grid>
 
             {/* "Add" functionality */}
-            <Grid
-              container
-              item
-              xs={1}
-              itemdirection="column"
-              justifyContent="center"
-              alignItems="flex-end"
-            >
-              <Grid>
-                <img src={Add} alt="" className={classes.addStyle} />
-              </Grid>
+
+            <Grid item className={classes.addBtnStyle}>
+              <Add />
             </Grid>
           </Grid>
           <Footer />
         </Grid>
       </Grid>
-    </div>
-  );
+    );
+  }
 }
 
 export default DashBd;

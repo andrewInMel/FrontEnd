@@ -60,7 +60,6 @@ function Sidebar(props) {
         item
         direction="column"
         justifyContent="space-evenly"
-        alignItems="flex-start"
         className={classes.middleStyle}
       >
         <Grid item onClick={() => setClicked([true, false, false])}>

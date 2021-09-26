@@ -19,9 +19,11 @@ function MyTextField(props) {
       style={{ width: `${props.myWidth}` }}
       size="small"
       variant="outlined"
-      label={`${props.lable}`}
+      label={props.lable}
+      name={props.name}
       value={props.fieldVaule}
       onChange={props.handler}
+      type={props.type}
       InputProps={{
         classes: {
           notchedOutline: classes.notchedOutline,

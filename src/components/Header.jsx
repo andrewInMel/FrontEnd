@@ -100,6 +100,7 @@ export default function PrimarySearchAppBar() {
           </div>
         </Toolbar>
       </AppBar>
+
       <Proile open={open} onClose={handleClose} />
     </div>
   );

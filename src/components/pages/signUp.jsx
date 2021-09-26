@@ -115,6 +115,7 @@ class SignUp extends Component {
                 <MyTextField
                   myWidth="186px"
                   lable="Firstname"
+                  name="firstname"
                   fieldVaule={firstName}
                   handler={this.firstNameHandler}
                 />
@@ -123,6 +124,7 @@ class SignUp extends Component {
                 <MyTextField
                   myWidth="186px"
                   lable="Lastname"
+                  name="lastname"
                   fieldVaule={lastName}
                   handler={this.lastNameHandler}
                 />
@@ -134,6 +136,8 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Email"
                 fieldVaule={email}
+                name="email"
+                type="email"
                 handler={this.emailHandler}
               />
             </Grid>
@@ -143,6 +147,8 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Password"
                 fieldVaule={password}
+                name="password"
+                type="password"
                 handler={this.passwordHandler}
               />
             </Grid>
@@ -152,6 +158,8 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Comfirm Password"
                 fieldVaule={confirmPassword}
+                name="Comfirm Password"
+                type="password"
                 handler={this.confirmPasswordHandler}
               />
             </Grid>

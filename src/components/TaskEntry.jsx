@@ -26,7 +26,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#1a90ff",
   },
 }));
 
@@ -39,24 +39,28 @@ export default function TaskEntry(props) {
   const startTime = new Date(oneTask.start).getTime();
   const dueTime = new Date(oneTask.due).getTime();
   const currentTime = new Date().getTime();
-  const progress = Math.round(
+  const percentage = Math.round(
     (100 * (currentTime - startTime)) / (dueTime - startTime)
   );
+  const progress = percentage < 100 ? percentage : 100;
+
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      style={{ padding: "1%" }}
-    >
+    <Grid container direction="row" alignItems="center">
       {/* fisrt column */}
-      <Grid item container direction="column" sm={3}>
+      <Grid
+        item
+        container
+        direction="column"
+        xs={5}
+        style={{ paddingLeft: "15%" }}
+      >
+        {/* task name */}
         <Grid item>
           <Typography>{oneTask.taskName}</Typography>
         </Grid>
+        {/* member photos */}
         <Grid item>
-          <AvatarGroup max={4}>
+          <AvatarGroup max={5}>
             {oneTask.memberPhoto.map((person) => (
               <Avatar
                 key={person.id}
@@ -69,13 +73,13 @@ export default function TaskEntry(props) {
         </Grid>
       </Grid>
       {/* 2nd column, priority & icon */}
-      <Grid item sm={2}>
+      <Grid item xs={3}>
         <Icon>
           <img src={path} alt="priority" />
         </Icon>
       </Grid>
       {/* progress */}
-      <Grid container item direction="column" sm={2}>
+      <Grid container item direction="column" xs={2}>
         <Grid item container direction="row" justifyContent="space-between">
           <Grid item>{oneTask.start}</Grid>
           <Grid item>{oneTask.due}</Grid>
@@ -85,7 +89,7 @@ export default function TaskEntry(props) {
         </Grid>
       </Grid>
       {/* actions */}
-      <Grid item sm={1} style={{ paddingLeft: "3%" }}>
+      <Grid item xs={2} style={{ paddingLeft: "5%" }}>
         <Option id={oneTask.taskId} />
       </Grid>
     </Grid>
