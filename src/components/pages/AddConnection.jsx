@@ -8,8 +8,8 @@ import { userId } from "./SignIn.jsx";
 
 const useStyles = makeStyles(() => ({
   rootStyle: {
-    width: "950px",
-    height: "600px",
+    width: "980px",
+    height: "650px",
     padding: "40px 30px 40px 40px",
   },
 }));
@@ -78,7 +78,7 @@ function Profile(props) {
       <Grid container direction="row" className={classes.rootStyle}>
         <Grid container item>
           <Grid item xs={11}>
-            <h2 id="simple-modal-title">{`${firstName} name ${lastName}`}</h2>
+            <h2 id="simple-modal-title">Add connection:</h2>
           </Grid>
           <Grid item>
             <Button onClick={handlerClose}>
@@ -95,6 +95,28 @@ function Profile(props) {
             placeholder="example@email.com"
             value={emailAddress}
             onChange={(e) => setEmailAddress(e.target.value)}
+          />
+        </Grid>
+        <Grid container item alignItems="center">
+          <Grid item xs={4}>
+            <h3>First Name</h3>
+          </Grid>
+          <TextField
+            placeholder="John"
+            InputProps={{ disableUnderline: true }}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </Grid>
+        <Grid container item alignItems="center">
+          <Grid item xs={4}>
+            <h3>Last Name</h3>
+          </Grid>
+          <TextField
+            placeholder="Doe"
+            InputProps={{ disableUnderline: true }}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </Grid>
         <Grid container item alignItems="center">
@@ -155,7 +177,7 @@ function Profile(props) {
           }}
           onClick={postConnection}
         >
-          Save
+          Add
         </Button>
       </Grid>
     </Dialog>

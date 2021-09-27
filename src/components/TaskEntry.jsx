@@ -4,10 +4,10 @@ import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
+import Option from "./OptionMenu";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import Option from "./OptionMenu";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -90,7 +90,7 @@ export default function TaskEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={2} style={{ paddingLeft: "5%" }}>
-        <Option id={oneTask.taskId} />
+        <Option id={oneTask.taskId} type="task" />
       </Grid>
     </Grid>
   );

@@ -6,9 +6,6 @@ const useStyles = makeStyles({
   notchedOutline: {
     borderWidth: "2px",
     borderColor: "grey",
-    "&:focus": {
-      borderColor: "grey",
-    },
   },
 });
 

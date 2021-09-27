@@ -49,6 +49,7 @@ class SignUp extends Component {
       password: "",
       confirmPassword: "",
       signedUp: false,
+      match: true,
     };
   }
 
@@ -70,14 +71,16 @@ class SignUp extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post("https://localhost:5000/signup", this.state)
-      .then((res) => {
-        console.log(res);
-        this.setState({ signedUp: true });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.state.confirmPassword === this.state.password
+      ? Axios.post("https://localhost:5000/signup", this.state)
+          .then((res) => {
+            console.log(res);
+            this.setState({ signedUp: true });
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      : this.setState({ match: false });
   };
 
   render() {
@@ -163,9 +166,16 @@ class SignUp extends Component {
                 handler={this.confirmPasswordHandler}
               />
             </Grid>
+            {/* password warning */}
+            {this.state.match ? null : (
+              <Grid item style={{ width: "383px" }}>
+                <Typography variant="caption" color="error">
+                  Password does not match
+                </Typography>
+              </Grid>
+            )}
 
             {/* check box */}
-
             <Grid item style={{ width: "383px" }}>
               <FormControlLabel
                 control={<Checkbox color="default" />}

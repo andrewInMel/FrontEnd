@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState /*, useEffect */ } from "react";
 import Grid from "@material-ui/core/Grid";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function AddTask(props) {
+export default function EditTask(props) {
   const classes = useStyles();
   /* states */
   const [count, setCount] = useState(0);
@@ -61,13 +61,13 @@ export default function AddTask(props) {
   };
 
   /* fetch task details from backend */
-  useEffect(() => {
-    axios.get("url").then((res) => {
-      //assign value to taskData
-      //also to include:
-      //setCount(members.chipCount)
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("url").then((res) => {
+  //     //assign value to taskData
+  //     //also to include:
+  //     //setCount(members.chipCount)
+  //   });
+  // }, []);
   /* add task memeber, popOver state */
   const open = Boolean(anchorEl);
   const handleTaskAssignment = (event) => {
@@ -154,7 +154,7 @@ export default function AddTask(props) {
           <Grid item xs={5} direction="column" alignItems="stretch" container>
             {/* title */}
             <Grid item>
-              <Typography variant="h3">Create task</Typography>
+              <Typography variant="h3">View/Edit Task</Typography>
             </Grid>
             {/* title */}
             <Grid item className={classes.textPosition}>

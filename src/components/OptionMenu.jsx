@@ -3,16 +3,16 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Task from "./pages/Task";
+import EditTask from "./pages/Task.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const options = ["View", "Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
-const taskId = "";
 
 export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [TaskOpen, setTaskOpen] = React.useState(false);
+  const [optionOpen, setOptionOpen] = React.useState(false);
 
   /* open/close option menu */
   const open = Boolean(anchorEl);
@@ -32,24 +32,19 @@ export default function LongMenu(props) {
 
   /* choice of view/edit or delete task record */
   const handleOptionClick = (e) => {
-    e.currentTarget.id === "Delete" ? deleteTask(props.id) : setTaskOpen(true);
+    e.currentTarget.id === "Delete"
+      ? deleteTask(props.id)
+      : setOptionOpen(true);
     setAnchorEl(null);
   };
 
   const handleDialogClose = () => {
-    setTaskOpen(false);
+    setOptionOpen(false);
   };
 
   return (
     <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls="long-menu"
-        aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
+      <IconButton id="long-button" onClick={handleClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -70,8 +65,11 @@ export default function LongMenu(props) {
           </MenuItem>
         ))}
       </Menu>
-
-      <Task open={TaskOpen} onClose={handleDialogClose} id={taskId} />
+      {props.type === "connection" ? (
+        <Profile open={optionOpen} onClose={handleDialogClose} id={props.id} />
+      ) : (
+        <EditTask open={optionOpen} onClose={handleDialogClose} id={props.id} />
+      )}
     </div>
   );
 }

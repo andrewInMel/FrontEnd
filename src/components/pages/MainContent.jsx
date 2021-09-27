@@ -112,7 +112,7 @@ function MainContent() {
                 <ul className={classes.listStyle}>
                   {data.map((oneCircle) => {
                     return (
-                      <li>
+                      <li key={oneCircle.id}>
                         <CircleEntry circle={oneCircle} />
                       </li>
                     );
@@ -132,7 +132,7 @@ function MainContent() {
           <ul className={classes.listStyle}>
             {data2.map((oneTask) => {
               return (
-                <li className={classes.taskStyle}>
+                <li className={classes.taskStyle} key={oneTask.taskId}>
                   <TaskEntry task={oneTask} />
                 </li>
               );
@@ -254,13 +254,13 @@ const testData2 = [
         photoSource: "/imgs/1.jpg",
       },
     ],
-    priority: "review",
+    priority: "medium",
     start: "2021-09-12",
     due: "2021-09-25",
   },
   {
-    taskName: "2nd task",
-    taskId: "2",
+    taskName: "12nd task",
+    taskId: "12",
     memberPhoto: [
       {
         id: "1",
@@ -288,8 +288,8 @@ const testData2 = [
     due: "2021-09-29",
   },
   {
-    taskName: "3rd task",
-    taskId: "3",
+    taskName: "13rd task",
+    taskId: "13",
     memberPhoto: [
       {
         id: "1",
@@ -307,8 +307,8 @@ const testData2 = [
     due: "2021-10-25",
   },
   {
-    taskName: "1st task",
-    taskId: "1",
+    taskName: "11st task",
+    taskId: "11",
     memberPhoto: [
       {
         id: "1",

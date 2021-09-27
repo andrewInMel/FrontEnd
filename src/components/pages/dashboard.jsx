@@ -44,7 +44,10 @@ function DashBd() {
           alignItems="stretch"
         >
           {/* header */}
-          <Header />
+          <Grid>
+            <Header />
+          </Grid>
+
           {/* nest routes */}
           <Grid
             container
@@ -62,11 +65,11 @@ function DashBd() {
             </Grid>
 
             {/* "Add" functionality */}
-
             <Grid item className={classes.addBtnStyle}>
               <Add />
             </Grid>
           </Grid>
+          {/* footer */}
           <Footer />
         </Grid>
       </Grid>

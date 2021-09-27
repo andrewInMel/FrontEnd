@@ -10,6 +10,7 @@ import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import { userId } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
 
 export default function AddTask(props) {
   const classes = useStyles();
+  /* states */
   const [count, setCount] = useState(0);
   const [members, setMembers] = useState([]);
   const [text, setText] = useState("");
@@ -49,12 +51,14 @@ export default function AddTask(props) {
   const [dueDate, setDueDate] = useState("");
   const [taskName, setTaskName] = useState("");
 
+  /* data to be sent to backend */
   const taskData = {
     description: text,
     priority: priority,
     status: status,
     members: members,
     taskName: taskName,
+    userId: userId,
   };
 
   /* add task memeber, popOver state */

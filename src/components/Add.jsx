@@ -2,11 +2,10 @@ import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Dialog from "@mui/material/Dialog";
-import Task from "./pages/Task";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
 import AddTask from "./pages/AddTask";
 import { makeStyles } from "@mui/styles";
+import AddConnection from "./pages/AddConnection";
 
 const useStyle = makeStyles({
   iconStyle: {
@@ -48,15 +47,7 @@ export default function LongMenu(props) {
 
   return (
     <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls="long-menu"
-        aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-        size="large"
-      >
+      <IconButton id="long-button" onClick={handleClick} size="large">
         <AddCircleSharpIcon className={classes.iconStyle} />
       </IconButton>
       <Menu
@@ -78,10 +69,7 @@ export default function LongMenu(props) {
         ))}
       </Menu>
       <AddTask open={TaskOpen} onClose={handleTaskClose} />
-
-      <Dialog open={ConnectionOpen} onClose={handleConnectionClose}>
-        <Task />
-      </Dialog>
+      <AddConnection open={ConnectionOpen} onClose={handleConnectionClose} />
     </div>
   );
 }
