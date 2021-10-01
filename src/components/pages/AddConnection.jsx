@@ -4,7 +4,7 @@ import { TextField, Grid, Switch, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
-import { userId } from "./SignIn.jsx";
+import { userId as id, serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles(() => ({
   rootStyle: {
@@ -14,19 +14,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const URL = "http://localhost:8000";
-
-function Profile(props) {
+function AddConnection(props) {
   const classes = useStyles();
-
   //Add connection details.
-  const [emailAddress, setEmailAddress] = useState();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [phone, setPhone] = useState();
-  const [company, setCompany] = useState();
-  const [birthday, setBirthday] = useState();
-  const [description, setDescription] = useState();
+  const [emailAddress, setEmailAddress] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [description, setDescription] = useState("");
   const [vip, setVip] = useState(false);
 
   function clearInfo() {
@@ -41,20 +38,9 @@ function Profile(props) {
   }
 
   function postConnection() {
-    console.log({
-      userId: userId,
-      emailAddress: emailAddress,
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phone,
-      company: company,
-      birthday: birthday,
-      description: description,
-      Vip: vip,
-    });
-    try {
-      axios.post(`${URL}/api/connections/`, {
-        userId: userId,
+    axios
+      .post(`${serverURL}/api/connections/`, {
+        userId: id,
         emailAddress: emailAddress,
         firstName: firstName,
         lastName: lastName,
@@ -63,23 +49,43 @@ function Profile(props) {
         birthday: birthday,
         description: description,
         Vip: vip,
+      })
+      .then((res) => {
+        if (res.data.status === "success") {
+          console.log(res.data);
+          clearInfo();
+          props.onClose();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   const handlerClose = () => {
     clearInfo();
     props.onClose();
   };
+
+  const handleFileUpload = (event) => {
+    console.log(event.target.file);
+  };
+
   return (
     <Dialog open={props.open} onClose={props.onClose}>
       <Grid container direction="row" className={classes.rootStyle}>
         <Grid container item>
-          <Grid item xs={11}>
+          <Grid item xs={4}>
             <h2 id="simple-modal-title">Add connection:</h2>
           </Grid>
+          {/* upload image */}
+          <Grid item xs={7}>
+            <Button variant="contained" component="label">
+              Upload Photo
+              <input type="file" onChange={handleFileUpload} hidden />
+            </Button>
+          </Grid>
+          {/* close button */}
           <Grid item>
             <Button onClick={handlerClose}>
               <CloseIcon />
@@ -184,4 +190,4 @@ function Profile(props) {
   );
 }
 
-export default Profile;
+export default AddConnection;

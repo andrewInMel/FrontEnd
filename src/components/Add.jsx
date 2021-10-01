@@ -16,7 +16,7 @@ const options = ["Add Task", "Add Connection"];
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu(props) {
+export default function LongMenu() {
   const classes = useStyle();
 
   const [anchorEl, setAnchorEl] = React.useState(null);

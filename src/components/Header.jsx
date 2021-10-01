@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import Proile from "./pages/Profile.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -101,7 +101,7 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
 
-      <Proile open={open} onClose={handleClose} />
+      <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
   );
 }

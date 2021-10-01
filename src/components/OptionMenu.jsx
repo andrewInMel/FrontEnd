@@ -3,8 +3,8 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import EditTask from "./pages/Task.jsx";
-import Profile from "./pages/Profile.jsx";
+import EditTask from "./pages/EditTask.jsx";
+import EditConnection from "./pages/EditConnection.jsx";
 
 const options = ["View", "Edit", "Delete"];
 
@@ -13,7 +13,6 @@ const ITEM_HEIGHT = 48;
 export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [optionOpen, setOptionOpen] = React.useState(false);
-
   /* open/close option menu */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -24,8 +23,8 @@ export default function LongMenu(props) {
     setAnchorEl(null);
   };
 
-  /*  task delete fucntion */
-  const deleteTask = (id) => {
+  /*  record delete fucntion */
+  const deleteRecord = (id) => {
     //useing Delete request to delete the task record
     console.log(`${id}`);
   };
@@ -33,7 +32,7 @@ export default function LongMenu(props) {
   /* choice of view/edit or delete task record */
   const handleOptionClick = (e) => {
     e.currentTarget.id === "Delete"
-      ? deleteTask(props.id)
+      ? deleteRecord(props.selected.id)
       : setOptionOpen(true);
     setAnchorEl(null);
   };
@@ -41,7 +40,6 @@ export default function LongMenu(props) {
   const handleDialogClose = () => {
     setOptionOpen(false);
   };
-
   return (
     <div>
       <IconButton id="long-button" onClick={handleClick}>
@@ -66,9 +64,17 @@ export default function LongMenu(props) {
         ))}
       </Menu>
       {props.type === "connection" ? (
-        <Profile open={optionOpen} onClose={handleDialogClose} id={props.id} />
+        <EditConnection
+          open={optionOpen}
+          onClose={handleDialogClose}
+          userData={props.selected}
+        />
       ) : (
-        <EditTask open={optionOpen} onClose={handleDialogClose} id={props.id} />
+        <EditTask
+          open={optionOpen}
+          onClose={handleDialogClose}
+          taskData={props.selected}
+        />
       )}
     </div>
   );

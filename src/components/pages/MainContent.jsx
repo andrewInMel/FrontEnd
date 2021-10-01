@@ -44,10 +44,10 @@ const useStyle = makeStyles({
   },
 });
 
-function MainContent() {
+function MainContent(props) {
   const classes = useStyle();
-  const data = testData.slice(0, 4);
-  const data2 = testData2.slice(0, 4);
+  const data2 = props.taskList.slice(0, 4);
+  const data = props.connectionList.slice(0, 4);
   return (
     <Grid
       container
@@ -84,7 +84,7 @@ function MainContent() {
                   }}
                   className={classes.space}
                 >
-                  12
+                  {props.connectionList.length}
                 </Typography>
               </Grid>
               <Grid item>
@@ -132,7 +132,7 @@ function MainContent() {
           <ul className={classes.listStyle}>
             {data2.map((oneTask) => {
               return (
-                <li className={classes.taskStyle} key={oneTask.taskId}>
+                <li className={classes.taskStyle} key={oneTask.id}>
                   <TaskEntry task={oneTask} />
                 </li>
               );
@@ -145,189 +145,3 @@ function MainContent() {
 }
 
 export default MainContent;
-
-const testData = [
-  {
-    id: "123",
-    name: "Jack",
-    photoSource: "/imgs/1.jpg",
-    title: "Teacher",
-  },
-  {
-    id: "321",
-    name: "Lee",
-    photoSource: "/imgs/2.jpg",
-    title: "Engineer",
-  },
-  {
-    id: "456",
-    name: "Andrew",
-    photoSource: "/imgs/1.jpg",
-    title: "sales",
-  },
-  {
-    id: "654",
-    name: "Dan",
-    photoSource: "/imgs/3.jpg",
-    title: "retired",
-  },
-  {
-    id: "789",
-    name: "John",
-    photoSource: "/imgs/3.jpg",
-    title: "cook",
-  },
-  {
-    id: "987",
-    name: "Phil",
-    photoSource: "/imgs/2.jpg",
-    title: "driver",
-  },
-];
-
-const testData2 = [
-  {
-    taskName: "2nd task",
-    taskId: "2",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "3",
-        name: "William",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "4",
-        name: "William",
-        photoSource: "/imgs/3.jpg",
-      },
-    ],
-    priority: "high",
-    start: "2021-08-12",
-    due: "2021-09-29",
-  },
-  {
-    taskName: "3rd task",
-    taskId: "3",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/3.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/3.jpg",
-      },
-    ],
-    priority: "low",
-    start: "2021-09-16",
-    due: "2021-10-25",
-  },
-  {
-    taskName: "1st task",
-    taskId: "1",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/1.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/1.jpg",
-      },
-      {
-        id: "3",
-        name: "William",
-        photoSource: "/imgs/1.jpg",
-      },
-    ],
-    priority: "medium",
-    start: "2021-09-12",
-    due: "2021-09-25",
-  },
-  {
-    taskName: "12nd task",
-    taskId: "12",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "3",
-        name: "William",
-        photoSource: "/imgs/2.jpg",
-      },
-      {
-        id: "4",
-        name: "William",
-        photoSource: "/imgs/3.jpg",
-      },
-    ],
-    priority: "high",
-    start: "2021-08-12",
-    due: "2021-09-29",
-  },
-  {
-    taskName: "13rd task",
-    taskId: "13",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/3.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/3.jpg",
-      },
-    ],
-    priority: "low",
-    start: "2021-09-16",
-    due: "2021-10-25",
-  },
-  {
-    taskName: "11st task",
-    taskId: "11",
-    memberPhoto: [
-      {
-        id: "1",
-        name: "Jack",
-        photoSource: "/imgs/1.jpg",
-      },
-      {
-        id: "2",
-        name: "Rose",
-        photoSource: "/imgs/1.jpg",
-      },
-      {
-        id: "3",
-        name: "William",
-        photoSource: "/imgs/1.jpg",
-      },
-    ],
-    priority: "review",
-    start: "2021-09-12",
-    due: "2021-09-25",
-  },
-];

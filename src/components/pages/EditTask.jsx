@@ -10,6 +10,7 @@ import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -38,20 +39,22 @@ const useStyles = makeStyles({
 });
 
 export default function EditTask(props) {
+  const data = props.taskData;
   const classes = useStyles();
   /* states */
   const [count, setCount] = useState(0);
   const [members, setMembers] = useState([]);
-  const [text, setText] = useState("");
-  const [priority, setPriority] = useState("critical");
-  const [status, setStatus] = useState("progress");
+  const [text, setText] = useState(data.description);
+  const [priority, setPriority] = useState(data.priority);
+  const [status, setStatus] = useState(data.status);
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [taskName, setTaskName] = useState("");
+  const [dueDate, setDueDate] = useState(data.due);
+  const [taskName, setTaskName] = useState(data.taskName);
 
   /* data to be sent to backend */
   const taskData = {
+    id: data.id,
     description: text,
     priority: priority,
     status: status,
@@ -60,14 +63,6 @@ export default function EditTask(props) {
     dueDate: dueDate,
   };
 
-  /* fetch task details from backend */
-  // useEffect(() => {
-  //   axios.get("url").then((res) => {
-  //     //assign value to taskData
-  //     //also to include:
-  //     //setCount(members.chipCount)
-  //   });
-  // }, []);
   /* add task memeber, popOver state */
   const open = Boolean(anchorEl);
   const handleTaskAssignment = (event) => {
@@ -114,11 +109,11 @@ export default function EditTask(props) {
   };
 
   /* sent data to backend */
-  const createTask = () => {
+  const updateTask = () => {
     axios
-      .post("url", taskData)
+      .patch(`${serverURL}/api/tasks/${data.id}`, taskData)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         resetAll();
         props.onClose();
       })
@@ -379,7 +374,7 @@ export default function EditTask(props) {
               />
             </Grid>
             <Grid item>
-              <Button onClick={createTask} variant="contained" color="primary">
+              <Button onClick={updateTask} variant="contained" color="primary">
                 Save
               </Button>
             </Grid>

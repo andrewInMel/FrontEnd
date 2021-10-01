@@ -1,20 +1,23 @@
 import { Typography, Grid, Avatar } from "@material-ui/core";
 import React from "react";
-// import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
 import VIP from "../imgs/Vip.svg";
-// const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles({
+  rootStyle: {
+    marginLeft: "30px",
+  },
+});
 
-export default function TaskEntry(props) {
-  const oneConnection = props.task;
-  // const classes = useStyles();
-
+export default function ConnectionEntry(props) {
+  const oneConnection = props.connection;
+  const classes = useStyles();
   return (
     <Grid
       container
       direction="row"
       alignItems="center"
-      style={{ marginLeft: "30px" }}
+      className={classes.rootStyle}
     >
       {/* Connection photos */}
       <Grid item xs={1}>
@@ -48,7 +51,7 @@ export default function TaskEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
-        <Option id={oneConnection.taskId} type="connection" />
+        <Option selected={oneConnection} type="connection" />
       </Grid>
     </Grid>
   );

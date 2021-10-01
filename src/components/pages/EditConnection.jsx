@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Profile(props) {
+function EditConnection(props) {
   const classes = useStyles();
   const data = props.userData;
 
@@ -41,7 +41,7 @@ function Profile(props) {
 
   function postConnection() {
     axios
-      .patch(`${serverURL}/api/users/${id}`, {
+      .patch(`${serverURL}/api/connections/${id}`, {
         userId: id,
         emailAddress: emailAddress,
         firstName: firstName,
@@ -150,11 +150,11 @@ function Profile(props) {
           }}
           onClick={postConnection}
         >
-          Save
+          Edit
         </Button>
       </Grid>
     </Dialog>
   );
 }
 
-export default Profile;
+export default EditConnection;

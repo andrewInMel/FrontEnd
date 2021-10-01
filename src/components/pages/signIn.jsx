@@ -49,8 +49,9 @@ const styles = {
   },
 };
 
-const userId = "";
-const loggedIn = true;
+let userId = "";
+let loggedIn = false;
+const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
 
 class SignIn extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class SignIn extends Component {
     this.state = {
       username: "",
       password: "",
-      loggedIn: false,
+      validated: false,
     };
   }
 
@@ -71,10 +72,15 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post("https://localhost:5000/signin", this.state)
+    Axios.post(`${serverURL}/auth/login`, this.state)
       .then((res) => {
-        console.log(res);
-        this.setState({ loggedIn: true });
+        if (res.data.token) {
+          loggedIn = true;
+          userId = res.data.userId;
+          this.setState({ validated: true });
+        } else {
+          alert("something went wrong");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -84,8 +90,8 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props;
 
-    const { username, password, loggedIn } = this.state;
-    if (loggedIn) {
+    const { username, password, validated } = this.state;
+    if (validated) {
       return <Redirect to="/Dashboard" />;
     }
     return (
@@ -93,7 +99,6 @@ class SignIn extends Component {
         <Typography variant="h2" align="center" className={classes.title}>
           Stay Connectd
         </Typography>
-
         {/* log in form */}
         <form onSubmit={this.submitHandler}>
           <Grid
@@ -161,9 +166,7 @@ class SignIn extends Component {
             </Grid>
           </Grid>
         </form>
-
         {/* redirct to signup */}
-
         <Typography
           variant="caption"
           align="center"
@@ -184,4 +187,4 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
-export { userId, loggedIn };
+export { userId, loggedIn, serverURL };

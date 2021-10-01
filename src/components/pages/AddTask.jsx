@@ -10,7 +10,7 @@ import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { userId } from "./SignIn.jsx";
+import { userId as id, serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -58,7 +58,7 @@ export default function AddTask(props) {
     status: status,
     members: members,
     taskName: taskName,
-    userId: userId,
+    userId: id,
   };
 
   /* add task memeber, popOver state */
@@ -109,11 +109,13 @@ export default function AddTask(props) {
   /* sent data to backend */
   const createTask = () => {
     axios
-      .post("url", taskData)
+      .post(`${serverURL}/api/tasks/`, taskData)
       .then((res) => {
-        console.log(res);
-        resetAll();
-        props.onClose();
+        if (res.data.status === "success") {
+          console.log(res.data);
+          resetAll();
+          props.onClose();
+        }
       })
       .catch((error) => {
         console.log(error);

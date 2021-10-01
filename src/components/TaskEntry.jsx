@@ -51,8 +51,8 @@ export default function TaskEntry(props) {
         item
         container
         direction="column"
-        xs={5}
-        style={{ paddingLeft: "15%" }}
+        xs={4}
+        style={{ paddingLeft: "10%" }}
       >
         {/* task name */}
         <Grid item>
@@ -79,7 +79,7 @@ export default function TaskEntry(props) {
         </Icon>
       </Grid>
       {/* progress */}
-      <Grid container item direction="column" xs={2}>
+      <Grid container item direction="column" xs={3}>
         <Grid item container direction="row" justifyContent="space-between">
           <Grid item>{oneTask.start}</Grid>
           <Grid item>{oneTask.due}</Grid>
@@ -90,7 +90,7 @@ export default function TaskEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={2} style={{ paddingLeft: "5%" }}>
-        <Option id={oneTask.taskId} type="task" />
+        <Option selected={oneTask} type="task" />
       </Grid>
     </Grid>
   );

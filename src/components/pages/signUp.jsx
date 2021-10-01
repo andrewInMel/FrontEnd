@@ -39,6 +39,8 @@ const styles = {
   },
 };
 
+const url = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -71,16 +73,22 @@ class SignUp extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    this.state.confirmPassword === this.state.password
-      ? Axios.post("https://localhost:5000/signup", this.state)
-          .then((res) => {
-            console.log(res);
-            this.setState({ signedUp: true });
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-      : this.setState({ match: false });
+    if (this.state.confirmPassword === this.state.password) {
+      this.setState({ match: true });
+      this.setState({ signedUp: true });
+      Axios.post(`${url}/auth/register`, this.state)
+        .then((res) => {
+          if (res.data.token) {
+          } else {
+            alert("something went wrong");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.setState({ match: false });
+    }
   };
 
   render() {

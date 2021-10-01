@@ -5,6 +5,7 @@ import { FixedSizeList } from "react-window";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,13 +15,29 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     margin: "10px 0 10px 50px",
   },
+  headerStyle: {
+    backgroundColor: "#afc1c9",
+    height: "35px",
+  },
+  headerPositoin: {
+    padding: "0 40px 0 46px",
+  },
+  changeColor: {
+    backgroundColor: "#DEE2E3",
+  },
 }));
 
 function renderRow(props) {
-  const { index, style } = props;
+  const { data, index, style } = props;
   return (
-    <ListItem style={style} key={index}>
-      <ConnectionEntry task={testData[index]} />
+    <ListItem
+      style={style}
+      key={index}
+      classes={{
+        root: index % 2 === 0 ? null : data.myStyle,
+      }}
+    >
+      <ConnectionEntry connection={data.dataList[index]} />
     </ListItem>
   );
 }
@@ -30,16 +47,22 @@ renderRow.propTypes = {
   style: PropTypes.object.isRequired,
 };
 
-function Connection() {
+function Connection(props) {
   const classes = useStyles();
 
   return (
     <Paper className={classes.root}>
+      <ListHeader myClasses={classes} />
       <FixedSizeList
-        height={690}
+        height={665}
         width={1190}
         itemSize={75}
-        itemCount={testData.length}
+        itemCount={props.connectionList.length}
+        itemData={{
+          myStyle: classes.changeColor,
+          dataList: props.connectionList,
+          otherData: true,
+        }}
       >
         {renderRow}
       </FixedSizeList>
@@ -47,67 +70,39 @@ function Connection() {
   );
 }
 
-export default Connection;
+const ListHeader = (props) => {
+  return (
+    <div className={props.myClasses.headerStyle}>
+      <Grid
+        container
+        direction="row"
+        className={props.myClasses.headerPositoin}
+      >
+        <Grid item xs={1}>
+          <Typography> NAME </Typography>
+        </Grid>
+        {/* name */}
+        <Grid item xs={3}></Grid>
+        {/* company */}
+        <Grid item xs={3}>
+          <Typography> COMPANY </Typography>
+        </Grid>
+        {/* location */}
+        <Grid item xs={2}>
+          <Typography> LOCATION </Typography>
+        </Grid>
+        {/* task */}
+        <Grid item xs={1}>
+          <Typography> TASK </Typography>
+        </Grid>
+        {/* vip */}
+        <Grid item xs={1}>
+          <Typography> VIP </Typography>
+        </Grid>
+        <Grid item xs={1}></Grid>
+      </Grid>
+    </div>
+  );
+};
 
-const testData = [
-  {
-    id: "123",
-    name: "Jack",
-    company: "Google",
-    location: "Melbounre",
-    photoSource: "/imgs/1.jpg",
-    title: "Teacher",
-    task: "7",
-    vip: true,
-  },
-  {
-    id: "321",
-    name: "Lee",
-    company: "ABCDEFG",
-    location: "Melbounre",
-    photoSource: "/imgs/2.jpg",
-    title: "Software Engineer",
-    vip: false,
-    task: "3",
-  },
-  {
-    id: "456",
-    name: "Andrew",
-    company: "Victoria Government",
-    location: "sydney",
-    photoSource: "/imgs/1.jpg",
-    title: "sales",
-    vip: false,
-    task: "9",
-  },
-  {
-    id: "654",
-    name: "Dan",
-    company: "Facebook",
-    location: "Sydney",
-    photoSource: "/imgs/3.jpg",
-    title: "retired",
-    vip: true,
-    task: "3",
-  },
-  {
-    id: "789",
-    name: "John",
-    company: "Amazon",
-    location: "Perth",
-    photoSource: "/imgs/3.jpg",
-    title: "cook",
-    vip: true,
-    task: "12",
-  },
-  {
-    id: "987",
-    name: "Phil",
-    company: "Google",
-    location: "MElbourne",
-    photoSource: "/imgs/2.jpg",
-    title: "driver",
-    vip: false,
-    task: "4",
-  },
-];
+export default Connection;
