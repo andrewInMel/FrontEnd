@@ -6,12 +6,12 @@ import {
   Typography,
   Grid,
   Button,
-  TextField,
   Checkbox,
   FormControlLabel,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Image from "../../imgs/Banana.svg";
+import MyTextField from "../MyTextField";
 
 const styles = {
   background: {
@@ -21,17 +21,23 @@ const styles = {
     backgroundPositionX: "right",
   },
   title: {
-    paddingTop: "175px",
-    paddingBottom: "100px",
+    paddingTop: "150px",
+    paddingBottom: "85px",
     fontWeight: 400,
     color: "#4B5766",
   },
-  userName: {
+  checkboxStyle: {
     width: "383px",
-    paddingBottom: "35px",
+    padding: "5px 0 35px 0",
   },
-  passWord: {
-    width: "383px",
+  spaceStyle: {
+    paddingTop: "10px",
+  },
+  noDecoration: {
+    textDecoration: "none",
+  },
+  space: {
+    paddingTop: "25px",
   },
   btnLogin: {
     height: "48px",
@@ -41,14 +47,11 @@ const styles = {
       backgroundColor: "#734f83",
     },
   },
-  notchedOutline: {
-    borderWidth: "2px",
-    borderColor: "grey",
-    "&:focus": {
-      borderColor: "grey",
-    },
-  },
 };
+
+let userId = "";
+let loggedIn = false;
+const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
 
 class SignIn extends Component {
   constructor(props) {
@@ -56,7 +59,7 @@ class SignIn extends Component {
     this.state = {
       username: "",
       password: "",
-      loggedIn: false,
+      validated: false,
     };
   }
 
@@ -69,10 +72,15 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post("https://localhost:5000/signin", this.state)
+    Axios.post(`${serverURL}/auth/login`, this.state)
       .then((res) => {
-        console.log(res);
-        this.setState({ loggedIn: true });
+        if (res.data.token) {
+          loggedIn = true;
+          userId = res.data.userId;
+          this.setState({ validated: true });
+        } else {
+          alert("something went wrong");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -82,8 +90,8 @@ class SignIn extends Component {
   render() {
     const { classes } = this.props;
 
-    const { username, password, loggedIn } = this.state;
-    if (loggedIn) {
+    const { username, password, validated } = this.state;
+    if (validated) {
       return <Redirect to="/Dashboard" />;
     }
     return (
@@ -91,7 +99,6 @@ class SignIn extends Component {
         <Typography variant="h2" align="center" className={classes.title}>
           Stay Connectd
         </Typography>
-
         {/* log in form */}
         <form onSubmit={this.submitHandler}>
           <Grid
@@ -101,38 +108,25 @@ class SignIn extends Component {
             alignItems="center"
           >
             {/* username */}
-            <Grid item>
-              <TextField
-                size="small"
-                className={classes.userName}
-                variant="outlined"
-                label="Username"
+            <Grid item className={classes.space}>
+              <MyTextField
+                myWidth="383px"
+                lable="Username"
                 name="username"
-                value={username}
-                onChange={this.usernameHandler}
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              ></TextField>
+                fieldVaule={username}
+                handler={this.usernameHandler}
+              />
             </Grid>
 
             {/* password */}
-            <Grid item>
-              <TextField
-                size="small"
-                className={classes.passWord}
-                variant="outlined"
-                label="Password"
+            <Grid item className={classes.space}>
+              <MyTextField
+                myWidth="383px"
+                lable="Password"
                 name="password"
-                value={password}
-                onChange={this.passwordHandler}
-                InputProps={{
-                  classes: {
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
+                type="password"
+                fieldVaule={password}
+                handler={this.passwordHandler}
               />
             </Grid>
 
@@ -142,7 +136,7 @@ class SignIn extends Component {
               direction="row"
               justifyContent="space-between"
               alignItems="baseline"
-              className={classes.userName}
+              className={classes.checkboxStyle}
             >
               {/* checkbox and forgot password */}
               <Grid item>
@@ -153,7 +147,14 @@ class SignIn extends Component {
               </Grid>
 
               <Grid item>
-                <Link> Forgot password </Link>
+                <Typography
+                  className={classes.noDecoration}
+                  variant="caption"
+                  component={Link}
+                  to="/Signup"
+                >
+                  Forgot password
+                </Typography>
               </Grid>
             </Grid>
 
@@ -165,16 +166,16 @@ class SignIn extends Component {
             </Grid>
           </Grid>
         </form>
-
         {/* redirct to signup */}
-
         <Typography
           variant="caption"
           align="center"
           display="block"
-          style={{ paddingTop: "1rem" }}
+          className={`${classes.noDecoration} ${classes.spaceStyle}`}
+          component={Link}
+          to="/Signup"
         >
-          <Link to="/Signup">New here? Get Started</Link>
+          New here? Get Started
         </Typography>
       </div>
     );
@@ -186,3 +187,4 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
+export { userId, loggedIn, serverURL };

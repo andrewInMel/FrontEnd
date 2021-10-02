@@ -39,6 +39,8 @@ const styles = {
   },
 };
 
+const url = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,7 @@ class SignUp extends Component {
       password: "",
       confirmPassword: "",
       signedUp: false,
+      match: true,
     };
   }
 
@@ -70,14 +73,22 @@ class SignUp extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post("https://localhost:5000/signup", this.state)
-      .then((res) => {
-        console.log(res);
-        this.setState({ signedUp: true });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (this.state.confirmPassword === this.state.password) {
+      this.setState({ match: true });
+      this.setState({ signedUp: true });
+      Axios.post(`${url}/auth/register`, this.state)
+        .then((res) => {
+          if (res.data.token) {
+          } else {
+            alert("something went wrong");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.setState({ match: false });
+    }
   };
 
   render() {
@@ -115,6 +126,7 @@ class SignUp extends Component {
                 <MyTextField
                   myWidth="186px"
                   lable="Firstname"
+                  name="firstname"
                   fieldVaule={firstName}
                   handler={this.firstNameHandler}
                 />
@@ -123,6 +135,7 @@ class SignUp extends Component {
                 <MyTextField
                   myWidth="186px"
                   lable="Lastname"
+                  name="lastname"
                   fieldVaule={lastName}
                   handler={this.lastNameHandler}
                 />
@@ -134,6 +147,8 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Email"
                 fieldVaule={email}
+                name="email"
+                type="email"
                 handler={this.emailHandler}
               />
             </Grid>
@@ -143,6 +158,8 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Password"
                 fieldVaule={password}
+                name="password"
+                type="password"
                 handler={this.passwordHandler}
               />
             </Grid>
@@ -152,12 +169,21 @@ class SignUp extends Component {
                 myWidth="383px"
                 lable="Comfirm Password"
                 fieldVaule={confirmPassword}
+                name="Comfirm Password"
+                type="password"
                 handler={this.confirmPasswordHandler}
               />
             </Grid>
+            {/* password warning */}
+            {this.state.match ? null : (
+              <Grid item style={{ width: "383px" }}>
+                <Typography variant="caption" color="error">
+                  Password does not match
+                </Typography>
+              </Grid>
+            )}
 
             {/* check box */}
-
             <Grid item style={{ width: "383px" }}>
               <FormControlLabel
                 control={<Checkbox color="default" />}

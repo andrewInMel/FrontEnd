@@ -4,4 +4,11 @@ export default createTheme({
   typography: {
     fontFamily: ["Poppins"].join(","),
   },
+  overrides: {
+    MuiDialog: {
+      paperWidthSm: {
+        maxWidth: "1500px",
+      },
+    },
+  },
 });
