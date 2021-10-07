@@ -52,6 +52,7 @@ export default function EditTask(props) {
   const [dueDate, setDueDate] = useState(data.due);
   const [taskName, setTaskName] = useState(data.taskName);
 
+  console.log(status);
   /* data to be sent to backend */
   const taskData = {
     id: data.id,

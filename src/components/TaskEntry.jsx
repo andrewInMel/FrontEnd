@@ -3,7 +3,6 @@ import React from "react";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
-import { styled } from "@mui/material/styles";
 import Option from "./OptionMenu";
 import LinearProgress, {
   linearProgressClasses,
@@ -14,25 +13,25 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
-}));
-
-/* customized liner progress */
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+  progressStyle: {
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: "#c3c4c7",
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: (progress) => (progress !== 100 ? "primary" : "#fa3751"),
+    },
   },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#1a90ff",
+  progressPosition: {
+    paddingBottom: "10px",
   },
 }));
 
 export default function TaskEntry(props) {
   const oneTask = props.task;
-  const classes = useStyles();
   /* img path */
   const path = `/imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
@@ -43,6 +42,7 @@ export default function TaskEntry(props) {
     (100 * (currentTime - startTime)) / (dueTime - startTime)
   );
   const progress = percentage < 100 ? percentage : 100;
+  const classes = useStyles(progress);
 
   return (
     <Grid container direction="row" alignItems="center">
@@ -79,13 +79,23 @@ export default function TaskEntry(props) {
         </Icon>
       </Grid>
       {/* progress */}
-      <Grid container item direction="column" xs={3}>
+      <Grid
+        container
+        item
+        direction="column"
+        className={classes.progressPosition}
+        xs={3}
+      >
         <Grid item container direction="row" justifyContent="space-between">
           <Grid item>{oneTask.start}</Grid>
           <Grid item>{oneTask.due}</Grid>
         </Grid>
         <Grid item>
-          <BorderLinearProgress variant="determinate" value={progress} />
+          <LinearProgress
+            variant="determinate"
+            value={progress}
+            className={classes.progressStyle}
+          />
         </Grid>
       </Grid>
       {/* actions */}

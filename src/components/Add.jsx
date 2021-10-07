@@ -46,7 +46,7 @@ export default function LongMenu() {
   };
 
   return (
-    <div>
+    <>
       <IconButton id="long-button" onClick={handleClick} size="large">
         <AddCircleSharpIcon className={classes.iconStyle} />
       </IconButton>
@@ -70,6 +70,6 @@ export default function LongMenu() {
       </Menu>
       <AddTask open={TaskOpen} onClose={handleTaskClose} />
       <AddConnection open={ConnectionOpen} onClose={handleConnectionClose} />
-    </div>
+    </>
   );
 }
