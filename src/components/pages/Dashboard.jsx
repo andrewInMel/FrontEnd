@@ -10,9 +10,11 @@ import Header from "../Header.jsx";
 import Sidebar from "../Sidebar";
 import Footer from "../Footer.jsx";
 import Add from "../Add.jsx";
-import { loggedIn, userId, serverURL } from "./SignIn.jsx";
+import { loggedIn, /*userId,*/ serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 
+const URL = "http://localhost:8000"
+const userId = "611f7337668fd37db1bb6fef"
 const useStyles = makeStyles({
   rootStyle: {
     height: "100vh",
@@ -32,15 +34,17 @@ function DashBd() {
   const [clientData, setClientData] = useState(null);
   let { url, path } = useRouteMatch();
 
+// loggedIn = true;
+
   useEffect(() => {
-    Axios.get(`${serverURL}/api/connections?userId=${userId}`)
+    Axios.get(`${URL}/api/connections?userId=${userId}`)
       .then((res) => {
         setTestData(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-    Axios.get(`${serverURL}/api/tasks?userId=${userId}`)
+    Axios.get(`${URL}/api/tasks?userId=${userId}`)
       .then((response) => {
         setTestData2(response.data);
       })
@@ -49,10 +53,14 @@ function DashBd() {
       });
     Axios.get(`${serverURL}/api/users/${userId}`)
       .then((userRes) => {
-        setClientData(userRes.data);
+        setClientData(userRes.data)
+// console.log(testData)
+        console.log(`${URL}/api/connections?userId=${userId}`)
+        console.log('hello')
       })
       .catch((error) => {
         console.log(error);
+        console.log(`${URL}/api/connections?userId=${userId}`)
       });
     return () => {
       setTestData(null);

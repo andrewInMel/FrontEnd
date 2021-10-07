@@ -49,9 +49,10 @@ const styles = {
   },
 };
 
-let userId = "";
-let loggedIn = false;
-const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+let userId = "611f7337668fd37db1bb6fef";
+let loggedIn = true;
+// const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+const serverURL = "http://localhost:8000";
 
 class SignIn extends Component {
   constructor(props) {

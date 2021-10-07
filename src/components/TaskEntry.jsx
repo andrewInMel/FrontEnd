@@ -9,6 +9,8 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 
+import UnknownIcon from '../imgs/priority/Unknown.svg'
+
 const useStyles = makeStyles((theme) => ({
   small: {
     width: theme.spacing(3),
@@ -34,10 +36,11 @@ export default function TaskEntry(props) {
   const oneTask = props.task;
   const classes = useStyles();
   /* img path */
-  const path = `/imgs/priority/${oneTask.priority}.svg`;
+  const path = `../imgs/priority/Unknown.svg`;
+  const icon = import(`../imgs/priority/${oneTask.priority}.svg`)
   /* calculate progress */
-  const startTime = new Date(oneTask.start).getTime();
-  const dueTime = new Date(oneTask.due).getTime();
+  const startTime = new Date(oneTask.startDate).getTime();
+  const dueTime = new Date(oneTask.endDate).getTime();
   const currentTime = new Date().getTime();
   const percentage = Math.round(
     (100 * (currentTime - startTime)) / (dueTime - startTime)
@@ -56,9 +59,10 @@ export default function TaskEntry(props) {
       >
         {/* task name */}
         <Grid item>
-          <Typography>{oneTask.taskName}</Typography>
+          <Typography>{oneTask.name}</Typography>
         </Grid>
         {/* member photos */}
+        {/*
         <Grid item>
           <AvatarGroup max={5}>
             {oneTask.memberPhoto.map((person) => (
@@ -71,18 +75,20 @@ export default function TaskEntry(props) {
             ))}
           </AvatarGroup>
         </Grid>
+        */}
       </Grid>
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>
         <Icon>
-          <img src={path} alt="priority" />
+          <img src={'../imgs/priority/Unknown.svg'} alt="priority" />
         </Icon>
+         {" " + oneTask.priority}
       </Grid>
       {/* progress */}
       <Grid container item direction="column" xs={3}>
         <Grid item container direction="row" justifyContent="space-between">
-          <Grid item>{oneTask.start}</Grid>
-          <Grid item>{oneTask.due}</Grid>
+          <Grid item>{oneTask.startDate} {oneTask.priority}.svg</Grid>
+          <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>
           <BorderLinearProgress variant="determinate" value={progress} />

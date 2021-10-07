@@ -12,6 +12,8 @@ const useStyles = makeStyles({
 export default function ConnectionEntry(props) {
   const oneConnection = props.connection;
   const classes = useStyles();
+
+  console.log(oneConnection)
   return (
     <Grid
       container
@@ -26,11 +28,13 @@ export default function ConnectionEntry(props) {
       {/* Connection name & title*/}
       <Grid item container direction="column" xs={3}>
         <Grid item>
-          <Typography>{oneConnection.name}</Typography>
+          <Typography>{oneConnection.firstName} {oneConnection.lastName}</Typography>
         </Grid>
+      {/*
         <Grid item>
           <Typography>{oneConnection.title}</Typography>
         </Grid>
+      */}
       </Grid>
 
       {/* 2nd column, company */}
@@ -47,7 +51,7 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>
-        {oneConnection.vip ? <img src={VIP} alt="" /> : null}
+        {oneConnection.Vip ? <img src={VIP} alt="" /> : null}
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
