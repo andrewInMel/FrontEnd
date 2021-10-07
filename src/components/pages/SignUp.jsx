@@ -39,7 +39,7 @@ const styles = {
   },
 };
 
-const url = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+const url = "https://fd873865-9cd8-4046-b264-1b30abf29ddd.mock.pstmn.io";
 
 class SignUp extends Component {
   constructor(props) {

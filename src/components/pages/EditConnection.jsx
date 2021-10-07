@@ -4,7 +4,7 @@ import { TextField, Grid, Switch, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
-import { userId as id, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles(() => ({
   rootStyle: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 function EditConnection(props) {
   const classes = useStyles();
   const data = props.userData;
-
+  const id = sessionStorage.getItem("id");
   /* connection details */
   const [emailAddress, setEmailAddress] = useState(data.email);
   const [firstName, setFirstName] = useState(data.firstName);

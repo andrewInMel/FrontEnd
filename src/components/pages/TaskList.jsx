@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import TaskEntry from "../TaskEntry";
 import PropTypes from "prop-types";
 import { FixedSizeList } from "react-window";
@@ -7,20 +7,10 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    height: 700,
-    maxWidth: 1190,
-    backgroundColor: theme.palette.background.paper,
-    margin: "10px 0 10px 50px",
-  },
+const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
     height: "35px",
-  },
-  headerPosition: {
-    paddingLeft: "0 43px 0 16px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
@@ -49,12 +39,39 @@ renderRow.propTypes = {
 
 function TaskList(props) {
   const classes = useStyles();
+  const [myWidth, setMyWidth] = useState(null);
+  const ref = useRef(null);
+
+  function delay(callback, ms) {
+    var timer = 0;
+    return function () {
+      var context = this,
+        args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        callback.apply(context, args);
+      }, ms || 0);
+    };
+  }
+
+  function handleResize() {
+    if (ref.current) {
+      setMyWidth(ref.current.offsetWidth);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("resize", delay(handleResize, 500));
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <Paper className={classes.root}>
+    <Paper ref={ref} elevation={3}>
       <TaskListHeader headerClass={classes} />
       <FixedSizeList
-        height={665}
-        width={1190}
+        height={window.innerHeight * 0.8}
+        width={myWidth}
         itemSize={75}
         itemCount={props.taskList.length}
         itemData={{
@@ -72,11 +89,7 @@ function TaskList(props) {
 const TaskListHeader = (props) => {
   return (
     <div className={props.headerClass.headerStyle}>
-      <Grid
-        container
-        direction="row"
-        className={props.headerClass.headerPosition}
-      >
+      <Grid container direction="row">
         {/* taks name */}
         <Grid item xs={4} style={{ paddingLeft: "11%" }}>
           <Typography>TASK</Typography>

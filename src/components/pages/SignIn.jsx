@@ -49,9 +49,7 @@ const styles = {
   },
 };
 
-let userId = "";
-let loggedIn = false;
-const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
+const serverURL = "https://fd873865-9cd8-4046-b264-1b30abf29ddd.mock.pstmn.io";
 
 class SignIn extends Component {
   constructor(props) {
@@ -75,8 +73,12 @@ class SignIn extends Component {
     Axios.post(`${serverURL}/auth/login`, this.state)
       .then((res) => {
         if (res.data.token) {
-          loggedIn = true;
-          userId = res.data.userId;
+          sessionStorage.setItem("status", true);
+          sessionStorage.setItem("id", res.data.userId);
+          sessionStorage.setItem(
+            "navStatus",
+            JSON.stringify([true, false, false])
+          );
           this.setState({ validated: true });
         } else {
           alert("something went wrong");
@@ -187,4 +189,4 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
-export { userId, loggedIn, serverURL };
+export { serverURL };

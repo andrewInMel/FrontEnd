@@ -37,9 +37,14 @@ const useStyles = makeStyles({
 });
 
 function Sidebar(props) {
-  const [clicked, setClicked] = useState([true, false, false]);
+  const [clicked, setClicked] = useState(
+    JSON.parse(sessionStorage.getItem("navStatus"))
+  );
   const classes = useStyles();
 
+  const handleSignOut = () => {
+    props.setStatus(false);
+  };
   return (
     <Grid
       container
@@ -62,7 +67,16 @@ function Sidebar(props) {
         justifyContent="space-evenly"
         className={classes.middleStyle}
       >
-        <Grid item onClick={() => setClicked([true, false, false])}>
+        <Grid
+          item
+          onClick={() => {
+            setClicked([true, false, false]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([true, false, false])
+            );
+          }}
+        >
           {clicked[0] ? (
             <img src={Hyphen} alt="" className={classes.hyphen} />
           ) : null}
@@ -74,7 +88,16 @@ function Sidebar(props) {
             Dashboard
           </Typography>
         </Grid>
-        <Grid item onClick={() => setClicked([false, true, false])}>
+        <Grid
+          item
+          onClick={() => {
+            setClicked([false, true, false]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([false, true, false])
+            );
+          }}
+        >
           {clicked[1] ? (
             <img src={Hyphen} alt="" className={classes.hyphen} />
           ) : null}
@@ -86,7 +109,16 @@ function Sidebar(props) {
             Connection
           </Typography>
         </Grid>
-        <Grid item onClick={() => setClicked([false, false, true])}>
+        <Grid
+          item
+          onClick={() => {
+            setClicked([false, false, true]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([false, false, true])
+            );
+          }}
+        >
           {clicked[2] ? (
             <img src={Hyphen} alt="" className={classes.hyphen} />
           ) : null}
@@ -115,7 +147,11 @@ function Sidebar(props) {
           </Typography>
         </Grid>
         <Grid item>
-          <Typography className={classes.text} component={Link} to={"/Signin"}>
+          <Typography
+            className={classes.text}
+            onClick={handleSignOut}
+            style={{ cursor: "pointer" }}
+          >
             Sign out
           </Typography>
         </Grid>

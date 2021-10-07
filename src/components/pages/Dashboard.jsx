@@ -10,7 +10,7 @@ import Header from "../Header.jsx";
 import Sidebar from "../Sidebar";
 import Footer from "../Footer.jsx";
 import Add from "../Add.jsx";
-import { loggedIn, userId, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 
 const useStyles = makeStyles({
@@ -21,45 +21,62 @@ const useStyles = makeStyles({
     flexGrow: "1",
   },
   addBtnStyle: {
-    margin: "0 50px 50px 0",
+    padding: "0 0 3% 2.5% ",
+  },
+  gutterStyle: {
+    padding: "1% 0 1% 3%",
   },
 });
 
 function DashBd() {
   const classes = useStyles();
-  const [testData, setTestData] = useState(null);
-  const [testData2, setTestData2] = useState(null);
+  const [connectionData, setConnectionData] = useState(null);
+  const [taskData, setTaskData] = useState(null);
   const [clientData, setClientData] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
+  const userId = sessionStorage.getItem("id");
   let { url, path } = useRouteMatch();
 
+  /* fetch user's data */
   useEffect(() => {
-    Axios.get(`${serverURL}/api/connections?userId=${userId}`)
-      .then((res) => {
-        setTestData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    Axios.get(`${serverURL}/api/tasks?userId=${userId}`)
-      .then((response) => {
-        setTestData2(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    Axios.get(`${serverURL}/api/users/${userId}`)
-      .then((userRes) => {
-        setClientData(userRes.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (loggedIn) {
+      /* fetch user's connection data */
+      Axios.get(`${serverURL}/api/connections?userId=${userId}`)
+        .then((res) => {
+          setConnectionData(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      /* fetch user's task data */
+      Axios.get(`${serverURL}/api/tasks?userId=${userId}`)
+        .then((response) => {
+          setTaskData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      /* fetch user's profile */
+      Axios.get(`${serverURL}/api/users/${userId}`)
+        .then((userRes) => {
+          setClientData(userRes.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      sessionStorage.removeItem("status");
+      sessionStorage.removeItem("id");
+      sessionStorage.removeItem("navStatus");
+    }
+    /* clear states when unmounted */
     return () => {
-      setTestData(null);
-      setTestData2(null);
+      setConnectionData(null);
+      setTaskData(null);
       setClientData(null);
+      setLoggedIn(null);
     };
-  }, []);
+  }, [userId, loggedIn]);
 
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
@@ -67,7 +84,7 @@ function DashBd() {
     return (
       <Grid container direction="row" className={classes.rootStyle}>
         {/* Sidebar */}
-        <Sidebar linkPath={url} />
+        <Sidebar linkPath={url} setStatus={setLoggedIn} />
         {/* Content page*/}
         <Grid
           item
@@ -94,27 +111,29 @@ function DashBd() {
             className={classes.pushFooter}
           >
             <Grid item xs={11}>
-              {testData && testData2 ? (
-                <Switch>
-                  <Route exact path={`${path}`}>
-                    <MainContent
-                      taskList={testData2}
-                      connectionList={testData}
-                    />
-                  </Route>
-                  <Route path={`${path}/connection`}>
-                    <Connection connectionList={testData} />
-                  </Route>
-                  <Route path={`${path}/task`}>
-                    <TaskList taskList={testData2} />
-                  </Route>
-                </Switch>
-              ) : (
-                <Typography> Loading...</Typography>
-              )}
+              <div className={classes.gutterStyle}>
+                {connectionData && taskData ? (
+                  <Switch>
+                    <Route exact path={`${path}`}>
+                      <MainContent
+                        taskList={taskData}
+                        connectionList={connectionData}
+                      />
+                    </Route>
+                    <Route path={`${path}/connection`}>
+                      <Connection connectionList={connectionData} />
+                    </Route>
+                    <Route path={`${path}/task`}>
+                      <TaskList taskList={taskData} />
+                    </Route>
+                  </Switch>
+                ) : (
+                  <Typography> Loading...</Typography>
+                )}
+              </div>
             </Grid>
             {/* "Add" functionality */}
-            <Grid item className={classes.addBtnStyle}>
+            <Grid item xs={1} className={classes.addBtnStyle}>
               <Add />
             </Grid>
           </Grid>

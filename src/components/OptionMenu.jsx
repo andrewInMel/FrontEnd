@@ -6,7 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditTask from "./pages/EditTask.jsx";
 import EditConnection from "./pages/EditConnection.jsx";
 
-const options = ["View", "Edit", "Delete"];
+const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 

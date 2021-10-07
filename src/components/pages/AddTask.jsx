@@ -10,7 +10,7 @@ import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { userId as id, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -58,7 +58,7 @@ export default function AddTask(props) {
     status: status,
     members: members,
     taskName: taskName,
-    userId: id,
+    userId: sessionStorage.getItem("id"),
   };
 
   /* add task memeber, popOver state */

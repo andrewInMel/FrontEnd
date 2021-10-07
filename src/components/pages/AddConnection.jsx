@@ -4,7 +4,7 @@ import { TextField, Grid, Switch, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
-import { userId as id, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles(() => ({
   rootStyle: {
@@ -40,7 +40,7 @@ function AddConnection(props) {
   function postConnection() {
     axios
       .post(`${serverURL}/api/connections/`, {
-        userId: id,
+        userId: sessionStorage.getItem("id"),
         emailAddress: emailAddress,
         firstName: firstName,
         lastName: lastName,
