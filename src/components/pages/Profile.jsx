@@ -136,12 +136,12 @@ function Profile(props) {
             onChange={(e) => setDescription(e.target.value)}
           />
         </Grid>
-        <Grid container item alignItems="center">
+    {/*     <Grid container item alignItems="center">
           <Grid item xs={4}>
             <h3>VIP</h3>
           </Grid>
           <Switch checked={vip} onChange={() => setVip(!vip)} />
-        </Grid>
+        </Grid> */}
         <Button
           variant="contained"
           style={{

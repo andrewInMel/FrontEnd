@@ -4,6 +4,9 @@ import logo from "../imgs/Logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
 import Hyphen from "../imgs/Hyphen.svg";
+import ListAltIcon from '@mui/icons-material/ListAlt'; //tasks icon
+import RecentActorsIcon from '@mui/icons-material/RecentActors'; //connections icon
+import AssessmentIcon from '@mui/icons-material/Assessment'; //dashboard icon
 
 const useStyles = makeStyles({
   root: {
@@ -17,7 +20,7 @@ const useStyles = makeStyles({
     padding: "0 0 0 70px",
   },
   bottomStyle: {
-    height: "150px",
+    height: "80px",
     backgroundColor: "#E2DCDC",
   },
   imgStyle: {
@@ -57,7 +60,7 @@ function Sidebar(props) {
     >
       {/* Logo */}
       <Grid item className={classes.topStyle}>
-        <img src={logo} className={classes.imgStyle} alt="Logo"></img>
+        <a href="/Dashboard"><img src={logo} className={classes.imgStyle} alt="Logo"></img></a>
       </Grid>
       {/* Navigation */}
       <Grid
@@ -78,7 +81,7 @@ function Sidebar(props) {
           }}
         >
           {clicked[0] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
+            <AssessmentIcon></AssessmentIcon>
           ) : null}
           <Typography
             className={classes.text}
@@ -99,7 +102,7 @@ function Sidebar(props) {
           }}
         >
           {clicked[1] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
+            <RecentActorsIcon></RecentActorsIcon>
           ) : null}
           <Typography
             className={classes.text}
@@ -120,7 +123,7 @@ function Sidebar(props) {
           }}
         >
           {clicked[2] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
+            <ListAltIcon></ListAltIcon>
           ) : null}
           <Typography
             className={classes.text}
@@ -137,14 +140,14 @@ function Sidebar(props) {
         container
         item
         direction="column"
-        justifyContent="space-evenly"
+        justifyContent="center"
         alignItems="center"
         className={classes.bottomStyle}
       >
         <Grid item>
-          <Typography className={classes.text} component={Link} to={"/Setting"}>
+          {/* <Typography className={classes.text} component={Link} to={"/Setting"}>
             Settings
-          </Typography>
+          </Typography> */}
         </Grid>
         <Grid item>
           <Typography
