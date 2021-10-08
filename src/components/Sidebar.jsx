@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import logo from "../imgs/Logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
-import Hyphen from "../imgs/Hyphen.svg";
-import ListAltIcon from '@mui/icons-material/ListAlt'; //tasks icon
-import RecentActorsIcon from '@mui/icons-material/RecentActors'; //connections icon
-import AssessmentIcon from '@mui/icons-material/Assessment'; //dashboard icon
+import ListAltIcon from "@mui/icons-material/ListAlt"; //tasks icon
+import RecentActorsIcon from "@mui/icons-material/RecentActors"; //connections icon
+import AssessmentIcon from "@mui/icons-material/Assessment"; //dashboard icon
 
 const useStyles = makeStyles({
   root: {
@@ -34,8 +33,11 @@ const useStyles = makeStyles({
     fontSize: "20px",
     color: "#4F7E83",
   },
-  hyphen: {
-    margin: "0 15px 0 -15px",
+  iconStyle: {
+    margin: "0 5px",
+  },
+  colorStyle: {
+    color: "#834F69",
   },
 });
 
@@ -60,7 +62,9 @@ function Sidebar(props) {
     >
       {/* Logo */}
       <Grid item className={classes.topStyle}>
-        <a href="/Dashboard"><img src={logo} className={classes.imgStyle} alt="Logo"></img></a>
+        <a href="/Dashboard">
+          <img src={logo} className={classes.imgStyle} alt="Logo"></img>
+        </a>
       </Grid>
       {/* Navigation */}
       <Grid
@@ -71,6 +75,7 @@ function Sidebar(props) {
         className={classes.middleStyle}
       >
         <Grid
+          container
           item
           onClick={() => {
             setClicked([true, false, false]);
@@ -79,12 +84,19 @@ function Sidebar(props) {
               JSON.stringify([true, false, false])
             );
           }}
+          direction="row"
+          alignItems="center"
         >
-          {clicked[0] ? (
-            <AssessmentIcon></AssessmentIcon>
-          ) : null}
+          <AssessmentIcon
+            classes={clicked[0] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[0]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}`}
           >
@@ -92,6 +104,7 @@ function Sidebar(props) {
           </Typography>
         </Grid>
         <Grid
+          container
           item
           onClick={() => {
             setClicked([false, true, false]);
@@ -100,12 +113,20 @@ function Sidebar(props) {
               JSON.stringify([false, true, false])
             );
           }}
+          direction="row"
+          alignItems="center"
+          style={{ paddingLeft: "1px" }}
         >
-          {clicked[1] ? (
-            <RecentActorsIcon></RecentActorsIcon>
-          ) : null}
+          <RecentActorsIcon
+            classes={clicked[1] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[1]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}/connection`}
           >
@@ -113,6 +134,7 @@ function Sidebar(props) {
           </Typography>
         </Grid>
         <Grid
+          container
           item
           onClick={() => {
             setClicked([false, false, true]);
@@ -121,12 +143,19 @@ function Sidebar(props) {
               JSON.stringify([false, false, true])
             );
           }}
+          direction="row"
+          alignItems="center"
         >
-          {clicked[2] ? (
-            <ListAltIcon></ListAltIcon>
-          ) : null}
+          <ListAltIcon
+            classes={clicked[2] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[2]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}/task`}
           >

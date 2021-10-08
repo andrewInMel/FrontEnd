@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     flexGrow: "1",
   },
   addBtnStyle: {
-    padding: "0 0 3% 2.5% ",
+    padding: "0 0 20% 35% ",
   },
   gutterStyle: {
     padding: "1% 0 1% 3%",
@@ -107,10 +107,11 @@ function DashBd() {
             container
             item
             direction="row"
-            alignItems="flex-end"
+            justifyContent="center"
+            alignItems="center"
             className={classes.pushFooter}
           >
-            <Grid item xs={11}>
+            <Grid item xs={10}>
               <div className={classes.gutterStyle}>
                 {connectionData && taskData ? (
                   <Switch>
@@ -133,8 +134,11 @@ function DashBd() {
               </div>
             </Grid>
             {/* "Add" functionality */}
-            <Grid item xs={1} className={classes.addBtnStyle}>
-              <Add />
+            <Grid container item xs={2} direction="column">
+              <Grid item style={{ height: window.innerHeight * 0.8 }}></Grid>
+              <Grid item className={classes.addBtnStyle}>
+                <Add />
+              </Grid>
             </Grid>
           </Grid>
           {/* footer */}
