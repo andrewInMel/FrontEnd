@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import { TextField, Typography, MenuItem } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import IconButton from "@mui/material/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";

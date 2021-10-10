@@ -14,14 +14,11 @@ import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 
 const useStyles = makeStyles({
-  rootStyle: {
-    height: "100vh",
-  },
   pushFooter: {
     flexGrow: "1",
   },
   addBtnStyle: {
-    padding: "0 0 20% 35% ",
+    padding: "0 0 0 35% ",
   },
   gutterStyle: {
     padding: "1% 0 1% 3%",
@@ -82,7 +79,7 @@ function DashBd() {
     return <Redirect to="/Signin" />;
   } else {
     return (
-      <Grid container direction="row" className={classes.rootStyle}>
+      <Grid container direction="row">
         {/* Sidebar */}
         <Sidebar linkPath={url} setStatus={setLoggedIn} />
         {/* Content page*/}
@@ -121,10 +118,10 @@ function DashBd() {
                         connectionList={connectionData}
                       />
                     </Route>
-                    <Route path={`${path}/connection`}>
+                    <Route exact path={`${path}/connection`}>
                       <Connection connectionList={connectionData} />
                     </Route>
-                    <Route path={`${path}/task`}>
+                    <Route exact path={`${path}/task`}>
                       <TaskList taskList={taskData} />
                     </Route>
                   </Switch>
@@ -135,7 +132,7 @@ function DashBd() {
             </Grid>
             {/* "Add" functionality */}
             <Grid container item xs={2} direction="column">
-              <Grid item style={{ height: window.innerHeight * 0.8 }}></Grid>
+              <Grid item style={{ height: window.innerHeight * 0.7 }}></Grid>
               <Grid item className={classes.addBtnStyle}>
                 <Add />
               </Grid>

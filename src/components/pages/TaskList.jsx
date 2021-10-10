@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import TaskEntry from "../TaskEntry";
 import PropTypes from "prop-types";
 import { FixedSizeList } from "react-window";
-import ListItem from "@material-ui/core/ListItem";
+// import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
@@ -19,17 +19,7 @@ const useStyles = makeStyles(() => ({
 
 function renderRow(props) {
   const { data, index, style } = props;
-  return (
-    <ListItem
-      style={style}
-      key={index}
-      classes={{
-        root: index % 2 === 0 ? null : data.myStyle,
-      }}
-    >
-      <TaskEntry task={data.taskList[index]} index={index} />
-    </ListItem>
-  );
+  return <TaskEntry task={data.taskList[index]} style={style} index={index} />;
 }
 
 renderRow.propTypes = {
@@ -75,7 +65,6 @@ function TaskList(props) {
         itemSize={75}
         itemCount={props.taskList.length}
         itemData={{
-          myStyle: classes.changeColor,
           taskList: props.taskList,
           otherData: true,
         }}

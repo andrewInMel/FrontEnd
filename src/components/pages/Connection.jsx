@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import ConnectionEntry from "../ConnectionEntry";
-import PropTypes from "prop-types";
 import { FixedSizeList } from "react-window";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
@@ -32,11 +31,6 @@ function renderRow(props) {
     </ListItem>
   );
 }
-
-renderRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  style: PropTypes.object.isRequired,
-};
 
 function Connection(props) {
   const classes = useStyles();

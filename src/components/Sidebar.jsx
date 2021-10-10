@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import logo from "../imgs/Logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
-import ListAltIcon from "@mui/icons-material/ListAlt"; //tasks icon
-import RecentActorsIcon from "@mui/icons-material/RecentActors"; //connections icon
-import AssessmentIcon from "@mui/icons-material/Assessment"; //dashboard icon
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 
 const useStyles = makeStyles({
   root: {
