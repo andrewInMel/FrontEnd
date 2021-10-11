@@ -1,7 +1,7 @@
 import React from "react";
 import ConnectionEntry from "../ConnectionEntry";
 import PropTypes from "prop-types";
-import { FixedSizeList } from "react-window";
+import { FixedSizeList, VariableSizeList } from "react-window";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 function renderRow(props) {
   const { data, index, style } = props;
   return (
@@ -37,7 +39,9 @@ function renderRow(props) {
         root: index % 2 === 0 ? null : data.myStyle,
       }}
     >
-      <ConnectionEntry connection={data.dataList[index]} />
+      <ConnectionEntry connection={data.dataList.list[index]} 
+      removeItem={data.dataList.removeItem}
+      index={index} />
     </ListItem>
   );
 }
@@ -50,6 +54,13 @@ renderRow.propTypes = {
 function Connection(props) {
   const classes = useStyles();
 
+  function removeItem(index) {
+    props.connectionList.splice(index, 1)
+  
+    console.log(props.connectionList)
+    console.log("DONE")
+  }
+
   return (
     <Paper className={classes.root}>
       <ListHeader myClasses={classes} />
@@ -60,12 +71,18 @@ function Connection(props) {
         itemCount={props.connectionList.length}
         itemData={{
           myStyle: classes.changeColor,
-          dataList: props.connectionList,
+          dataList: {
+            list: props.connectionList,
+            removeItem: removeItem,
+          },
           otherData: true,
         }}
       >
         {renderRow}
       </FixedSizeList>
+      {/* {props.connectionList.map((connection) => {
+        <ConnectionEntry connection={connection} />
+      })} */}
     </Paper>
   );
 }

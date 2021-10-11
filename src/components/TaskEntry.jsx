@@ -36,8 +36,7 @@ export default function TaskEntry(props) {
   const oneTask = props.task;
   const classes = useStyles();
   /* img path */
-  const path = `../imgs/priority/Unknown.svg`;
-  const icon = import(`../imgs/priority/${oneTask.priority}.svg`)
+  const path = `../imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
   const startTime = new Date(oneTask.startDate).getTime();
   const dueTime = new Date(oneTask.endDate).getTime();
@@ -80,14 +79,13 @@ export default function TaskEntry(props) {
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>
         <Icon>
-          <img src={'../imgs/priority/Unknown.svg'} alt="priority" />
+          <img src={path} alt="priority" />
         </Icon>
-         {" " + oneTask.priority}
       </Grid>
       {/* progress */}
       <Grid container item direction="column" xs={3}>
         <Grid item container direction="row" justifyContent="space-between">
-          <Grid item>{oneTask.startDate} {oneTask.priority}.svg</Grid>
+          <Grid item>{oneTask.startDate}</Grid>
           <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>

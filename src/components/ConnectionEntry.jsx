@@ -13,6 +13,8 @@ export default function ConnectionEntry(props) {
   const oneConnection = props.connection;
   const classes = useStyles();
 
+
+
   console.log(oneConnection)
   return (
     <Grid
@@ -55,7 +57,7 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
-        <Option selected={oneConnection} type="connection" />
+        <Option selected={oneConnection} type="connection" func={props.removeItem} index={props.index}/>
       </Grid>
     </Grid>
   );
