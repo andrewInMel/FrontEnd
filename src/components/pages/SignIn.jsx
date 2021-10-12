@@ -15,7 +15,7 @@ import MyTextField from "../MyTextField";
 
 const styles = {
   background: {
-    height: "100vh",
+    minHeight: "100vh",
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",

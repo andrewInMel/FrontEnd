@@ -1,191 +1,309 @@
-import React, { useState /*, useEffect */ } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Grid, Switch, Button } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { TextField, Grid, Avatar, Typography, Switch } from "@material-ui/core";
+// import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
 import { serverURL } from "./SignIn.jsx";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import Button from "@material-ui/core/Button";
+import AddSocialMedia from "../AddSocialMedia.jsx";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   rootStyle: {
-    width: "980px",
-    height: "650px",
-    padding: "40px 30px 40px 40px",
+    width: "900px",
+    height: "600px",
+    padding: "20px 30px 0 50px",
+  },
+  large: {
+    width: theme.spacing(16),
+    height: theme.spacing(16),
+  },
+  buttonStyle: {
+    padding: "10px",
+  },
+  iconStyle: {
+    margin: "0 10px 0 0",
+  },
+  sectionGap: {
+    paddingBottom: "50px",
+  },
+  btnColor: {
+    backgroundColor: "#c0f0c9",
+  },
+  bottomStyle: {
+    margin: "0 0 -10px 20px",
   },
 }));
 
 function AddConnection(props) {
   const classes = useStyles();
-  //Add connection details.
-  const [emailAddress, setEmailAddress] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [company, setCompany] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [description, setDescription] = useState("");
+  /* connection infomation state */
+  const [name, setName] = useState("");
+  const [userPhoto, setUserPhoto] = useState(null);
+  const [occupation, setOccupation] = useState("");
   const [vip, setVip] = useState(false);
+  const [twitter, setTwitter] = useState(null);
+  const [instagram, setInstagram] = useState(null);
+  const [github, setGithub] = useState(null);
+  const [linkedIn, setLinkedIn] = useState(null);
+  /* helper states */
+  const [photoSrc, setPhotoSrc] = useState(null);
+  const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
+  const myRef = useRef(null);
 
-  function clearInfo() {
-    setEmailAddress("");
-    setFirstName("");
-    setLastName("");
-    setPhone("");
-    setCompany("");
-    setBirthday("");
-    setDescription("");
-    setVip(false);
-  }
+  /* dialog to set social media link */
+  const handleLinkClose = () => {
+    setLinkOpen([false, false, false, false]);
+  };
 
-  function postConnection() {
-    axios
-      .post(`${serverURL}/api/connections/`, {
-        userId: sessionStorage.getItem("id"),
-        emailAddress: emailAddress,
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phone,
-        company: company,
-        birthday: birthday,
-        description: description,
-        Vip: vip,
-      })
-      .then((res) => {
-        if (res.data.status === "success") {
+  const handleName = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleOccupation = (event) => {
+    setOccupation(event.target.value);
+  };
+
+  const handleVip = () => {
+    setVip(!vip);
+  };
+
+  /* File upload operation */
+  const handleFileSelect = (event) => {
+    if (event.target.files[0] != null) {
+      setUserPhoto(event.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (userPhoto !== null) {
+      setPhotoSrc(URL.createObjectURL(userPhoto));
+      const fd = new FormData();
+      fd.append("userPhoto", userPhoto, userPhoto.name);
+      axios
+        .post(`${serverURL}/abc`, fd)
+        .then((res) => {
           console.log(res.data);
-          clearInfo();
-          props.onClose();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  const handlerClose = () => {
-    clearInfo();
-    props.onClose();
-  };
-
-  const handleFileUpload = (event) => {
-    console.log(event.target.file);
-  };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    return () => {
+      setUserPhoto(null);
+    };
+  }, [userPhoto]);
 
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <Grid container direction="row" className={classes.rootStyle}>
-        <Grid container item>
-          <Grid item xs={4}>
-            <h2 id="simple-modal-title">Add connection:</h2>
+      <div className={classes.rootStyle}>
+        <Grid container direction="row">
+          {/* left section */}
+          <Grid
+            item
+            container
+            direction="column"
+            justifyContent="space-around"
+            xs={4}
+            style={{ height: "570px" }}
+          >
+            {/* top seciton */}
+            <Grid item container direction="row" alignItems="center">
+              {/* photo */}
+              <Grid item xs={6}>
+                <Avatar
+                  alt="user photo"
+                  src={photoSrc}
+                  className={classes.large}
+                  onClick={() => myRef.current.click()}
+                >
+                  <Typography align="center">Upload Your Image</Typography>
+                </Avatar>
+                <input
+                  type="file"
+                  ref={myRef}
+                  onChange={handleFileSelect}
+                  hidden
+                />
+              </Grid>
+              {/* name and VIP switch */}
+              <Grid item container direction="column" xs={6}>
+                <Grid item>
+                  <TextField
+                    value={name}
+                    onChange={handleName}
+                    InputProps={{ disableUnderline: true }}
+                    placeholder="New Contact"
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    value={occupation}
+                    onChange={handleOccupation}
+                    InputProps={{ disableUnderline: true }}
+                    placeholder="Occupation"
+                  />
+                </Grid>
+                <Grid item container alignItems="center">
+                  <Grid item xs={2}>
+                    <Typography variant="subtitle1">VIP</Typography>
+                  </Grid>
+                  <Switch checked={vip} onChange={handleVip} />
+                </Grid>
+              </Grid>
+            </Grid>
+            {/* middle section */}
+            <Grid
+              item
+              container
+              direction="column"
+              className={`${classes.sectionGap}`}
+            >
+              {/* twitter */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <TwitterIcon />
+                </Grid>
+
+                <Grid item>
+                  {twitter === null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([true, false, false, false]);
+                      }}
+                    >
+                      Add Twitter Link
+                    </Button>
+                  ) : (
+                    <a href={twitter}>Twitter</a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* instagram */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <InstagramIcon />
+                </Grid>
+
+                <Grid item>
+                  {instagram === null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, true, false, false]);
+                      }}
+                    >
+                      Add Instagram Link
+                    </Button>
+                  ) : (
+                    <a href={instagram}>Instagram</a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* github */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <GitHubIcon />
+                </Grid>
+
+                <Grid item>
+                  {github === null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, false, true, false]);
+                      }}
+                    >
+                      Add Github Link
+                    </Button>
+                  ) : (
+                    <a href={github}>Github</a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* linkedIn */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <LinkedInIcon />
+                </Grid>
+                <Grid item>
+                  {linkedIn === null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, false, false, true]);
+                      }}
+                    >
+                      Add LinkedIn Link
+                    </Button>
+                  ) : (
+                    <a href={linkedIn}>LinkedIn</a>
+                  )}
+                </Grid>
+              </Grid>
+              <AddSocialMedia
+                open={linkOpen[0]}
+                onClose={handleLinkClose}
+                setLink={setTwitter}
+              />
+              <AddSocialMedia
+                open={linkOpen[1]}
+                onClose={handleLinkClose}
+                setLink={setInstagram}
+              />
+              <AddSocialMedia
+                open={linkOpen[2]}
+                onClose={handleLinkClose}
+                setLink={setGithub}
+              />
+              <AddSocialMedia
+                open={linkOpen[3]}
+                onClose={handleLinkClose}
+                setLink={setLinkedIn}
+              />
+            </Grid>
+            {/* bottom section */}
+            <Grid item className={classes.bottomStyle}>
+              <Button classes={{ root: classes.btnColor }} variant="contained">
+                Add
+              </Button>
+            </Grid>
           </Grid>
-          {/* upload image */}
-          <Grid item xs={7}>
-            <Button variant="contained" component="label">
-              Upload Photo
-              <input type="file" onChange={handleFileUpload} hidden />
-            </Button>
-          </Grid>
-          {/* close button */}
-          <Grid item>
-            <Button onClick={handlerClose}>
-              <CloseIcon />
-            </Button>
-          </Grid>
+          {/* middle section */}
+          <Grid item container direction="column" xs={7}></Grid>
+          {/* right section */}
+          <Grid item xs={1}></Grid>
         </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Email Address</h3>
-          </Grid>
-          <TextField
-            InputProps={{ disableUnderline: true }}
-            placeholder="example@email.com"
-            value={emailAddress}
-            onChange={(e) => setEmailAddress(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>First Name</h3>
-          </Grid>
-          <TextField
-            placeholder="John"
-            InputProps={{ disableUnderline: true }}
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Last Name</h3>
-          </Grid>
-          <TextField
-            placeholder="Doe"
-            InputProps={{ disableUnderline: true }}
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Phone Number</h3>
-          </Grid>
-          <TextField
-            placeholder="+61 XXX XXX XXX"
-            InputProps={{ disableUnderline: true }}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Company</h3>
-          </Grid>
-          <TextField
-            placeholder="Monsters Inc."
-            InputProps={{ disableUnderline: true }}
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Birthday</h3>
-          </Grid>
-          <TextField
-            InputProps={{ disableUnderline: true }}
-            value={birthday}
-            type="date"
-            onChange={(e) => setBirthday(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>Description</h3>
-          </Grid>
-          <TextField
-            InputProps={{ disableUnderline: true }}
-            placeholder="Description."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Grid>
-        <Grid container item alignItems="center">
-          <Grid item xs={4}>
-            <h3>VIP</h3>
-          </Grid>
-          <Switch checked={vip} onChange={() => setVip(!vip)} />
-        </Grid>
-        <Button
-          variant="contained"
-          style={{
-            backgroundColor: "#478562",
-            color: "#DEE2E3",
-          }}
-          onClick={postConnection}
-        >
-          Add
-        </Button>
-      </Grid>
+      </div>
     </Dialog>
   );
 }

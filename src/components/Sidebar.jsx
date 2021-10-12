@@ -10,13 +10,14 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 const useStyles = makeStyles({
   root: {
     backgroundColor: "#DEE2E3",
+    minHeight: "100vh",
   },
   topStyle: {
     margin: "48px 84px 48px 41px",
   },
   middleStyle: {
     flexGrow: "1",
-    padding: "0 0 0 70px",
+    padding: "0 0 0 50px",
   },
   bottomStyle: {
     height: "80px",
