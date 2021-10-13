@@ -15,7 +15,7 @@ import MyTextField from "../MyTextField";
 
 const styles = {
   background: {
-    height: "100vh",
+    minHeight: "100vh",
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
@@ -49,11 +49,8 @@ const styles = {
   },
 };
 
-// let userId = "611f7337668fd37db1bb6fef";
-let userId = "";
-let loggedIn;
-// const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
-const serverURL = "http://localhost:8000";
+//const serverURL = "http://localhost:8000";
+const serverURL = "https://backend-connects.herokuapp.com";
 
 class SignIn extends Component {
   constructor(props) {
@@ -63,7 +60,7 @@ class SignIn extends Component {
       password: "",
       validated: false,
     };
-    localStorage.setItem("loggedIn", "false");
+    sessionStorage.setItem("status", "false");
   }
 
   /* handlers */
@@ -85,11 +82,13 @@ class SignIn extends Component {
       })
       .then((res) => {
         if (res.data.token) {
-          localStorage.setItem("loggedIn", "true");
-          loggedIn = true;
-// userId = res.data.user_id;
-// localStorage.setItem("userId", res.data.user_id);
-          console.log(res.data);
+          sessionStorage.setItem("status", true);
+          sessionStorage.setItem("id", res.data.userId);
+          sessionStorage.setItem(
+            "navStatus",
+            JSON.stringify([true, false, false])
+          );
+
           this.setState({ validated: true });
         } else {
           alert("something went wrong");
@@ -200,4 +199,4 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
-export { userId, loggedIn, serverURL };
+export { serverURL };

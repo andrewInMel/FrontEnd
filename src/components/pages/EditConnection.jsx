@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 function EditConnection(props) {
   const classes = useStyles();
   const data = props.userData;
-
+  const id = sessionStorage.getItem("id");
   /* connection details */
   const [emailAddress, setEmailAddress] = useState(data.emailAddress);
   const [firstName, setFirstName] = useState(data.firstName);

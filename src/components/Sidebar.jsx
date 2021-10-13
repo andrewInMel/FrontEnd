@@ -3,21 +3,24 @@ import { Link } from "react-router-dom";
 import logo from "../imgs/Logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
-import Hyphen from "../imgs/Hyphen.svg";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 
 const useStyles = makeStyles({
   root: {
     backgroundColor: "#DEE2E3",
+    minHeight: "100vh",
   },
   topStyle: {
     margin: "48px 84px 48px 41px",
   },
   middleStyle: {
     flexGrow: "1",
-    padding: "0 0 0 70px",
+    padding: "0 0 0 50px",
   },
   bottomStyle: {
-    height: "150px",
+    height: "80px",
     backgroundColor: "#E2DCDC",
   },
   imgStyle: {
@@ -31,15 +34,23 @@ const useStyles = makeStyles({
     fontSize: "20px",
     color: "#4F7E83",
   },
-  hyphen: {
-    margin: "0 15px 0 -15px",
+  iconStyle: {
+    margin: "0 5px",
+  },
+  colorStyle: {
+    color: "#834F69",
   },
 });
 
 function Sidebar(props) {
-  const [clicked, setClicked] = useState([true, false, false]);
+  const [clicked, setClicked] = useState(
+    JSON.parse(sessionStorage.getItem("navStatus"))
+  );
   const classes = useStyles();
 
+  const handleSignOut = () => {
+    props.setStatus(false);
+  };
   return (
     <Grid
       container
@@ -52,7 +63,9 @@ function Sidebar(props) {
     >
       {/* Logo */}
       <Grid item className={classes.topStyle}>
-        <img src={logo} className={classes.imgStyle} alt="Logo"></img>
+        <a href="/Dashboard">
+          <img src={logo} className={classes.imgStyle} alt="Logo"></img>
+        </a>
       </Grid>
       {/* Navigation */}
       <Grid
@@ -62,36 +75,88 @@ function Sidebar(props) {
         justifyContent="space-evenly"
         className={classes.middleStyle}
       >
-        <Grid item onClick={() => setClicked([true, false, false])}>
-          {clicked[0] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
-          ) : null}
+        <Grid
+          container
+          item
+          onClick={() => {
+            setClicked([true, false, false]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([true, false, false])
+            );
+          }}
+          direction="row"
+          alignItems="center"
+        >
+          <AssessmentIcon
+            classes={clicked[0] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[0]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}`}
           >
             Dashboard
           </Typography>
         </Grid>
-        <Grid item onClick={() => setClicked([false, true, false])}>
-          {clicked[1] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
-          ) : null}
+        <Grid
+          container
+          item
+          onClick={() => {
+            setClicked([false, true, false]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([false, true, false])
+            );
+          }}
+          direction="row"
+          alignItems="center"
+          style={{ paddingLeft: "1px" }}
+        >
+          <RecentActorsIcon
+            classes={clicked[1] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[1]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}/connection`}
           >
             Connection
           </Typography>
         </Grid>
-        <Grid item onClick={() => setClicked([false, false, true])}>
-          {clicked[2] ? (
-            <img src={Hyphen} alt="" className={classes.hyphen} />
-          ) : null}
+        <Grid
+          container
+          item
+          onClick={() => {
+            setClicked([false, false, true]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([false, false, true])
+            );
+          }}
+          direction="row"
+          alignItems="center"
+        >
+          <ListAltIcon
+            classes={clicked[2] ? { root: classes.colorStyle } : null}
+            className={classes.iconStyle}
+          />
           <Typography
-            className={classes.text}
+            className={
+              clicked[2]
+                ? `${classes.text} ${classes.colorStyle}`
+                : classes.text
+            }
             component={Link}
             to={`${props.linkPath}/task`}
           >
@@ -105,17 +170,21 @@ function Sidebar(props) {
         container
         item
         direction="column"
-        justifyContent="space-evenly"
+        justifyContent="center"
         alignItems="center"
         className={classes.bottomStyle}
       >
         <Grid item>
-          <Typography className={classes.text} component={Link} to={"/Setting"}>
+          {/* <Typography className={classes.text} component={Link} to={"/Setting"}>
             Settings
-          </Typography>
+          </Typography> */}
         </Grid>
         <Grid item>
-          <Typography className={classes.text} component={Link} to={"/Signin"}>
+          <Typography
+            className={classes.text}
+            onClick={handleSignOut}
+            style={{ cursor: "pointer" }}
+          >
             Sign out
           </Typography>
         </Grid>

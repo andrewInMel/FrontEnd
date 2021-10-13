@@ -1,10 +1,10 @@
 import React, { useState /*, useEffect */ } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Grid, Switch, Button } from "@material-ui/core";
+import { TextField, Grid, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
-import { userId as id, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles(() => ({
   rootStyle: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 function Profile(props) {
   const classes = useStyles();
   const data = props.userData;
-
+  const id = sessionStorage.getItem("id");
   /* connection details */
   const [emailAddress, setEmailAddress] = useState(data.email);
   const [firstName, setFirstName] = useState(data.firstName);
@@ -136,12 +136,12 @@ function Profile(props) {
             onChange={(e) => setDescription(e.target.value)}
           />
         </Grid>
-        <Grid container item alignItems="center">
+        {/*     <Grid container item alignItems="center">
           <Grid item xs={4}>
             <h3>VIP</h3>
           </Grid>
           <Switch checked={vip} onChange={() => setVip(!vip)} />
-        </Grid>
+        </Grid> */}
         <Button
           variant="contained"
           style={{

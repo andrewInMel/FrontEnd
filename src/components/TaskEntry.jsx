@@ -3,39 +3,42 @@ import React from "react";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
-import { styled } from "@mui/material/styles";
 import Option from "./OptionMenu";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import UnknownIcon from '../imgs/priority/Unknown.svg'
 
 const useStyles = makeStyles((theme) => ({
+  myWidth: {
+    minWidth: "780px",
+    backgroundColor: (myProps) =>
+      !myProps.myIndex || myProps.myIndex % 2 === 0 ? null : "#DEE2E3",
+  },
   small: {
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
-}));
-
-/* customized liner progress */
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
+  root: {
+    height: 10,
     borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#1a90ff",
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  myBar: {
+    borderRadius: 5,
+    backgroundColor: (myProps) =>
+      myProps.myProgress !== 100 ? "primary" : "#fa3751",
+  },
+  progressPosition: {
+    paddingBottom: "10px",
   },
 }));
 
-export default function TaskEntry(props) {
-  const oneTask = props.task;
-  const classes = useStyles();
-  /* img path */
+export default function TaskEntry({ task, index, style }) {
+  const oneTask = task;
+  /* priority img path */
   const path = `../imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
   const startTime = new Date(oneTask.startDate).getTime();
@@ -45,9 +48,21 @@ export default function TaskEntry(props) {
     (100 * (currentTime - startTime)) / (dueTime - startTime)
   );
   const progress = percentage < 100 ? percentage : 100;
+  /* variable required at runtime */
+  const myProps = {
+    myIndex: index,
+    myProgress: progress,
+  };
+  const classes = useStyles(myProps);
 
   return (
-    <Grid container direction="row" alignItems="center">
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      className={classes.myWidth}
+      style={style}
+    >
       {/* fisrt column */}
       <Grid
         item
@@ -70,6 +85,7 @@ export default function TaskEntry(props) {
                 alt={person.name}
                 src={person.photoSource}
                 className={classes.small}
+                sizes={classes.small}
               />
             ))}
           </AvatarGroup>
@@ -83,13 +99,27 @@ export default function TaskEntry(props) {
         </Icon>
       </Grid>
       {/* progress */}
-      <Grid container item direction="column" xs={3}>
+      <Grid
+        container
+        item
+        direction="column"
+        className={classes.progressPosition}
+        xs={3}
+      >
         <Grid item container direction="row" justifyContent="space-between">
           <Grid item>{oneTask.startDate}</Grid>
           <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>
-          <BorderLinearProgress variant="determinate" value={progress} />
+          <LinearProgress
+            variant="determinate"
+            value={progress}
+            classes={{
+              root: classes.root,
+              bar: classes.myBar,
+              colorPrimary: classes.colorPrimary,
+            }}
+          />
         </Grid>
       </Grid>
       {/* actions */}

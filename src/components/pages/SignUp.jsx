@@ -18,7 +18,7 @@ const styles = {
     paddingTop: "2rem",
   },
   background: {
-    height: "100vh",
+    minHeight: "100vh",
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
@@ -39,8 +39,8 @@ const styles = {
   },
 };
 
-// const url = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
-const url = "http://localhost:8000"
+//const url = "http://localhost:8000"
+const url = "https://backend-connects.herokuapp.com";
 
 class SignUp extends Component {
   constructor(props) {

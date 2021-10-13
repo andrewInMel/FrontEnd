@@ -7,31 +7,25 @@ import CircleEntry from "../CircleEntry.jsx";
 import TaskEntry from "../TaskEntry.jsx";
 
 const useStyle = makeStyles({
-  bottom: {
-    width: " 940px ",
-    height: "280px",
-    margin: "10px 0 20px 0",
-  },
   topBox: {
-    width: "460px",
-    height: "385px",
+    width: "400px",
+    height: "300px",
     backgroundColor: "#DEE2E3",
   },
   gridStyle: {
     margin: "10px",
   },
   space: {
-    margin: "25px",
+    margin: "15px",
   },
   circleSpace: {
-    marginTop: "25px",
+    margin: "20px 0 0 -50px",
   },
   listStyle: {
     listStyleType: "none",
   },
   circleBox: {
     width: "300px",
-    height: "306px",
   },
   changeColor: {
     color: "#4F7E83",
@@ -47,7 +41,7 @@ const useStyle = makeStyles({
 function MainContent(props) {
   const classes = useStyle();
   const data2 = props.taskList.slice(0, 4);
-  const data = props.connectionList.slice(0, 4);
+  const data = props.connectionList.slice(0, 3);
   return (
     <Grid
       container
@@ -65,7 +59,7 @@ function MainContent(props) {
       >
         {/* top left section */}
         <Grid item className={classes.gridStyle}>
-          <Paper elevation={5}>
+          <Paper elevation={3}>
             <Grid
               container
               direction="column"
@@ -98,7 +92,7 @@ function MainContent(props) {
         </Grid>
         {/* top right section */}
         <Grid item className={classes.gridStyle}>
-          <Paper elevation={5}>
+          <Paper elevation={3}>
             <Grid
               container
               direction="column"
@@ -124,7 +118,7 @@ function MainContent(props) {
         </Grid>
       </Grid>
       {/* bottom section */}
-      <Paper variant="outlined" className={classes.bottom}>
+      <Paper>
         <Typography variant="h5" className={classes.textStyle}>
           Upcoming Tasks
         </Typography>

@@ -8,7 +8,7 @@ import Image from "../../imgs/Banana.svg";
 
 const useStyles = makeStyles({
   background: {
-    height: "100vh",
+    minHeight: "100vh",
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",

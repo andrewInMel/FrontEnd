@@ -1,10 +1,10 @@
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AddTask from "./pages/AddTask";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AddConnection from "./pages/AddConnection";
 
 const useStyle = makeStyles({
@@ -46,9 +46,9 @@ export default function LongMenu() {
   };
 
   return (
-    <div>
-      <IconButton id="long-button" onClick={handleClick} size="large">
-        <AddCircleSharpIcon className={classes.iconStyle} />
+    <>
+      <IconButton id="long-button" onClick={handleClick}>
+        <AddCircleIcon className={classes.iconStyle} />
       </IconButton>
       <Menu
         id="long-menu"
@@ -70,6 +70,6 @@ export default function LongMenu() {
       </Menu>
       <AddTask open={TaskOpen} onClose={handleTaskClose} />
       <AddConnection open={ConnectionOpen} onClose={handleConnectionClose} />
-    </div>
+    </>
   );
 }

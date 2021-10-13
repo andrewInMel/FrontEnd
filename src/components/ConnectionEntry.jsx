@@ -1,30 +1,16 @@
 import { Typography, Grid, Avatar } from "@material-ui/core";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
 import VIP from "../imgs/Vip.svg";
-const useStyles = makeStyles({
-  rootStyle: {
-    marginLeft: "30px",
-  },
-});
 
 export default function ConnectionEntry(props) {
   const oneConnection = props.connection;
   const classes = useStyles();
 
-
-
-  console.log(oneConnection)
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      className={classes.rootStyle}
-    >
+    <Grid container direction="row" alignItems="center">
       {/* Connection photos */}
-      <Grid item xs={1}>
+      <Grid item xs={1} style={{ paddingLeft: "3%" }}>
         <Avatar alt={oneConnection.name} src={oneConnection.photoSource} />
       </Grid>
       {/* Connection name & title*/}

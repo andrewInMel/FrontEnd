@@ -1,14 +1,14 @@
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditTask from "./pages/EditTask.jsx";
 import EditConnection from "./pages/EditConnection.jsx";
 import Axios from 'axios';
 import { serverURL } from "./pages/SignIn.jsx";
 
-const options = ["View", "Edit", "Delete"];
+const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
