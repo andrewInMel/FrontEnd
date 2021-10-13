@@ -10,7 +10,7 @@ import Header from "../Header.jsx";
 import Sidebar from "../Sidebar";
 import Footer from "../Footer.jsx";
 import Add from "../Add.jsx";
-import { loggedIn, /*userId,*/ serverURL } from "./SignIn.jsx";
+import { /*loggedIn, userId,*/ serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 
 const URL = "http://localhost:8000"
@@ -29,24 +29,25 @@ const useStyles = makeStyles({
 
 function DashBd() {
   const classes = useStyles();
-  const [testData, setTestData] = useState(null);
-  const [testData2, setTestData2] = useState(null);
+  const [connectionData, setConnectionData] = useState(null);
+  const [taskData, setTaskData] = useState(null);
   const [clientData, setClientData] = useState(null);
   let { url, path } = useRouteMatch();
   let userId = localStorage.getItem("userId")
+  let loggedIn = (localStorage.getItem("loggedIn") === "true")
 // loggedIn = true;
     //
   useEffect(() => {
     Axios.get(`${URL}/api/connections?userId=${userId}`)
       .then((res) => {
-        setTestData(res.data);
+        setConnectionData(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
     Axios.get(`${URL}/api/tasks?userId=${userId}`)
       .then((response) => {
-        setTestData2(response.data);
+        setTaskData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -63,8 +64,8 @@ function DashBd() {
         console.log(`${URL}/api/connections?userId=${userId}`)
       });
     return () => {
-      setTestData(null);
-      setTestData2(null);
+      setConnectionData(null);
+      setTaskData(null);
       setClientData(null);
     };
   }, []);
@@ -102,19 +103,19 @@ function DashBd() {
             className={classes.pushFooter}
           >
             <Grid item xs={11}>
-              {testData && testData2 ? (
+              {connectionData && taskData ? (
                 <Switch>
                   <Route exact path={`${path}`}>
                     <MainContent
-                      taskList={testData2}
-                      connectionList={testData}
+                      taskList={taskData}
+                      connectionList={connectionData}
                     />
                   </Route>
                   <Route path={`${path}/connection`}>
-                    <Connection connectionList={testData} />
+                    <Connection connectionList={connectionData} />
                   </Route>
                   <Route path={`${path}/task`}>
-                    <TaskList taskList={testData2} />
+                    <TaskList taskList={taskData} />
                   </Route>
                 </Switch>
               ) : (
