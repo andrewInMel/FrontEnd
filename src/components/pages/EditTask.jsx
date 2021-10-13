@@ -40,6 +40,7 @@ const useStyles = makeStyles({
 
 export default function EditTask(props) {
   const data = props.taskData;
+  console.log(data)  
   const classes = useStyles();
   /* states */
   const [count, setCount] = useState(0);
@@ -49,8 +50,8 @@ export default function EditTask(props) {
   const [status, setStatus] = useState(data.status);
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
-  const [dueDate, setDueDate] = useState(data.due);
-  const [taskName, setTaskName] = useState(data.taskName);
+  const [dueDate, setDueDate] = useState(data.endDate);
+  const [taskName, setTaskName] = useState(data.name);
 
   /* data to be sent to backend */
   const taskData = {
@@ -212,13 +213,13 @@ export default function EditTask(props) {
                   onChange={handleStatusChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="progress">
+                  <MenuItem value="In Progress">
                     <img src="/imgs/status/progress.svg" alt="progress" />
                   </MenuItem>
-                  <MenuItem value="review">
+                  <MenuItem value="Review">
                     <img src="/imgs/status/review.svg" alt="review" />
                   </MenuItem>
-                  <MenuItem value="complete">
+                  <MenuItem value="Complete">
                     <img src="/imgs/status/complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
@@ -243,19 +244,19 @@ export default function EditTask(props) {
                   onChange={handlePriorityChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="critical">
+                  <MenuItem value="Critical">
                     <img src="/imgs/priority/critical.svg" alt="critical" />
                   </MenuItem>
-                  <MenuItem value="high">
+                  <MenuItem value="High">
                     <img src="/imgs/priority/high.svg" alt="high" />
                   </MenuItem>
-                  <MenuItem value="medium">
+                  <MenuItem value="Medium">
                     <img src="/imgs/priority/medium.svg" alt="medium" />
                   </MenuItem>
-                  <MenuItem value="low">
+                  <MenuItem value="Low">
                     <img src="/imgs/priority/low.svg" alt="low" />
                   </MenuItem>
-                  <MenuItem value="unknown">
+                  <MenuItem value="Unknown">
                     <img src="/imgs/priority/unknown.svg" alt="unknown" />
                   </MenuItem>
                 </TextField>

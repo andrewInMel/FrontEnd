@@ -10,7 +10,7 @@ import Popover from "@material-ui/core/Popover";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { userId as id, serverURL } from "./SignIn.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -55,7 +55,7 @@ export default function AddTask(props) {
   const [groups, setGroups] = useState({
         list: []
     });
-
+  let id = localStorage.getItem("userId");
   /* data to be sent to backend */
   const taskData = {
     name: taskName, 
@@ -135,8 +135,8 @@ export default function AddTask(props) {
     setCount(0);
     setMembers([]);
     setText("");
-    setPriority("critical");
-    setStatus("progress");
+    setPriority("Critical");
+    setStatus("In Progress");
     setAnchorEl(null);
     setName("");
     setDueDate("");
@@ -223,10 +223,10 @@ export default function AddTask(props) {
                   <MenuItem value="In Progress">
                     <img src="/imgs/status/progress.svg" alt="progress" />
                   </MenuItem>
-                  <MenuItem value="review">
+                  <MenuItem value="Review">
                     <img src="/imgs/status/review.svg" alt="review" />
                   </MenuItem>
-                  <MenuItem value="complete">
+                  <MenuItem value="Complete">
                     <img src="/imgs/status/complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
@@ -251,16 +251,16 @@ export default function AddTask(props) {
                   onChange={handlePriorityChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="critical">
+                  <MenuItem value="Critical">
                     <img src="/imgs/priority/critical.svg" alt="critical" />
                   </MenuItem>
-                  <MenuItem value="high">
+                  <MenuItem value="High">
                     <img src="/imgs/priority/high.svg" alt="high" />
                   </MenuItem>
-                  <MenuItem value="medium">
+                  <MenuItem value="Medium">
                     <img src="/imgs/priority/medium.svg" alt="medium" />
                   </MenuItem>
-                  <MenuItem value="low">
+                  <MenuItem value="Low">
                     <img src="/imgs/priority/low.svg" alt="low" />
                   </MenuItem>
                   <MenuItem value="Unknown">

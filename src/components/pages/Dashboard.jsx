@@ -14,7 +14,7 @@ import { loggedIn, /*userId,*/ serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 
 const URL = "http://localhost:8000"
-const userId = "611f7337668fd37db1bb6fef"
+// const userId = "611f7337668fd37db1bb6fef"
 const useStyles = makeStyles({
   rootStyle: {
     height: "100vh",
@@ -33,9 +33,9 @@ function DashBd() {
   const [testData2, setTestData2] = useState(null);
   const [clientData, setClientData] = useState(null);
   let { url, path } = useRouteMatch();
-
+  let userId = localStorage.getItem("userId")
 // loggedIn = true;
-
+    //
   useEffect(() => {
     Axios.get(`${URL}/api/connections?userId=${userId}`)
       .then((res) => {

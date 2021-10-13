@@ -49,7 +49,8 @@ const styles = {
   },
 };
 
-let userId = "611f7337668fd37db1bb6fef";
+// let userId = "611f7337668fd37db1bb6fef";
+let userId = "";
 let loggedIn = true;
 // const serverURL = "https://376a3413-2095-4a0f-bc7f-5f20038b7b1a.mock.pstmn.io";
 const serverURL = "http://localhost:8000";
@@ -73,11 +74,20 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post(`${serverURL}/auth/login`, this.state)
+      console.log({
+          username: this.state.username,
+          password: this.state.password,
+      })
+      Axios.post(`${serverURL}/auth/login/`, {
+          username: this.state.username,
+          password: this.state.password,
+      })
       .then((res) => {
         if (res.data.token) {
           loggedIn = true;
-          userId = res.data.userId;
+// userId = res.data.user_id;
+// localStorage.setItem("userId", res.data.user_id);
+          console.log(res.data);
           this.setState({ validated: true });
         } else {
           alert("something went wrong");
