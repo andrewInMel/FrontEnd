@@ -39,6 +39,7 @@ const styles = {
   },
 };
 
+//const url = "http://localhost:8000"
 const url = "https://backend-connects.herokuapp.com";
 
 class SignUp extends Component {
@@ -76,7 +77,12 @@ class SignUp extends Component {
     if (this.state.confirmPassword === this.state.password) {
       this.setState({ match: true });
       this.setState({ signedUp: true });
-      Axios.post(`${url}/auth/register`, this.state)
+        Axios.post(`${url}/auth/register/`, {
+            email: this.state.email,
+            first_name: this.state.firstName,
+            last_name: this.state.lastName,
+            password: this.state.password,
+        })
         .then((res) => {
           if (res.data.token) {
           } else {

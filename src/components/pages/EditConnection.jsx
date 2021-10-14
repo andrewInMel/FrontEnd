@@ -19,15 +19,15 @@ function EditConnection(props) {
   const data = props.userData;
   const id = sessionStorage.getItem("id");
   /* connection details */
-  const [emailAddress, setEmailAddress] = useState(data.email);
+  const [emailAddress, setEmailAddress] = useState(data.emailAddress);
   const [firstName, setFirstName] = useState(data.firstName);
   const [lastName, setLastName] = useState(data.lastName);
-  const [phone, setPhone] = useState(data.phone);
+  const [phone, setPhone] = useState(data.phoneNumber);
   const [company, setCompany] = useState(data.company);
   const [birthday, setBirthday] = useState(data.birthday);
   const [description, setDescription] = useState(data.description);
-  const [vip, setVip] = useState(data.vip);
-
+  const [vip, setVip] = useState(data.Vip);
+  let id = localStorage.getItem("userId");
   function clearInfo() {
     setEmailAddress("");
     setFirstName("");
@@ -41,7 +41,7 @@ function EditConnection(props) {
 
   function postConnection() {
     axios
-      .patch(`${serverURL}/api/connections/${id}`, {
+      .patch(`${serverURL}/api/connections/${data.id}/`, {
         userId: id,
         emailAddress: emailAddress,
         firstName: firstName,
@@ -49,7 +49,7 @@ function EditConnection(props) {
         phoneNumber: phone,
         company: company,
         birthday: birthday,
-        description: description,
+// description: description,
         Vip: vip,
       })
       .then((res) => {
@@ -65,7 +65,7 @@ function EditConnection(props) {
   }
 
   const handlerClose = () => {
-    clearInfo();
+// clearInfo();
     props.onClose();
   };
   return (

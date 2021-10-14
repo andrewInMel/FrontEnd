@@ -5,6 +5,8 @@ import VIP from "../imgs/Vip.svg";
 
 export default function ConnectionEntry(props) {
   const oneConnection = props.connection;
+  const classes = useStyles();
+
   return (
     <Grid container direction="row" alignItems="center">
       {/* Connection photos */}
@@ -14,11 +16,13 @@ export default function ConnectionEntry(props) {
       {/* Connection name & title*/}
       <Grid item container direction="column" xs={3}>
         <Grid item>
-          <Typography>{oneConnection.name}</Typography>
+          <Typography>{oneConnection.firstName} {oneConnection.lastName}</Typography>
         </Grid>
+      {/*
         <Grid item>
           <Typography>{oneConnection.title}</Typography>
         </Grid>
+      */}
       </Grid>
 
       {/* 2nd column, company */}
@@ -35,11 +39,11 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>
-        {oneConnection.vip ? <img src={VIP} alt="" /> : null}
+        {oneConnection.Vip ? <img src={VIP} alt="" /> : null}
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
-        <Option selected={oneConnection} type="connection" />
+        <Option selected={oneConnection} type="connection" func={props.removeItem} index={props.index}/>
       </Grid>
     </Grid>
   );

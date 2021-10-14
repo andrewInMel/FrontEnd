@@ -17,6 +17,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+
+
 function renderRow(props) {
   const { data, index, style } = props;
   return (
@@ -27,7 +29,9 @@ function renderRow(props) {
         root: index % 2 === 0 ? null : data.myStyle,
       }}
     >
-      <ConnectionEntry connection={data.dataList[index]} />
+      <ConnectionEntry connection={data.dataList.list[index]} 
+      removeItem={data.dataList.removeItem}
+      index={index} />
     </ListItem>
   );
 }
@@ -49,6 +53,12 @@ function Connection(props) {
     };
   }
 
+  function removeItem(index) {
+    props.connectionList.splice(index, 1)
+  
+    console.log(props.connectionList)
+  }
+
   function handleResize() {
     if (ref.current) {
       setMyWidth(ref.current.offsetWidth);
@@ -60,6 +70,7 @@ function Connection(props) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <Paper ref={ref} elevation={3}>
       <ListHeader myClasses={classes} />
@@ -70,12 +81,18 @@ function Connection(props) {
         itemCount={props.connectionList.length}
         itemData={{
           myStyle: classes.changeColor,
-          dataList: props.connectionList,
+          dataList: {
+            list: props.connectionList,
+            removeItem: removeItem,
+          },
           otherData: true,
         }}
       >
         {renderRow}
       </FixedSizeList>
+      {/* {props.connectionList.map((connection) => {
+        <ConnectionEntry connection={connection} />
+      })} */}
     </Paper>
   );
 }

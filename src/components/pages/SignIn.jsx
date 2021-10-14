@@ -49,6 +49,7 @@ const styles = {
   },
 };
 
+//const serverURL = "http://localhost:8000";
 const serverURL = "https://backend-connects.herokuapp.com";
 
 class SignIn extends Component {
@@ -59,6 +60,7 @@ class SignIn extends Component {
       password: "",
       validated: false,
     };
+    sessionStorage.setItem("status", "false");
   }
 
   /* handlers */
@@ -70,7 +72,14 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post(`${serverURL}/auth/login`, this.state)
+      console.log({
+          username: this.state.username,
+          password: this.state.password,
+      })
+      Axios.post(`${serverURL}/auth/login/`, {
+          username: this.state.username,
+          password: this.state.password,
+      })
       .then((res) => {
         if (res.data.token) {
           sessionStorage.setItem("status", true);
@@ -79,6 +88,7 @@ class SignIn extends Component {
             "navStatus",
             JSON.stringify([true, false, false])
           );
+
           this.setState({ validated: true });
         } else {
           alert("something went wrong");

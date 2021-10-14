@@ -6,6 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
+import UnknownIcon from '../imgs/priority/Unknown.svg'
+
 const useStyles = makeStyles((theme) => ({
   myWidth: {
     minWidth: "780px",
@@ -37,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 export default function TaskEntry({ task, index, style }) {
   const oneTask = task;
   /* priority img path */
-  const path = `/imgs/priority/${oneTask.priority}.svg`;
+  const path = `../imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
-  const startTime = new Date(oneTask.start).getTime();
-  const dueTime = new Date(oneTask.due).getTime();
+  const startTime = new Date(oneTask.startDate).getTime();
+  const dueTime = new Date(oneTask.endDate).getTime();
   const currentTime = new Date().getTime();
   const percentage = Math.round(
     (100 * (currentTime - startTime)) / (dueTime - startTime)
@@ -71,9 +73,10 @@ export default function TaskEntry({ task, index, style }) {
       >
         {/* task name */}
         <Grid item>
-          <Typography>{oneTask.taskName}</Typography>
+          <Typography>{oneTask.name}</Typography>
         </Grid>
         {/* member photos */}
+        {/*
         <Grid item>
           <AvatarGroup max={5}>
             {oneTask.memberPhoto.map((person) => (
@@ -87,6 +90,7 @@ export default function TaskEntry({ task, index, style }) {
             ))}
           </AvatarGroup>
         </Grid>
+        */}
       </Grid>
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>
@@ -103,8 +107,8 @@ export default function TaskEntry({ task, index, style }) {
         xs={3}
       >
         <Grid item container direction="row" justifyContent="space-between">
-          <Grid item>{oneTask.start}</Grid>
-          <Grid item>{oneTask.due}</Grid>
+          <Grid item>{oneTask.startDate}</Grid>
+          <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>
           <LinearProgress

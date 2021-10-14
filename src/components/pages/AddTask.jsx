@@ -42,22 +42,28 @@ export default function AddTask(props) {
   const classes = useStyles();
   /* states */
   const [count, setCount] = useState(0);
-  const [members, setMembers] = useState([]);
+    const [members, setMembers] = useState({
+        list: []
+    });
   const [text, setText] = useState("");
-  const [priority, setPriority] = useState("critical");
-  const [status, setStatus] = useState("progress");
+  const [priority, setPriority] = useState("Unknown");
+  const [status, setStatus] = useState("In Progress");
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [taskName, setTaskName] = useState("");
-
+  const [groups, setGroups] = useState({
+        list: []
+    });
   /* data to be sent to backend */
   const taskData = {
+    name: taskName, 
     description: text,
     priority: priority,
     status: status,
-    members: members,
-    taskName: taskName,
+    endDate: dueDate,
+    connections: JSON.stringify(members),
+    groups: JSON.stringify(groups),
     userId: sessionStorage.getItem("id"),
   };
 
@@ -119,6 +125,7 @@ export default function AddTask(props) {
       })
       .catch((error) => {
         console.log(error);
+        console.log(taskData)
       });
   };
 
@@ -127,8 +134,8 @@ export default function AddTask(props) {
     setCount(0);
     setMembers([]);
     setText("");
-    setPriority("critical");
-    setStatus("progress");
+    setPriority("Critical");
+    setStatus("In Progress");
     setAnchorEl(null);
     setName("");
     setDueDate("");
@@ -212,13 +219,13 @@ export default function AddTask(props) {
                   onChange={handleStatusChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="progress">
+                  <MenuItem value="In Progress">
                     <img src="/imgs/status/progress.svg" alt="progress" />
                   </MenuItem>
-                  <MenuItem value="review">
+                  <MenuItem value="Review">
                     <img src="/imgs/status/review.svg" alt="review" />
                   </MenuItem>
-                  <MenuItem value="complete">
+                  <MenuItem value="Complete">
                     <img src="/imgs/status/complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
@@ -243,19 +250,19 @@ export default function AddTask(props) {
                   onChange={handlePriorityChange}
                   InputProps={{ disableUnderline: true }}
                 >
-                  <MenuItem value="critical">
+                  <MenuItem value="Critical">
                     <img src="/imgs/priority/critical.svg" alt="critical" />
                   </MenuItem>
-                  <MenuItem value="high">
+                  <MenuItem value="High">
                     <img src="/imgs/priority/high.svg" alt="high" />
                   </MenuItem>
-                  <MenuItem value="medium">
+                  <MenuItem value="Medium">
                     <img src="/imgs/priority/medium.svg" alt="medium" />
                   </MenuItem>
-                  <MenuItem value="low">
+                  <MenuItem value="Low">
                     <img src="/imgs/priority/low.svg" alt="low" />
                   </MenuItem>
-                  <MenuItem value="unknown">
+                  <MenuItem value="Unknown">
                     <img src="/imgs/priority/unknown.svg" alt="unknown" />
                   </MenuItem>
                 </TextField>
@@ -298,7 +305,7 @@ export default function AddTask(props) {
                 <Typography> Assign </Typography>
               </Grid>
               <Grid item xs={7}>
-                {members.map((member) => {
+                {/*{members.map((member) => {
                   return (
                     <Chip
                       key={member.chipCount}
@@ -307,7 +314,7 @@ export default function AddTask(props) {
                       onDelete={removeMember(member)}
                     />
                   );
-                })}
+                })}*/}
                 <Chip
                   label="Add"
                   onClick={handleTaskAssignment}

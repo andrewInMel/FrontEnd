@@ -5,6 +5,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditTask from "./pages/EditTask.jsx";
 import EditConnection from "./pages/EditConnection.jsx";
+import Axios from 'axios';
+import { serverURL } from "./pages/SignIn.jsx";
 
 const options = ["Edit", "Delete"];
 
@@ -26,6 +28,10 @@ export default function LongMenu(props) {
   /*  record delete fucntion */
   const deleteRecord = (id) => {
     //useing Delete request to delete the task record
+    // props.type === "connection" ? Axios.delete(`${serverURL}/api/connections/${id}`) : Axios.delete(`${serverURL}/api/tasks/${id}`)
+    
+    props.func(props.index)
+
     console.log(`${id}`);
   };
 
