@@ -15,10 +15,11 @@ import MyTextField from "../MyTextField";
 
 const styles = {
   background: {
-    minHeight: "100vh",
+    minHeight: window.innerHeight,
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
+    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
   },
   title: {
     paddingTop: "150px",

@@ -18,15 +18,15 @@ function AddSocialMedia(props) {
       <Grid container direction="row" alignItems="center">
         <Grid>
           <TextField
-            id="Member Name"
-            label="Member Name"
+            id="Link"
+            label="Link"
             variant="outlined"
             onChange={handleOneLink}
             value={onelink}
           />
         </Grid>
         <Grid>
-          <IconButton onClick={addLink} style={{ margin: "5px" }}>
+          <IconButton onClick={addLink}>
             <AddCircleIcon />
           </IconButton>
         </Grid>

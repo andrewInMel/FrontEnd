@@ -8,10 +8,11 @@ import Image from "../../imgs/Banana.svg";
 
 const useStyles = makeStyles({
   background: {
-    minHeight: "100vh",
+    minHeight: window.innerHeight,
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
+    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
   },
   text: {
     color: "#4F7E83",

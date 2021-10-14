@@ -1,18 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid, Avatar, Typography, Switch } from "@material-ui/core";
-// import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
-import { serverURL } from "./SignIn.jsx";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Button from "@material-ui/core/Button";
 import AddSocialMedia from "../AddSocialMedia.jsx";
+import { serverURL } from "./SignIn.jsx";
 
 const useStyles = makeStyles((theme) => ({
+  cursorStyle: {
+    cursor: "pointer",
+  },
+  solidLine: {
+    borderTop: `3px solid #bbb`,
+    borderBottom: "none",
+    borderLeft: "none",
+    borderRight: "none",
+    margin: "-1px 0 0 0",
+  },
   rootStyle: {
     width: "900px",
     height: "600px",
@@ -37,11 +47,29 @@ const useStyles = makeStyles((theme) => ({
   bottomStyle: {
     margin: "0 0 -10px 20px",
   },
+  inputStyle: {
+    backgroundColor: "#f7f7f7",
+    width: "229px",
+  },
+  btnClass: {
+    backgroundColor: "#c0f0c9",
+    width: "35px",
+    "&:hover": {
+      backgroundColor: "#478562",
+    },
+  },
+  midSection: {
+    padding: " 50px 0 0 100px",
+  },
+  textBox: {
+    width: "350px",
+  },
+  borderLine: {},
 }));
 
 function AddConnection(props) {
   const classes = useStyles();
-  /* connection infomation state */
+  /* left section state */
   const [name, setName] = useState("");
   const [userPhoto, setUserPhoto] = useState(null);
   const [occupation, setOccupation] = useState("");
@@ -50,10 +78,51 @@ function AddConnection(props) {
   const [instagram, setInstagram] = useState(null);
   const [github, setGithub] = useState(null);
   const [linkedIn, setLinkedIn] = useState(null);
+  /* about states */
+  const [email, setEmail] = useState("");
+  const [addr, setAddr] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [birthday, setBirthday] = useState("");
+  /* notes states */
+  const [noteList, setNoteList] = useState([]);
+  const [noteText, setNoteText] = useState("");
   /* helper states */
   const [photoSrc, setPhotoSrc] = useState(null);
   const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
+  const [option, setOption] = useState(true);
   const myRef = useRef(null);
+
+  /* handle about */
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleAddr = (event) => {
+    setAddr(event.target.value);
+  };
+  const handlePhone = (event) => {
+    setPhone(event.target.value);
+  };
+  const handleCompany = (event) => {
+    setCompany(event.target.value);
+  };
+  const handleBirthday = (event) => {
+    setBirthday(event.target.value);
+  };
+
+  /* handle note */
+  const handleNoteText = (event) => {
+    setNoteText(event.target.value);
+  };
+
+  const handleSubmitNote = () => {
+    if (noteText !== "") {
+      let today = new Date().toISOString().split("T")[0];
+      const data = { note: noteText, date: today };
+      setNoteList(noteList.concat(data));
+      setNoteText("");
+    }
+  };
 
   /* dialog to set social media link */
   const handleLinkClose = () => {
@@ -72,31 +141,85 @@ function AddConnection(props) {
     setVip(!vip);
   };
 
+  const handleAbout = () => {
+    setOption(true);
+  };
+
+  const handleNotes = () => {
+    setOption(false);
+  };
   /* File upload operation */
   const handleFileSelect = (event) => {
     if (event.target.files[0] != null) {
       setUserPhoto(event.target.files[0]);
     }
   };
-
+  /* image preview */
   useEffect(() => {
     if (userPhoto !== null) {
       setPhotoSrc(URL.createObjectURL(userPhoto));
-      const fd = new FormData();
-      fd.append("userPhoto", userPhoto, userPhoto.name);
-      axios
-        .post(`${serverURL}/abc`, fd)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     }
-    return () => {
-      setUserPhoto(null);
-    };
   }, [userPhoto]);
+
+  /* submit connection detail */
+  const submitConnection = () => {
+    const fd = new FormData();
+    fd.append("userPhoto", userPhoto, userPhoto.name);
+    axios
+      .post(`${serverURL}/addPhoto`, fd)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .post(`${serverURL}/addconnection`, {
+        email: email,
+        address: addr,
+        phone: phone,
+        company: company,
+        birthday: birthday,
+        name: name,
+        occupation: occupation,
+        vip: vip,
+        twitter: twitter,
+        instagram: instagram,
+        github: github,
+        linkedIn: linkedIn,
+        notes: noteList,
+      })
+      .then((res) => {
+        console.log(res.data);
+        resetAll();
+        props.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const resetAll = () => {
+    setName("");
+    setUserPhoto(null);
+    setOccupation("");
+    setVip(false);
+    setTwitter(null);
+    setInstagram(null);
+    setGithub(null);
+    setLinkedIn(null);
+    setEmail("");
+    setAddr("");
+    setPhone("");
+    setCompany("");
+    setBirthday("");
+    setNoteList([]);
+    setNoteText("");
+    setPhotoSrc(null);
+    setLinkOpen([false, false, false, false]);
+    setOption(true);
+  };
 
   return (
     <Dialog open={props.open} onClose={props.onClose}>
@@ -293,15 +416,215 @@ function AddConnection(props) {
             </Grid>
             {/* bottom section */}
             <Grid item className={classes.bottomStyle}>
-              <Button classes={{ root: classes.btnColor }} variant="contained">
+              <Button
+                classes={{ root: classes.btnColor }}
+                variant="contained"
+                onClick={submitConnection}
+              >
                 Add
               </Button>
             </Grid>
           </Grid>
           {/* middle section */}
-          <Grid item container direction="column" xs={7}></Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            xs={7}
+            className={classes.midSection}
+          >
+            {/* top sectopm */}
+            <Grid item container direction="row">
+              {/* about */}
+              <Grid item xs={9}>
+                <Typography
+                  variant="h6"
+                  className={classes.cursorStyle}
+                  onClick={handleAbout}
+                >
+                  About
+                </Typography>
+              </Grid>
+              {/* shared task */}
+              {/* <Grid item> </Grid> */}
+              {/* Notes */}
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  className={classes.cursorStyle}
+                  onClick={handleNotes}
+                >
+                  Notes
+                </Typography>
+              </Grid>
+            </Grid>
+            {/* divider line */}
+            <Grid item style={{ width: "377px" }}>
+              <hr className={classes.solidLine} />
+            </Grid>
+            {/* bottom section */}
+            {option ? (
+              /* about component */
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingTop: "50px" }}
+              >
+                {/* name */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Name</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={name}
+                      onChange={handleName}
+                    />
+                  </Grid>
+                </Grid>
+                {/* email */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Email</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="email"
+                      value={email}
+                      onChange={handleEmail}
+                    />
+                  </Grid>
+                </Grid>
+                {/* Address */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Address </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={addr}
+                      onChange={handleAddr}
+                    />
+                  </Grid>
+                </Grid>
+                {/* phone */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Phone </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="tel"
+                      value={phone}
+                      onChange={handlePhone}
+                    />
+                  </Grid>
+                </Grid>
+                {/* company */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Company </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={company}
+                      onChange={handleCompany}
+                    />
+                  </Grid>
+                </Grid>
+                {/* birthday */}
+                <Grid item container direction="row" alignItems="center">
+                  <Grid item xs={4}>
+                    <Typography> Birthday </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="date"
+                      vaule={birthday}
+                      onChange={handleBirthday}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : (
+              /* notes component */
+              <Grid item container direction="column">
+                <Typography
+                  style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
+                >
+                  Add note
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  minRows={2}
+                  multiline
+                  className={classes.textBox}
+                  value={noteText}
+                  onChange={handleNoteText}
+                />
+                <Button
+                  variant="contained"
+                  classes={{ contained: classes.btnClass }}
+                  onClick={handleSubmitNote}
+                >
+                  SAVE
+                </Button>
+                <div>
+                  {noteList === []
+                    ? null
+                    : noteList.map((oneNote) => {
+                        const index = noteList.indexOf(oneNote);
+
+                        return (
+                          <NoteField
+                            nodeValue={oneNote}
+                            classes={classes}
+                            update={setNoteList}
+                            onDelete={() => {
+                              setNoteList(
+                                noteList.filter(
+                                  (oneMember) => oneMember !== oneNote
+                                )
+                              );
+                            }}
+                            list={noteList}
+                            key={index}
+                          />
+                        );
+                      })}
+                </div>
+              </Grid>
+            )}
+          </Grid>
           {/* right section */}
-          <Grid item xs={1}></Grid>
+          <Grid item xs={1}>
+            <CloseIcon
+              onClick={() => {
+                props.onClose();
+              }}
+              fontSize="large"
+              style={{ paddingLeft: "40px" }}
+            />
+          </Grid>
         </Grid>
       </div>
     </Dialog>
@@ -309,3 +632,47 @@ function AddConnection(props) {
 }
 
 export default AddConnection;
+
+const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
+  const [text, setText] = useState(nodeValue.note);
+
+  const handleDelte = () => {
+    onDelete();
+  };
+
+  const updateNote = (event) => {
+    setText(event.target.value);
+  };
+
+  const hanldeUpdate = () => {
+    let today = new Date().toISOString().split("T")[0];
+    const data = { note: text, date: today };
+    const newList = list
+      .concat(data)
+      .filter((oneMember) => oneMember !== nodeValue);
+    update(newList);
+  };
+  return (
+    <>
+      <TextField
+        value={text}
+        variant="outlined"
+        multiline
+        onChange={updateNote}
+        className={classes.textBox}
+      />
+      <Grid container direction="row">
+        <Grid item>
+          <Typography variant="caption">{nodeValue.date}</Typography>
+        </Grid>
+
+        <Button variant="text" onClick={handleDelte} style={{ padding: "0" }}>
+          <Typography variant="caption"> Delete </Typography>
+        </Button>
+        <Button variant="text" onClick={hanldeUpdate} style={{ padding: "0" }}>
+          <Typography variant="caption"> save change</Typography>
+        </Button>
+      </Grid>
+    </>
+  );
+};
