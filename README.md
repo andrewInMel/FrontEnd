@@ -5,6 +5,7 @@
 This is the front end repository for the IT Project (COMP30022) subject. This is a personal CRM (customer relationship manager) called Connectd, created with React, Django, and MongoDB.
 
 Backend repository is located at: **https://github.com/Andrew-Liu-mel/COMP30022**
+
 This project is documented at: **https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview**
 
 ## Deployment
