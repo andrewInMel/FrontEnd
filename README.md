@@ -1,4 +1,4 @@
-# Connectd Frontend
+# COMP30022 IT Project (Connectd) Frontend
 
 ## Introduction
 
