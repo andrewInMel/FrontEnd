@@ -8,6 +8,23 @@ Backend repository is located at: **https://github.com/Andrew-Liu-mel/COMP30022*
 
 This project is documented at: **https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview**
 
+## Table of contents
+
+- [Team Members](#team-members)
+- [Deployment](#deployment)
+- [To run](#to-run)
+- [Technologies](#technologies)
+
+## Team Members
+
+| Name           |
+| :------------  |
+| Alexander Cain |
+| Han Liu        |
+| David Fletcher  |
+| Jackson Hu     |
+| Tymara Metcalf |
+
 ## Deployment
 
 Hosted on heroku: https://connectd-front.herokuapp.com/
