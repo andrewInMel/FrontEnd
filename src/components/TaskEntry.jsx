@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
   },
   colorPrimary: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+    backgroundColor:"#DAE7E0"
+      
   },
   myBar: {
     borderRadius: 5,
     backgroundColor: (myProps) =>
-      myProps.myProgress !== 100 ? "primary" : "#fa3751",
+      myProps.myProgress !== 100 ? "#478562" : "#C91C00",
   },
   progressPosition: {
     paddingBottom: "10px",
@@ -102,8 +102,7 @@ export default function TaskEntry({ task, index, style }) {
         className={classes.progressPosition}
         xs={3}
       >
-        <Grid item container direction="row" justifyContent="space-between">
-          <Grid item>{oneTask.start}</Grid>
+       <Grid item container direction="row" justifyContent="flex-end">
           <Grid item>{oneTask.due}</Grid>
         </Grid>
         <Grid item>
@@ -116,6 +115,9 @@ export default function TaskEntry({ task, index, style }) {
               colorPrimary: classes.colorPrimary,
             }}
           />
+        </Grid>
+         <Grid item container direction="row" justifyContent="flex-start">
+          <Grid item>{oneTask.start}</Grid>
         </Grid>
       </Grid>
       {/* actions */}

@@ -9,8 +9,8 @@ import { Typography, Grid } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
-    height: "35px",
-    padding: "0 33px 0 16px",
+    height: "50px",
+    padding: "20px 33px 0 16px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
@@ -98,9 +98,9 @@ const ListHeader = (props) => {
         <Grid item xs={2}>
           <Typography> LOCATION </Typography>
         </Grid>
-        {/* task */}
+        {/* address */}
         <Grid item xs={1}>
-          <Typography> TASK </Typography>
+          <Typography> ADDRESS </Typography>
         </Grid>
         {/* vip */}
         <Grid item xs={1}>

@@ -11,8 +11,12 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Button from "@material-ui/core/Button";
 import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
+  formGapStyle: {
+    paddingBottom: "10px",
+  },
   cursorStyle: {
     cursor: "pointer",
   },
@@ -21,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     borderLeft: "none",
     borderRight: "none",
-    margin: "-1px 0 0 0",
+    margin: "-3px 0 0 0",
   },
   rootStyle: {
     width: "900px",
@@ -42,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "50px",
   },
   btnColor: {
-    backgroundColor: "#c0f0c9",
+    backgroundColor: "#478562",
+    "&:hover": {
+      backgroundColor: "#478562",}
   },
   bottomStyle: {
     margin: "0 0 -10px 20px",
@@ -52,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
     width: "229px",
   },
   btnClass: {
-    backgroundColor: "#c0f0c9",
+    backgroundColor: "#4F7E83;",
+    margin: "10px 0 10px 285px",
     width: "35px",
     "&:hover": {
       backgroundColor: "#478562",
@@ -163,6 +170,7 @@ function AddConnection(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
+    if (userPhoto !== null){
     const fd = new FormData();
     fd.append("userPhoto", userPhoto, userPhoto.name);
     axios
@@ -173,6 +181,7 @@ function AddConnection(props) {
       .catch((error) => {
         console.log(error);
       });
+    }
 
     axios
       .post(`${serverURL}/addconnection`, {
@@ -261,14 +270,6 @@ function AddConnection(props) {
                     onChange={handleName}
                     InputProps={{ disableUnderline: true }}
                     placeholder="New Contact"
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    value={occupation}
-                    onChange={handleOccupation}
-                    InputProps={{ disableUnderline: true }}
-                    placeholder="Occupation"
                   />
                 </Grid>
                 <Grid item container alignItems="center">
@@ -433,7 +434,7 @@ function AddConnection(props) {
             xs={7}
             className={classes.midSection}
           >
-            {/* top sectopm */}
+            {/* top secton */}
             <Grid item container direction="row">
               {/* about */}
               <Grid item xs={9}>
@@ -441,6 +442,14 @@ function AddConnection(props) {
                   variant="h6"
                   className={classes.cursorStyle}
                   onClick={handleAbout}
+                  style={
+                    option
+                    ? {
+                      width: "65px",
+                      borderBottom: "6px solid #478562",
+                    }
+                    : null
+                  }
                 >
                   About
                 </Typography>
@@ -453,6 +462,13 @@ function AddConnection(props) {
                   variant="h6"
                   className={classes.cursorStyle}
                   onClick={handleNotes}
+                  style={
+                    option? null
+                    : {
+                      width: "65px",
+                      borderBottom: "6px solid #478562",
+                    }
+                  }
                 >
                   Notes
                 </Typography>
@@ -472,7 +488,7 @@ function AddConnection(props) {
                 style={{ paddingTop: "50px" }}
               >
                 {/* name */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Name</Typography>
                   </Grid>
@@ -485,9 +501,24 @@ function AddConnection(props) {
                       onChange={handleName}
                     />
                   </Grid>
+                  </Grid>
+                  {/* occupation*/}
+                  <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                  <Grid item xs={4}>
+                    <Typography> Occupation</Typography>
+                  </Grid>
+                   <Grid item>
+                  <TextField
+                    variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={name}
+                      onChange={handleOccupation}
+                  />
+                </Grid>
                 </Grid>
                 {/* email */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Email</Typography>
                   </Grid>
@@ -503,7 +534,7 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* Address */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Address </Typography>
                   </Grid>
@@ -518,7 +549,7 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* phone */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Phone </Typography>
                   </Grid>
@@ -534,7 +565,7 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* company */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Company </Typography>
                   </Grid>
@@ -549,7 +580,7 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* birthday */}
-                <Grid item container direction="row" alignItems="center">
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
                   <Grid item xs={4}>
                     <Typography> Birthday </Typography>
                   </Grid>
@@ -562,6 +593,12 @@ function AddConnection(props) {
                       vaule={birthday}
                       onChange={handleBirthday}
                     />
+                  </Grid>
+                </Grid>
+                {/* tag */}
+                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                  <Grid item xs={4}>
+                    <Typography> Tags </Typography>
                   </Grid>
                 </Grid>
               </Grid>

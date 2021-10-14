@@ -10,7 +10,8 @@ import { Typography, Grid } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
-    height: "35px",
+    height: "50px",
+    padding: "20px 33px 0 16px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
