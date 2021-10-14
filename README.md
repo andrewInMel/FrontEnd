@@ -16,16 +16,16 @@ Hosted on heroku: https://connectd-front.herokuapp.com/
 
 Steps:
 1. Pull the backend repository from GitHub
-  * You may use command ```git clone <repo>``` if you haven’t cloned the repository before
-  * Or simply run ```git pull``` to fetch the latest commit
+   * You may use command ```git clone <repo>``` if you haven’t cloned the repository before
+   * Or simply run ```git pull``` to fetch the latest commit
 2. Make sure you’ve already installed yarn
 3. Open a terminal window at the folder root directory
-  * Check current path using ```pwd``` command
-  * You should see a directory path like .../COMP30022-Frontend
+   * Check current path using ```pwd``` command
+   * You should see a directory path like .../COMP30022-Frontend
 4. Run command ```yarn install``` to install all dependencies required for frontend
 5. Run command ```yarn start``` to run yarn frontend server, 
-  * By default, server will run on port 3000
-  * Correctly running server will look like should automatically open your browser.
+   * By default, server will run on port 3000
+   * Correctly running server will look like should automatically open your browser.
   
 ## Technologies
 
