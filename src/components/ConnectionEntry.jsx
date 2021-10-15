@@ -5,7 +5,7 @@ import VIP from "../imgs/Vip.svg";
 
 export default function ConnectionEntry(props) {
   const oneConnection = props.connection;
-  const classes = useStyles();
+  //const classes = useStyles(); Unused code + No useStyles defined -> Wasn't confident in deleting
 
   return (
     <Grid container direction="row" alignItems="center">

@@ -27,7 +27,7 @@ function EditConnection(props) {
   const [birthday, setBirthday] = useState(data.birthday);
   const [description, setDescription] = useState(data.description);
   const [vip, setVip] = useState(data.Vip);
-  let id = localStorage.getItem("userId");
+  //let id = localStorage.getItem("userId"); // - Unsure what the point of this is? Have already set id and localStorage isn't used
   function clearInfo() {
     setEmailAddress("");
     setFirstName("");
