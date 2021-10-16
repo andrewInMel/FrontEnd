@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import logo from "../../imgs/Logo.svg";
 import { Link } from "react-router-dom";
 import { Typography, Container, Grid, Button } from "@material-ui/core";

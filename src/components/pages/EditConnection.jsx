@@ -195,7 +195,7 @@ function EditConnection(props) {
     // }
 
     axios
-      .patch(`${serverURL}/api/connections/${id}`, {
+      .patch(`${serverURL}/api/connections/${id}/`, {
         userId: data.userId,
         emailAddress: email,
         location: addr,
