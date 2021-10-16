@@ -14,7 +14,9 @@ export default function ConnectionEntry(props) {
       {/* Connection name & title*/}
       <Grid item container direction="column" xs={3}>
         <Grid item>
-          <Typography>{oneConnection.name}</Typography>
+          <Typography>
+            {oneConnection.firstName} {oneConnection.lastName}
+          </Typography>
         </Grid>
         <Grid item>
           <Typography>{oneConnection.title}</Typography>
@@ -27,15 +29,17 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* location */}
       <Grid item xs={2}>
-        <Typography> {oneConnection.location} </Typography>
+        <Typography> {oneConnection.address} </Typography>
       </Grid>
       {/* task */}
       <Grid item xs={1}>
-        <Typography> {oneConnection.task} </Typography>
+        <Typography>
+          {oneConnection.tasks === null ? 0 : oneConnection.tasks.length}
+        </Typography>
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>
-        {oneConnection.vip ? <img src={VIP} alt="" /> : null}
+        {oneConnection.Vip ? <img src={VIP} alt="" /> : null}
       </Grid>
       {/* actions */}
       <Grid item xs={1}>

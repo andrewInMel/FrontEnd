@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../imgs/Logo.svg";
 import { Link } from "react-router-dom";
 import { Typography, Container, Grid, Button } from "@material-ui/core";
@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Image from "../../imgs/Banana.svg";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
   background: {
     minHeight: window.innerHeight,
     backgroundImage: `url(${Image})`,
@@ -39,10 +39,11 @@ const useStyles = makeStyles({
       backgroundColor: "#de7525",
     },
   },
-});
+}));
 
 function Greating() {
   const classes = useStyles();
+
   return (
     <div className={classes.background}>
       <div>

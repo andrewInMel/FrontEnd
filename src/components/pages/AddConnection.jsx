@@ -11,7 +11,6 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Button from "@material-ui/core/Button";
 import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
-import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rootStyle: {
     width: "900px",
-    height: "600px",
+    height: "650px",
     padding: "20px 30px 0 50px",
   },
   large: {
@@ -48,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   btnColor: {
     backgroundColor: "#478562",
     "&:hover": {
-      backgroundColor: "#478562",}
+      backgroundColor: "#478562",
+    },
   },
   bottomStyle: {
     margin: "0 0 -10px 20px",
@@ -77,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 function AddConnection(props) {
   const classes = useStyles();
   /* left section state */
-  const [name, setName] = useState("");
   const [userPhoto, setUserPhoto] = useState(null);
   const [occupation, setOccupation] = useState("");
   const [vip, setVip] = useState(false);
@@ -86,11 +85,13 @@ function AddConnection(props) {
   const [github, setGithub] = useState(null);
   const [linkedIn, setLinkedIn] = useState(null);
   /* about states */
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [addr, setAddr] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [lastName, setLastName] = useState("");
   /* notes states */
   const [noteList, setNoteList] = useState([]);
   const [noteText, setNoteText] = useState("");
@@ -116,10 +117,16 @@ function AddConnection(props) {
   const handleBirthday = (event) => {
     setBirthday(event.target.value);
   };
+  const handleLastName = (event) => {
+    setLastName(event.target.value);
+  };
 
   /* handle note */
   const handleNoteText = (event) => {
     setNoteText(event.target.value);
+  };
+  const handleDeleteNote = (oneNote) => () => {
+    setNoteList(noteList.filter((oneMember) => oneMember !== oneNote));
   };
 
   const handleSubmitNote = () => {
@@ -170,29 +177,31 @@ function AddConnection(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
-    if (userPhoto !== null){
-    const fd = new FormData();
-    fd.append("userPhoto", userPhoto, userPhoto.name);
-    axios
-      .post(`${serverURL}/addPhoto`, fd)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (userPhoto !== null) {
+      const fd = new FormData();
+      fd.append("userPhoto", userPhoto, userPhoto.name);
+      axios
+        .post(`${serverURL}/addPhoto`, fd)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     axios
-      .post(`${serverURL}/addconnection`, {
-        email: email,
+      .post(`${serverURL}/api/connections/`, {
+        userId: sessionStorage.getItem("id"),
+        emailAddress: email,
         address: addr,
-        phone: phone,
+        phoneNumber: phone,
         company: company,
         birthday: birthday,
-        name: name,
+        firstName: name,
+        lastName: lastName,
         occupation: occupation,
-        vip: vip,
+        Vip: vip,
         twitter: twitter,
         instagram: instagram,
         github: github,
@@ -250,7 +259,7 @@ function AddConnection(props) {
                 <Avatar
                   alt="user photo"
                   src={photoSrc}
-                  className={classes.large}
+                  className={`${classes.large} ${classes.cursorStyle}`}
                   onClick={() => myRef.current.click()}
                 >
                   <Typography align="center">Upload Your Image</Typography>
@@ -444,11 +453,11 @@ function AddConnection(props) {
                   onClick={handleAbout}
                   style={
                     option
-                    ? {
-                      width: "65px",
-                      borderBottom: "6px solid #478562",
-                    }
-                    : null
+                      ? {
+                          width: "65px",
+                          borderBottom: "6px solid #478562",
+                        }
+                      : null
                   }
                 >
                   About
@@ -463,11 +472,12 @@ function AddConnection(props) {
                   className={classes.cursorStyle}
                   onClick={handleNotes}
                   style={
-                    option? null
-                    : {
-                      width: "65px",
-                      borderBottom: "6px solid #478562",
-                    }
+                    option
+                      ? null
+                      : {
+                          width: "59px",
+                          borderBottom: "6px solid #478562",
+                        }
                   }
                 >
                   Notes
@@ -488,9 +498,15 @@ function AddConnection(props) {
                 style={{ paddingTop: "50px" }}
               >
                 {/* name */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
-                    <Typography> Name</Typography>
+                    <Typography> First Name</Typography>
                   </Grid>
                   <Grid item>
                     <TextField
@@ -501,24 +517,56 @@ function AddConnection(props) {
                       onChange={handleName}
                     />
                   </Grid>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Last Name</Typography>
                   </Grid>
-                  {/* occupation*/}
-                  <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={lastName}
+                      onChange={handleLastName}
+                    />
+                  </Grid>
+                </Grid>
+                {/* occupation */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Occupation</Typography>
                   </Grid>
-                   <Grid item>
-                  <TextField
-                    variant="outlined"
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
                       size="small"
                       classes={{ root: classes.inputStyle }}
-                      value={name}
+                      value={occupation}
                       onChange={handleOccupation}
-                  />
-                </Grid>
+                    />
+                  </Grid>
                 </Grid>
                 {/* email */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Email</Typography>
                   </Grid>
@@ -534,7 +582,13 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* Address */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Address </Typography>
                   </Grid>
@@ -549,7 +603,13 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* phone */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Phone </Typography>
                   </Grid>
@@ -565,7 +625,13 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* company */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Company </Typography>
                   </Grid>
@@ -580,7 +646,13 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* birthday */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Birthday </Typography>
                   </Grid>
@@ -596,11 +668,17 @@ function AddConnection(props) {
                   </Grid>
                 </Grid>
                 {/* tag */}
-                <Grid item container direction="row" alignItems="center" className={classes.formGapStyle}>
+                {/* <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
                   <Grid item xs={4}>
                     <Typography> Tags </Typography>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Grid>
             ) : (
               /* notes component */
@@ -625,7 +703,7 @@ function AddConnection(props) {
                 >
                   SAVE
                 </Button>
-                <div>
+                <div style={{ paddingBottom: "0 20px" }}>
                   {noteList === []
                     ? null
                     : noteList.map((oneNote) => {
@@ -636,13 +714,7 @@ function AddConnection(props) {
                             nodeValue={oneNote}
                             classes={classes}
                             update={setNoteList}
-                            onDelete={() => {
-                              setNoteList(
-                                noteList.filter(
-                                  (oneMember) => oneMember !== oneNote
-                                )
-                              );
-                            }}
+                            onDelete={handleDeleteNote(oneNote)}
                             list={noteList}
                             key={index}
                           />
@@ -698,12 +770,16 @@ const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
         onChange={updateNote}
         className={classes.textBox}
       />
-      <Grid container direction="row">
-        <Grid item>
+      <Grid container direction="row" style={{ paddingBottom: "20px" }}>
+        <Grid item xs={5}>
           <Typography variant="caption">{nodeValue.date}</Typography>
         </Grid>
 
-        <Button variant="text" onClick={handleDelte} style={{ padding: "0" }}>
+        <Button
+          variant="text"
+          onClick={handleDelte}
+          style={{ padding: "0", marginLeft: "25px" }}
+        >
           <Typography variant="caption"> Delete </Typography>
         </Button>
         <Button variant="text" onClick={hanldeUpdate} style={{ padding: "0" }}>

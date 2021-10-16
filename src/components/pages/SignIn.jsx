@@ -50,7 +50,7 @@ const styles = {
   },
 };
 
-const serverURL = "https://backend-connects.herokuapp.com";
+const serverURL = "https://connectdcrm.herokuapp.com";
 
 class SignIn extends Component {
   constructor(props) {
@@ -71,11 +71,11 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post(`${serverURL}/auth/login`, this.state)
+    Axios.post(`${serverURL}/auth/login/`, this.state)
       .then((res) => {
-        if (res.data.token) {
+        if (res.data.token && res.data.user_id && res.data.expiry) {
           sessionStorage.setItem("status", true);
-          sessionStorage.setItem("id", res.data.userId);
+          sessionStorage.setItem("id", res.data.user_id);
           sessionStorage.setItem(
             "navStatus",
             JSON.stringify([true, false, false])

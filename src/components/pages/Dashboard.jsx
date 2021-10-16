@@ -41,6 +41,11 @@ function DashBd() {
       Axios.get(`${serverURL}/api/connections?userId=${userId}`)
         .then((res) => {
           setConnectionData(res.data);
+          setClientData(
+            res.data.filter(
+              (oneConnection) => oneConnection.selfId === oneConnection.userId
+            )[0]
+          );
         })
         .catch((error) => {
           console.log(error);
@@ -49,14 +54,6 @@ function DashBd() {
       Axios.get(`${serverURL}/api/tasks?userId=${userId}`)
         .then((response) => {
           setTaskData(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      /* fetch user's profile */
-      Axios.get(`${serverURL}/api/users/${userId}`)
-        .then((userRes) => {
-          setClientData(userRes.data);
         })
         .catch((error) => {
           console.log(error);

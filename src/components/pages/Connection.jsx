@@ -57,7 +57,7 @@ function Connection(props) {
   useEffect(() => {
     window.addEventListener("resize", delay(handleResize, 500));
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", delay);
     };
   }, []);
   return (
@@ -100,7 +100,7 @@ const ListHeader = (props) => {
         </Grid>
         {/* address */}
         <Grid item xs={1}>
-          <Typography> ADDRESS </Typography>
+          <Typography> TASK </Typography>
         </Grid>
         {/* vip */}
         <Grid item xs={1}>

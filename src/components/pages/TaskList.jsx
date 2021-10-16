@@ -53,7 +53,7 @@ function TaskList(props) {
   useEffect(() => {
     window.addEventListener("resize", delay(handleResize, 500));
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", delay);
     };
   }, []);
 
