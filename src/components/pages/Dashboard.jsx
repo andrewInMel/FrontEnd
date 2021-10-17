@@ -25,6 +25,8 @@ const useStyles = makeStyles({
   },
 });
 
+let allConnections = [];
+
 function DashBd() {
   const classes = useStyles();
   const [connectionData, setConnectionData] = useState(null);
@@ -37,10 +39,15 @@ function DashBd() {
   /* fetch user's data */
   useEffect(() => {
     if (loggedIn) {
-      /* fetch user's connection data */
+      /* fetch user's own profile & connections' data */
       Axios.get(`${serverURL}/api/connections?userId=${userId}`)
         .then((res) => {
-          setConnectionData(res.data);
+          allConnections = res.data;
+          setConnectionData(
+            res.data.filter(
+              (oneConnection) => oneConnection.selfId !== oneConnection.userId
+            )
+          );
           setClientData(
             res.data.filter(
               (oneConnection) => oneConnection.selfId === oneConnection.userId
@@ -68,7 +75,6 @@ function DashBd() {
       setConnectionData(null);
       setTaskData(null);
       setClientData(null);
-      setLoggedIn(null);
     };
   }, [userId, loggedIn]);
 
@@ -144,3 +150,4 @@ function DashBd() {
 }
 
 export default DashBd;
+export { allConnections };

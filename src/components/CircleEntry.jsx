@@ -30,7 +30,9 @@ export default function CircleEntry(props) {
       {/* name & job title */}
       <Grid item xs={9} container direction="column" justifyContent="center">
         <Grid item>
-          <Typography variant="body2">{person.name}</Typography>
+          <Typography variant="body2">
+            {person.firstName} {person.lastName}
+          </Typography>
         </Grid>
         <Grid item>
           <Typography
@@ -39,7 +41,7 @@ export default function CircleEntry(props) {
               body2: classes.changeColor,
             }}
           >
-            {person.title}
+            {person.occupation}
           </Typography>
         </Grid>
       </Grid>

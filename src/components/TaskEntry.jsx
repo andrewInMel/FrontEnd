@@ -1,6 +1,7 @@
-import { Typography, Grid, Avatar } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import React from "react";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
+// import Avatar from '@material-ui/core/Avatar';
+// import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
@@ -21,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
   },
   colorPrimary: {
-    backgroundColor:"#DAE7E0"
-      
+    backgroundColor: "#DAE7E0",
   },
   myBar: {
     borderRadius: 5,
@@ -39,8 +39,8 @@ export default function TaskEntry({ task, index, style }) {
   /* priority img path */
   const path = `/imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
-  const startTime = new Date(oneTask.start).getTime();
-  const dueTime = new Date(oneTask.due).getTime();
+  const startTime = new Date(oneTask.startDate).getTime();
+  const dueTime = new Date(oneTask.endDate).getTime();
   const currentTime = new Date().getTime();
   const percentage = Math.round(
     (100 * (currentTime - startTime)) / (dueTime - startTime)
@@ -71,12 +71,12 @@ export default function TaskEntry({ task, index, style }) {
       >
         {/* task name */}
         <Grid item>
-          <Typography>{oneTask.taskName}</Typography>
+          <Typography>{oneTask.name}</Typography>
         </Grid>
         {/* member photos */}
-        <Grid item>
+        {/* <Grid item>
           <AvatarGroup max={5}>
-            {oneTask.memberPhoto.map((person) => (
+            {oneTask.connections.map((person) => (
               <Avatar
                 key={person.id}
                 alt={person.name}
@@ -86,7 +86,7 @@ export default function TaskEntry({ task, index, style }) {
               />
             ))}
           </AvatarGroup>
-        </Grid>
+        </Grid> */}
       </Grid>
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>
@@ -102,8 +102,8 @@ export default function TaskEntry({ task, index, style }) {
         className={classes.progressPosition}
         xs={3}
       >
-       <Grid item container direction="row" justifyContent="flex-end">
-          <Grid item>{oneTask.due}</Grid>
+        <Grid item container direction="row" justifyContent="flex-end">
+          <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>
           <LinearProgress
@@ -116,8 +116,8 @@ export default function TaskEntry({ task, index, style }) {
             }}
           />
         </Grid>
-         <Grid item container direction="row" justifyContent="flex-start">
-          <Grid item>{oneTask.start}</Grid>
+        <Grid item container direction="row" justifyContent="flex-start">
+          <Grid item>{oneTask.startDate}</Grid>
         </Grid>
       </Grid>
       {/* actions */}

@@ -88,14 +88,14 @@ function Profile(props) {
   /* about states */
   const [name, setName] = useState(data.firstName);
   const [email, setEmail] = useState(data.emailAddress);
-  const [addr, setAddr] = useState(data.location);
-  const [phone, setPhone] = useState(data.address);
+  const [addr, setAddr] = useState(data.address);
+  const [phone, setPhone] = useState(data.phoneNumber);
   const [company, setCompany] = useState(data.company);
   const [birthday, setBirthday] = useState(data.birthday);
   const [lastName, setLastName] = useState(data.lastName);
   /* notes states */
   const [noteList, setNoteList] = useState(
-    typeof data.notes === "string" ? [] : data.notes
+    data.notes == null ? [] : data.notes
   );
   const [noteText, setNoteText] = useState("");
   /* helper states */
@@ -195,10 +195,11 @@ function Profile(props) {
     // }
 
     axios
-      .patch(`${serverURL}/api/connections/${id}`, {
-        userId: data.userId,
+      .patch(`${serverURL}/api/connections/${id}/`, {
+        userId: sessionStorage.getItem("id"),
+        selfId: sessionStorage.getItem("id"),
         emailAddress: email,
-        location: addr,
+        address: addr,
         phoneNumber: phone,
         company: company,
         birthday: birthday,
@@ -212,35 +213,12 @@ function Profile(props) {
         linkedIn: linkedIn,
         notes: noteList,
       })
-      .then((res) => {
-        console.log(res.data);
-        resetAll();
+      .then(() => {
         props.onClose();
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const resetAll = () => {
-    setName("");
-    setUserPhoto(null);
-    setOccupation("");
-    setVip(false);
-    setTwitter(null);
-    setInstagram(null);
-    setGithub(null);
-    setLinkedIn(null);
-    setEmail("");
-    setAddr("");
-    setPhone("");
-    setCompany("");
-    setBirthday("");
-    setNoteList([]);
-    setNoteText("");
-    setPhotoSrc(null);
-    setLinkOpen([false, false, false, false]);
-    setOption(true);
   };
 
   return (
@@ -666,7 +644,7 @@ function Profile(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       type="date"
-                      vaule={birthday}
+                      value={birthday}
                       onChange={handleBirthday}
                     />
                   </Grid>

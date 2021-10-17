@@ -24,12 +24,13 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     borderLeft: "none",
     borderRight: "none",
-    margin: "-3px 0 0 0",
+    margin: "-1px 0 0 0",
   },
   rootStyle: {
-    width: "900px",
-    height: "650px",
+    width: "960px",
+    height: "600px",
     padding: "20px 30px 0 50px",
+    backgroundColor: "#f7faf9",
   },
   large: {
     width: theme.spacing(16),
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bottomStyle: {
-    margin: "0 0 -10px 20px",
+    margin: "0 0 -20px 20px",
   },
   inputStyle: {
     backgroundColor: "#f7f7f7",
@@ -71,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     width: "350px",
   },
-  borderLine: {},
 }));
 
 function AddConnection(props) {
@@ -662,7 +662,7 @@ function AddConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       type="date"
-                      vaule={birthday}
+                      value={birthday}
                       onChange={handleBirthday}
                     />
                   </Grid>

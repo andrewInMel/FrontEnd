@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
     height: "50px",
-    padding: "20px 33px 0 16px",
+    padding: "20px 33px 0 20px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
@@ -94,11 +94,11 @@ const ListHeader = (props) => {
         <Grid item xs={3}>
           <Typography> COMPANY </Typography>
         </Grid>
-        {/* location */}
+        {/* ADDRESS */}
         <Grid item xs={2}>
-          <Typography> LOCATION </Typography>
+          <Typography> ADDRESS </Typography>
         </Grid>
-        {/* address */}
+        {/* TASK */}
         <Grid item xs={1}>
           <Typography> TASK </Typography>
         </Grid>

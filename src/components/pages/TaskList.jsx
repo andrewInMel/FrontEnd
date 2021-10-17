@@ -81,7 +81,7 @@ const TaskListHeader = (props) => {
     <div className={props.headerClass.headerStyle}>
       <Grid container direction="row">
         {/* taks name */}
-        <Grid item xs={4} style={{ paddingLeft: "11%" }}>
+        <Grid item xs={4} style={{ paddingLeft: "8.5%" }}>
           <Typography>TASK</Typography>
         </Grid>
         {/* priority */}
@@ -89,7 +89,7 @@ const TaskListHeader = (props) => {
           <Typography> PRIORITY </Typography>
         </Grid>
         {/* progress */}
-        <Grid item xs={3} style={{ marginLeft: "-1%" }}>
+        <Grid item xs={3} style={{ paddingLeft: "1%" }}>
           <Typography> PROGRESS </Typography>
         </Grid>
         {/* action */}

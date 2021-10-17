@@ -87,6 +87,7 @@ class SignIn extends Component {
       })
       .catch((error) => {
         console.log(error);
+        alert("Login failed, please check your username/password");
       });
   };
 
