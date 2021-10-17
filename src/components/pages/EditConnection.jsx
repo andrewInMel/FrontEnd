@@ -60,10 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
   btnClass: {
     backgroundColor: "#4F7E83;",
-    margin: "10px 0 10px 285px",
-    width: "35px",
+    margin: "10px 0 10px 260px",
+    width: "90px",
+    paddingLeft: "0",
+    paddingRight: "0",
     "&:hover": {
-      backgroundColor: "#478562",
+      backgroundColor: "#4F7E83",
     },
   },
   midSection: {
@@ -132,7 +134,6 @@ function EditConnection(props) {
   const handleDeleteNote = (oneNote) => () => {
     setNoteList(noteList.filter((oneMember) => oneMember !== oneNote));
   };
-
   const handleSubmitNote = () => {
     if (noteText !== "") {
       let today = new Date().toISOString().split("T")[0];
@@ -166,6 +167,11 @@ function EditConnection(props) {
   const handleNotes = () => {
     setOption(false);
   };
+  /* handle close dialog */
+  const handleClose = () => {
+    props.onClose();
+    resetAll();
+  };
   /* File upload operation */
   const handleFileSelect = (event) => {
     if (event.target.files[0] != null) {
@@ -181,43 +187,66 @@ function EditConnection(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
-    // if (userPhoto !== null) {
-    //   const fd = new FormData();
-    //   fd.append("userPhoto", userPhoto, userPhoto.name);
-    //   axios
-    //     .post(`${serverURL}/addPhoto`, fd)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
+    if (userPhoto !== null) {
+      const fd = new FormData();
+      fd.append("file", userPhoto);
+      fd.append("upload_preset", "myUpload");
+      axios
+        .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
+        .then((res) => {
+          setPhotoSrc(res.data.secure_url);
+          axios
+            .patch(`${serverURL}/api/connections/${id}/`, {
+              userId: sessionStorage.getItem("id"),
+              emailAddress: email,
+              address: addr,
+              phoneNumber: phone,
+              company: company,
+              birthday: birthday,
+              firstName: name,
+              lastName: lastName,
+              occupation: occupation,
+              Vip: vip,
+              twitter: twitter,
+              instagram: instagram,
+              github: github,
+              linkedIn: linkedIn,
+              notes: noteList,
+              imageSrc: res.data.secure_url,
+            })
+            .then(() => {
+              props.onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
-    axios
-      .patch(`${serverURL}/api/connections/${id}/`, {
-        userId: data.userId,
-        emailAddress: email,
-        address: addr,
-        phoneNumber: phone,
-        company: company,
-        birthday: birthday,
-        firstName: name,
-        lastName: lastName,
-        occupation: occupation,
-        Vip: vip,
-        twitter: twitter,
-        instagram: instagram,
-        github: github,
-        linkedIn: linkedIn,
-        notes: noteList,
-      })
-      .then(() => {
-        props.onClose();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const resetAll = () => {
+    setName(data.firstName);
+    setLastName(data.lastName);
+    setUserPhoto(null);
+    setOccupation(data.occupation);
+    setVip(data.Vip);
+    setTwitter(null);
+    setInstagram(null);
+    setGithub(null);
+    setLinkedIn(null);
+    setEmail(data.emailAddress);
+    setAddr(data.address);
+    setPhone(data.phoneNumber);
+    setCompany(data.company);
+    setBirthday(data.birthday);
+    setNoteList(data.notes == null ? [] : data.notes);
+    setNoteText("");
+    setPhotoSrc(data.imageSrc);
+    setLinkOpen([false, false, false, false]);
+    setOption(true);
   };
 
   return (
@@ -466,7 +495,7 @@ function EditConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "377px" }}>
+            <Grid item style={{ width: "404px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -663,7 +692,12 @@ function EditConnection(props) {
               </Grid>
             ) : (
               /* notes component */
-              <Grid item container direction="column">
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingLeft: "30px" }}
+              >
                 <Typography
                   style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
                 >
@@ -708,11 +742,9 @@ function EditConnection(props) {
           {/* right section */}
           <Grid item xs={1}>
             <CloseIcon
-              onClick={() => {
-                props.onClose();
-              }}
               fontSize="large"
               style={{ paddingLeft: "40px" }}
+              onClick={handleClose}
             />
           </Grid>
         </Grid>

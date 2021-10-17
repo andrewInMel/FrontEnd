@@ -25,7 +25,7 @@ export default function CircleEntry(props) {
     >
       {/* avatar */}
       <Grid item xs={3}>
-        <Avatar key={person.id} alt={person.name} src={person.photoSource} />
+        <Avatar key={person.id} alt={person.name} src={person.imageSrc} />
       </Grid>
       {/* name & job title */}
       <Grid item xs={9} container direction="column" justifyContent="center">

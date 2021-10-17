@@ -1,7 +1,7 @@
 import { Typography, Grid } from "@material-ui/core";
 import React from "react";
-// import Avatar from '@material-ui/core/Avatar';
-// import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import Avatar from "@material-ui/core/Avatar";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
@@ -74,19 +74,19 @@ export default function TaskEntry({ task, index, style }) {
           <Typography>{oneTask.name}</Typography>
         </Grid>
         {/* member photos */}
-        {/* <Grid item>
+        <Grid item>
           <AvatarGroup max={5}>
             {oneTask.connections.map((person) => (
               <Avatar
                 key={person.id}
                 alt={person.name}
-                src={person.photoSource}
+                src={person.imageSrc}
                 className={classes.small}
                 sizes={classes.small}
               />
             ))}
           </AvatarGroup>
-        </Grid> */}
+        </Grid>
       </Grid>
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>

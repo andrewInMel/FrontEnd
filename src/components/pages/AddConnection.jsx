@@ -60,10 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
   btnClass: {
     backgroundColor: "#4F7E83;",
-    margin: "10px 0 10px 285px",
-    width: "35px",
+    margin: "10px 0 10px 260px",
+    width: "90px",
+    paddingLeft: "0",
+    paddingRight: "0",
     "&:hover": {
-      backgroundColor: "#478562",
+      backgroundColor: "#4F7E83",
     },
   },
   midSection: {
@@ -179,47 +181,48 @@ function AddConnection(props) {
   const submitConnection = () => {
     if (userPhoto !== null) {
       const fd = new FormData();
-      fd.append("userPhoto", userPhoto, userPhoto.name);
+      fd.append("file", userPhoto);
+      fd.append("upload_preset", "myUpload");
       axios
-        .post(`${serverURL}/addPhoto`, fd)
+        .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
         .then((res) => {
-          console.log(res.data);
+          setPhotoSrc(res.data.secure_url);
+          axios
+            .post(`${serverURL}/api/connections/`, {
+              userId: sessionStorage.getItem("id"),
+              emailAddress: email,
+              address: addr,
+              phoneNumber: phone,
+              company: company,
+              birthday: birthday,
+              firstName: name,
+              lastName: lastName,
+              occupation: occupation,
+              Vip: vip,
+              twitter: twitter,
+              instagram: instagram,
+              github: github,
+              linkedIn: linkedIn,
+              notes: noteList,
+              imageSrc: res.data.secure_url,
+            })
+            .then(() => {
+              resetAll();
+              props.onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
         });
     }
-
-    axios
-      .post(`${serverURL}/api/connections/`, {
-        userId: sessionStorage.getItem("id"),
-        emailAddress: email,
-        address: addr,
-        phoneNumber: phone,
-        company: company,
-        birthday: birthday,
-        firstName: name,
-        lastName: lastName,
-        occupation: occupation,
-        Vip: vip,
-        twitter: twitter,
-        instagram: instagram,
-        github: github,
-        linkedIn: linkedIn,
-        notes: noteList,
-      })
-      .then((res) => {
-        console.log(res.data);
-        resetAll();
-        props.onClose();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   const resetAll = () => {
     setName("");
+    setLastName("");
     setUserPhoto(null);
     setOccupation("");
     setVip(false);
@@ -485,7 +488,7 @@ function AddConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "377px" }}>
+            <Grid item style={{ width: "404px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -682,7 +685,12 @@ function AddConnection(props) {
               </Grid>
             ) : (
               /* notes component */
-              <Grid item container direction="column">
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingLeft: "30px" }}
+              >
                 <Typography
                   style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
                 >

@@ -60,6 +60,7 @@ function Connection(props) {
       window.removeEventListener("resize", delay);
     };
   }, []);
+
   return (
     <Paper ref={ref} elevation={3}>
       <ListHeader myClasses={classes} />
@@ -100,7 +101,7 @@ const ListHeader = (props) => {
         </Grid>
         {/* TASK */}
         <Grid item xs={1}>
-          <Typography> TASK </Typography>
+          {/* <Typography> TASK </Typography> */}
         </Grid>
         {/* vip */}
         <Grid item xs={1}>

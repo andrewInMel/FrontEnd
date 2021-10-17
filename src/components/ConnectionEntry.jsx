@@ -9,7 +9,7 @@ export default function ConnectionEntry(props) {
     <Grid container direction="row" alignItems="center">
       {/* Connection photos */}
       <Grid item xs={1} style={{ paddingLeft: "3%" }}>
-        <Avatar alt={oneConnection.name} src={oneConnection.photoSource} />
+        <Avatar alt={oneConnection.name} src={oneConnection.imageSrc} />
       </Grid>
       {/* Connection name & title*/}
       <Grid item container direction="column" xs={3}>
@@ -33,9 +33,9 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* task */}
       <Grid item xs={1}>
-        <Typography>
+        {/* <Typography>
           {oneConnection.tasks === null ? 0 : oneConnection.tasks.length}
-        </Typography>
+        </Typography> */}
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>

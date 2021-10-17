@@ -24,12 +24,13 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     borderLeft: "none",
     borderRight: "none",
-    margin: "-3px 0 0 0",
+    margin: "-1px 0 0 0",
   },
   rootStyle: {
-    width: "900px",
-    height: "650px",
+    width: "960px",
+    height: "600px",
     padding: "20px 30px 0 50px",
+    backgroundColor: "#f7faf9",
   },
   large: {
     width: theme.spacing(16),
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   bottomStyle: {
-    margin: "0 0 -10px 20px",
+    margin: "0 0 -20px 20px",
   },
   inputStyle: {
     backgroundColor: "#f7f7f7",
@@ -59,10 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
   btnClass: {
     backgroundColor: "#4F7E83;",
-    margin: "10px 0 10px 285px",
-    width: "35px",
+    margin: "10px 0 10px 260px",
+    width: "90px",
+    paddingLeft: "0",
+    paddingRight: "0",
     "&:hover": {
-      backgroundColor: "#478562",
+      backgroundColor: "#4F7E83",
     },
   },
   midSection: {
@@ -71,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
   textBox: {
     width: "350px",
   },
-  borderLine: {},
 }));
 
 function Profile(props) {
@@ -181,44 +183,67 @@ function Profile(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
-    // if (userPhoto !== null) {
-    //   const fd = new FormData();
-    //   fd.append("userPhoto", userPhoto, userPhoto.name);
-    //   axios
-    //     .post(`${serverURL}/addPhoto`, fd)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
+    if (userPhoto !== null) {
+      const fd = new FormData();
+      fd.append("file", userPhoto);
+      fd.append("upload_preset", "myUpload");
+      axios
+        .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
+        .then((res) => {
+          setPhotoSrc(res.data.secure_url);
+          axios
+            .patch(`${serverURL}/api/connections/${id}/`, {
+              userId: sessionStorage.getItem("id"),
+              selfId: sessionStorage.getItem("id"),
+              emailAddress: email,
+              address: addr,
+              phoneNumber: phone,
+              company: company,
+              birthday: birthday,
+              firstName: name,
+              lastName: lastName,
+              occupation: occupation,
+              Vip: vip,
+              twitter: twitter,
+              instagram: instagram,
+              github: github,
+              linkedIn: linkedIn,
+              notes: noteList,
+              imageSrc: res.data.secure_url,
+            })
+            .then(() => {
+              props.onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
-    axios
-      .patch(`${serverURL}/api/connections/${id}/`, {
-        userId: sessionStorage.getItem("id"),
-        selfId: sessionStorage.getItem("id"),
-        emailAddress: email,
-        address: addr,
-        phoneNumber: phone,
-        company: company,
-        birthday: birthday,
-        firstName: name,
-        lastName: lastName,
-        occupation: occupation,
-        Vip: vip,
-        twitter: twitter,
-        instagram: instagram,
-        github: github,
-        linkedIn: linkedIn,
-        notes: noteList,
-      })
-      .then(() => {
-        props.onClose();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const resetAll = () => {
+    setName(data.firstName);
+    setLastName(data.lastName);
+    setUserPhoto(null);
+    setOccupation(data.occupation);
+    setVip(data.Vip);
+    setTwitter(null);
+    setInstagram(null);
+    setGithub(null);
+    setLinkedIn(null);
+    setEmail(data.emailAddress);
+    setAddr(data.address);
+    setPhone(data.phoneNumber);
+    setCompany(data.company);
+    setBirthday(data.birthday);
+    setNoteList(data.notes == null ? [] : data.notes);
+    setNoteText("");
+    setPhotoSrc(data.imageSrc);
+    setLinkOpen([false, false, false, false]);
+    setOption(true);
   };
 
   return (
@@ -467,7 +492,7 @@ function Profile(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "377px" }}>
+            <Grid item style={{ width: "404px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -664,9 +689,14 @@ function Profile(props) {
               </Grid>
             ) : (
               /* notes component */
-              <Grid item container direction="column">
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingLeft: "30px" }}
+              >
                 <Typography
-                  style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
+                  style={{ padding: "50px 0 10px 0", fontWeight: "600" }}
                 >
                   Add note
                 </Typography>
@@ -683,7 +713,7 @@ function Profile(props) {
                   classes={{ contained: classes.btnClass }}
                   onClick={handleSubmitNote}
                 >
-                  SAVE
+                  SAVE NOTE
                 </Button>
                 <div style={{ paddingTop: "10px" }}>
                   {noteList === []
@@ -710,6 +740,7 @@ function Profile(props) {
           <Grid item xs={1}>
             <CloseIcon
               onClick={() => {
+                resetAll();
                 props.onClose();
               }}
               fontSize="large"
