@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     padding: "0 0 0 35% ",
   },
   gutterStyle: {
-    padding: "1% 0 1% 3%",
+    padding: "0 0 1% 3%",
   },
 });
 
@@ -35,7 +35,6 @@ function DashBd(props) {
   const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
   const userId = sessionStorage.getItem("id");
   let { url, path } = useRouteMatch();
-
   /* filtered data & page direction */
   const [filteredConnectionData, setFilteredConnectionData] = useState([]);
   const [filteredTaskData, setFilteredTaskData] = useState([]);
@@ -172,6 +171,7 @@ function DashBd(props) {
               <div className={classes.gutterStyle}>
                 {connectionData && taskData ? (
                   <Switch>
+                    {/* dashboard page */}
                     <Route
                       exact
                       path={`${path}`}
@@ -183,7 +183,7 @@ function DashBd(props) {
                         />
                       )}
                     />
-
+                    {/* connection page */}
                     <Route
                       exact
                       path={`${path}/connection`}
@@ -194,7 +194,7 @@ function DashBd(props) {
                         />
                       )}
                     />
-
+                    {/* task page */}
                     <Route
                       exact
                       path={`${path}/task`}

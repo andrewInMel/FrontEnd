@@ -40,7 +40,6 @@ const useStyles = makeStyles({
 
 export default function EditTask(props) {
   const data = props.taskData;
-  console.log(data)  
   const classes = useStyles();
   /* states */
   const [text, setText] = useState(data.description);
