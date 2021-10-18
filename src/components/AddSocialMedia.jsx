@@ -15,7 +15,12 @@ function AddSocialMedia(props) {
   };
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <Grid container direction="row" alignItems="center">
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        style={{ padding: "10px 0 10px 10px" }}
+      >
         <Grid>
           <TextField
             id="Link"

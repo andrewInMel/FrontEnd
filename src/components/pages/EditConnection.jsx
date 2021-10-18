@@ -194,38 +194,43 @@ function EditConnection(props) {
       axios
         .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
         .then((res) => {
-          setPhotoSrc(res.data.secure_url);
-          axios
-            .patch(`${serverURL}/api/connections/${id}/`, {
-              userId: sessionStorage.getItem("id"),
-              emailAddress: email,
-              address: addr,
-              phoneNumber: phone,
-              company: company,
-              birthday: birthday,
-              firstName: name,
-              lastName: lastName,
-              occupation: occupation,
-              Vip: vip,
-              twitter: twitter,
-              instagram: instagram,
-              github: github,
-              linkedIn: linkedIn,
-              notes: noteList,
-              imageSrc: res.data.secure_url,
-            })
-            .then(() => {
-              props.onClose();
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          updateDetail(res.data.secure_url);
         })
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      updateDetail(data.imageSrc);
     }
   };
+
+  function updateDetail(myImageSrc) {
+    axios
+      .patch(`${serverURL}/api/connections/${id}/`, {
+        userId: sessionStorage.getItem("id"),
+        emailAddress: email,
+        address: addr,
+        phoneNumber: phone,
+        company: company,
+        birthday: birthday,
+        firstName: name,
+        lastName: lastName,
+        occupation: occupation,
+        Vip: vip,
+        twitter: twitter,
+        instagram: instagram,
+        github: github,
+        linkedIn: linkedIn,
+        notes: noteList,
+        imageSrc: myImageSrc,
+      })
+      .then(() => {
+        props.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const resetAll = () => {
     setName(data.firstName);

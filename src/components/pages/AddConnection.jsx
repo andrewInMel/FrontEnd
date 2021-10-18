@@ -98,7 +98,7 @@ function AddConnection(props) {
   const [noteList, setNoteList] = useState([]);
   const [noteText, setNoteText] = useState("");
   /* helper states */
-  const [photoSrc, setPhotoSrc] = useState(null);
+  const [photoSrc, setPhotoSrc] = useState("");
   const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
   const [option, setOption] = useState(true);
   const myRef = useRef(null);
@@ -186,39 +186,44 @@ function AddConnection(props) {
       axios
         .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
         .then((res) => {
-          setPhotoSrc(res.data.secure_url);
-          axios
-            .post(`${serverURL}/api/connections/`, {
-              userId: sessionStorage.getItem("id"),
-              emailAddress: email,
-              address: addr,
-              phoneNumber: phone,
-              company: company,
-              birthday: birthday,
-              firstName: name,
-              lastName: lastName,
-              occupation: occupation,
-              Vip: vip,
-              twitter: twitter,
-              instagram: instagram,
-              github: github,
-              linkedIn: linkedIn,
-              notes: noteList,
-              imageSrc: res.data.secure_url,
-            })
-            .then(() => {
-              resetAll();
-              props.onClose();
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          updateDetail(res.data.secure_url);
         })
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      updateDetail("");
     }
   };
+
+  function updateDetail(myImageSrc) {
+    axios
+      .post(`${serverURL}/api/connections/`, {
+        userId: sessionStorage.getItem("id"),
+        emailAddress: email,
+        address: addr,
+        phoneNumber: phone,
+        company: company,
+        birthday: birthday,
+        firstName: name,
+        lastName: lastName,
+        occupation: occupation,
+        Vip: vip,
+        twitter: twitter,
+        instagram: instagram,
+        github: github,
+        linkedIn: linkedIn,
+        notes: noteList,
+        imageSrc: myImageSrc,
+      })
+      .then(() => {
+        resetAll();
+        props.onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const resetAll = () => {
     setName("");

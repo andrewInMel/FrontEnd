@@ -63,7 +63,7 @@ function TaskList(props) {
       <FixedSizeList
         height={window.innerHeight * 0.8}
         width={myWidth}
-        itemSize={75}
+        itemSize={80}
         itemCount={props.taskList.length}
         itemData={{
           taskList: props.taskList,
