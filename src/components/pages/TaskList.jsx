@@ -10,7 +10,8 @@ import { Typography, Grid } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
-    height: "35px",
+    height: "50px",
+    padding: "20px 33px 0 16px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
@@ -52,7 +53,7 @@ function TaskList(props) {
   useEffect(() => {
     window.addEventListener("resize", delay(handleResize, 500));
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", delay);
     };
   }, []);
 
@@ -62,7 +63,7 @@ function TaskList(props) {
       <FixedSizeList
         height={window.innerHeight * 0.8}
         width={myWidth}
-        itemSize={75}
+        itemSize={80}
         itemCount={props.taskList.length}
         itemData={{
           taskList: props.taskList,
@@ -80,7 +81,7 @@ const TaskListHeader = (props) => {
     <div className={props.headerClass.headerStyle}>
       <Grid container direction="row">
         {/* taks name */}
-        <Grid item xs={4} style={{ paddingLeft: "11%" }}>
+        <Grid item xs={4} style={{ paddingLeft: "8.5%" }}>
           <Typography>TASK</Typography>
         </Grid>
         {/* priority */}
@@ -88,7 +89,7 @@ const TaskListHeader = (props) => {
           <Typography> PRIORITY </Typography>
         </Grid>
         {/* progress */}
-        <Grid item xs={3} style={{ marginLeft: "-1%" }}>
+        <Grid item xs={3} style={{ paddingLeft: "1%" }}>
           <Typography> PROGRESS </Typography>
         </Grid>
         {/* action */}

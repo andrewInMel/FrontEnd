@@ -15,10 +15,11 @@ import MyTextField from "../MyTextField";
 
 const styles = {
   background: {
-    minHeight: "100vh",
+    minHeight: window.innerHeight,
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
+    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
   },
   title: {
     paddingTop: "150px",
@@ -31,7 +32,7 @@ const styles = {
     padding: "5px 0 35px 0",
   },
   spaceStyle: {
-    paddingTop: "10px",
+    paddingTop: "20px",
   },
   noDecoration: {
     textDecoration: "none",
@@ -49,8 +50,7 @@ const styles = {
   },
 };
 
-//const serverURL = "http://localhost:8000";
-const serverURL = "https://backend-connects.herokuapp.com";
+const serverURL = "https://connectdcrm.herokuapp.com";
 
 class SignIn extends Component {
   constructor(props) {
@@ -60,7 +60,6 @@ class SignIn extends Component {
       password: "",
       validated: false,
     };
-    sessionStorage.setItem("status", "false");
   }
 
   /* handlers */
@@ -72,23 +71,15 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-      console.log({
-          username: this.state.username,
-          password: this.state.password,
-      })
-      Axios.post(`${serverURL}/auth/login/`, {
-          username: this.state.username,
-          password: this.state.password,
-      })
+    Axios.post(`${serverURL}/auth/login/`, this.state)
       .then((res) => {
-        if (res.data.token) {
+        if (res.data.token && res.data.user_id && res.data.expiry) {
           sessionStorage.setItem("status", true);
-          sessionStorage.setItem("id", res.data.userId);
+          sessionStorage.setItem("id", res.data.user_id);
           sessionStorage.setItem(
             "navStatus",
             JSON.stringify([true, false, false])
           );
-
           this.setState({ validated: true });
         } else {
           alert("something went wrong");
@@ -96,6 +87,7 @@ class SignIn extends Component {
       })
       .catch((error) => {
         console.log(error);
+        alert("Login failed, please check your username/password");
       });
   };
 
@@ -176,19 +168,19 @@ class SignIn extends Component {
                 Login
               </Button>
             </Grid>
+            {/* redirct to signup */}
+            <Grid item className={classes.spaceStyle}>
+              <Typography
+                variant="caption"
+                className={classes.noDecoration}
+                component={Link}
+                to="/Signup"
+              >
+                New here? Get Started
+              </Typography>
+            </Grid>
           </Grid>
         </form>
-        {/* redirct to signup */}
-        <Typography
-          variant="caption"
-          align="center"
-          display="block"
-          className={`${classes.noDecoration} ${classes.spaceStyle}`}
-          component={Link}
-          to="/Signup"
-        >
-          New here? Get Started
-        </Typography>
       </div>
     );
   }

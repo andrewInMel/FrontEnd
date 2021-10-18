@@ -18,10 +18,11 @@ const styles = {
     paddingTop: "2rem",
   },
   background: {
-    minHeight: "100vh",
+    minHeight: window.innerHeight,
     backgroundImage: `url(${Image})`,
     backgroundRepeat: "no-repeat",
     backgroundPositionX: "right",
+    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
   },
   title: {
     paddingTop: "125px",
@@ -39,15 +40,14 @@ const styles = {
   },
 };
 
-//const url = "http://localhost:8000"
-const url = "https://backend-connects.herokuapp.com";
+const url = "https://connectdcrm.herokuapp.com";
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -58,10 +58,10 @@ class SignUp extends Component {
 
   /* handlers */
   firstNameHandler = (event) => {
-    this.setState({ firstName: event.target.value });
+    this.setState({ first_name: event.target.value });
   };
   lastNameHandler = (event) => {
-    this.setState({ lastName: event.target.value });
+    this.setState({ last_name: event.target.value });
   };
   emailHandler = (event) => {
     this.setState({ email: event.target.value });
@@ -77,14 +77,18 @@ class SignUp extends Component {
     if (this.state.confirmPassword === this.state.password) {
       this.setState({ match: true });
       this.setState({ signedUp: true });
-        Axios.post(`${url}/auth/register/`, {
-            email: this.state.email,
-            first_name: this.state.firstName,
-            last_name: this.state.lastName,
-            password: this.state.password,
-        })
+      Axios.post(`${url}/auth/register/`, this.state)
         .then((res) => {
-          if (res.data.token) {
+          if (res.data.user_id) {
+            return Axios.post(`${url}/api/connections/`, {
+              firstName: this.state.first_name,
+              lastName: this.state.last_name,
+              emailAddress: this.state.email,
+              selfId: res.data.user_id,
+              userId: res.data.user_id,
+            }).then((response) => {
+              console.log(response.data);
+            });
           } else {
             alert("something went wrong");
           }
@@ -100,8 +104,14 @@ class SignUp extends Component {
   render() {
     const { classes } = this.props;
 
-    const { firstName, lastName, email, password, confirmPassword, signedUp } =
-      this.state;
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      confirmPassword,
+      signedUp,
+    } = this.state;
     if (signedUp) {
       return <Redirect to="/Signin" />;
     }
@@ -133,7 +143,7 @@ class SignUp extends Component {
                   myWidth="186px"
                   lable="Firstname"
                   name="firstname"
-                  fieldVaule={firstName}
+                  fieldVaule={first_name}
                   handler={this.firstNameHandler}
                 />
               </Grid>
@@ -142,7 +152,7 @@ class SignUp extends Component {
                   myWidth="186px"
                   lable="Lastname"
                   name="lastname"
-                  fieldVaule={lastName}
+                  fieldVaule={last_name}
                   handler={this.lastNameHandler}
                 />
               </Grid>

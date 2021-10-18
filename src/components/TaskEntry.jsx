@@ -1,12 +1,11 @@
-import { Typography, Grid, Avatar } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import React from "react";
+import Avatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
 import LinearProgress from "@material-ui/core/LinearProgress";
-
-import UnknownIcon from '../imgs/priority/Unknown.svg'
 
 const useStyles = makeStyles((theme) => ({
   myWidth: {
@@ -23,13 +22,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
   },
   colorPrimary: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+    backgroundColor: "#DAE7E0",
   },
   myBar: {
     borderRadius: 5,
     backgroundColor: (myProps) =>
-      myProps.myProgress !== 100 ? "primary" : "#fa3751",
+      myProps.myProgress !== 100 ? "#478562" : "#C91C00",
   },
   progressPosition: {
     paddingBottom: "10px",
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TaskEntry({ task, index, style }) {
   const oneTask = task;
   /* priority img path */
-  const path = `../imgs/priority/${oneTask.priority}.svg`;
+  const path = `/imgs/priority/${oneTask.priority}.svg`;
   /* calculate progress */
   const startTime = new Date(oneTask.startDate).getTime();
   const dueTime = new Date(oneTask.endDate).getTime();
@@ -76,21 +74,19 @@ export default function TaskEntry({ task, index, style }) {
           <Typography>{oneTask.name}</Typography>
         </Grid>
         {/* member photos */}
-        {/*
         <Grid item>
           <AvatarGroup max={5}>
-            {oneTask.memberPhoto.map((person) => (
+            {oneTask.connections.map((person) => (
               <Avatar
                 key={person.id}
                 alt={person.name}
-                src={person.photoSource}
+                src={person.imageSrc}
                 className={classes.small}
                 sizes={classes.small}
               />
             ))}
           </AvatarGroup>
         </Grid>
-        */}
       </Grid>
       {/* 2nd column, priority & icon */}
       <Grid item xs={3}>
@@ -106,8 +102,7 @@ export default function TaskEntry({ task, index, style }) {
         className={classes.progressPosition}
         xs={3}
       >
-        <Grid item container direction="row" justifyContent="space-between">
-          <Grid item>{oneTask.startDate}</Grid>
+        <Grid item container direction="row" justifyContent="flex-end">
           <Grid item>{oneTask.endDate}</Grid>
         </Grid>
         <Grid item>
@@ -121,6 +116,9 @@ export default function TaskEntry({ task, index, style }) {
             }}
           />
         </Grid>
+        <Grid item container direction="row" justifyContent="flex-start">
+          <Grid item>{oneTask.startDate}</Grid>
+        </Grid>
       </Grid>
       {/* actions */}
       <Grid item xs={2} style={{ paddingLeft: "5%" }}>
@@ -129,3 +127,4 @@ export default function TaskEntry({ task, index, style }) {
     </Grid>
   );
 }
+
