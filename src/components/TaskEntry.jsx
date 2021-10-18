@@ -127,3 +127,4 @@ export default function TaskEntry({ task, index, style }) {
     </Grid>
   );
 }
+

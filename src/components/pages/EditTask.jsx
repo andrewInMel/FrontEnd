@@ -40,13 +40,16 @@ const useStyles = makeStyles({
 
 export default function EditTask(props) {
   const data = props.taskData;
+  console.log(data)  
   const classes = useStyles();
   /* states */
   const [text, setText] = useState(data.description);
   const [priority, setPriority] = useState(data.priority);
   const [status, setStatus] = useState(data.status);
+
   const [members, setMembers] = useState(data.connections);
   const [startDate, setStartDate] = useState(data.startDate);
+
   const [dueDate, setDueDate] = useState(data.endDate);
   const [taskName, setTaskName] = useState(data.name);
 

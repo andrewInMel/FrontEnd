@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
 function EditConnection(props) {
   const data = props.userData;
+
   const classes = useStyles();
   /* left section state */
   const [userPhoto, setUserPhoto] = useState(null);
@@ -185,6 +186,7 @@ function EditConnection(props) {
     }
   }, [userPhoto]);
 
+
   /* submit connection detail */
   const submitConnection = () => {
     if (userPhoto !== null) {
@@ -206,6 +208,7 @@ function EditConnection(props) {
 
   function updateDetail(myImageSrc) {
     axios
+
       .patch(`${serverURL}/api/connections/${id}/`, {
         userId: sessionStorage.getItem("id"),
         emailAddress: email,
@@ -216,6 +219,7 @@ function EditConnection(props) {
         firstName: name,
         lastName: lastName,
         occupation: occupation,
+
         Vip: vip,
         twitter: twitter,
         instagram: instagram,
@@ -231,6 +235,7 @@ function EditConnection(props) {
         console.log(error);
       });
   }
+
 
   const resetAll = () => {
     setName(data.firstName);
