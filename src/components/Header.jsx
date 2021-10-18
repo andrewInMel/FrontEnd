@@ -120,9 +120,11 @@ export default function PrimarySearchAppBar(props) {
                   label="priority"
                 >
                   <MenuItem value={""}>All</MenuItem>
+                  <MenuItem value={"critical"}>Critical</MenuItem>
                   <MenuItem value={"high"}>High</MenuItem>
-                  <MenuItem value={"low"}>Low</MenuItem>
                   <MenuItem value={"medium"}>Medium</MenuItem>
+                  <MenuItem value={"low"}>Low</MenuItem>
+                  <MenuItem value={"unknown"}>Unknown</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
