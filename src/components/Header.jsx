@@ -91,59 +91,6 @@ export default function PrimarySearchAppBar(props) {
 
   const path = props.location.pathname;
 
-  const dashboardHeader = () => {
-    return (
-      <AppBar position="static">
-        <Toolbar>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => props.filterTasks(e)}
-            />
-          </div>
-          {/* priority category */}
-          <div>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                onChange={handleChangeDropdown}
-                value={dropdown}
-                label="priority"
-              >
-                <MenuItem value={""}>All</MenuItem>
-                <MenuItem value={"high"}>High</MenuItem>
-                <MenuItem value={"low"}>Low</MenuItem>
-                <MenuItem value={"medium"}>Medium</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          {/* profile button */}
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleClickOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-    );
-  };
-
   const taskHeader = () => {
     return (
       <AppBar position="static">
@@ -173,9 +120,11 @@ export default function PrimarySearchAppBar(props) {
                 label="priority"
               >
                 <MenuItem value={""}>All</MenuItem>
+                <MenuItem value={"critical"}>Critical</MenuItem>
                 <MenuItem value={"high"}>High</MenuItem>
-                <MenuItem value={"low"}>Low</MenuItem>
                 <MenuItem value={"medium"}>Medium</MenuItem>
+                <MenuItem value={"low"}>Low</MenuItem>
+                <MenuItem value={"unknown"}>Unknown</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -205,7 +154,7 @@ export default function PrimarySearchAppBar(props) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search by  connection or company or location"
+              placeholder="Search..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -242,11 +191,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div>
-      {path === "/Dashboard/task"
-        ? taskHeader()
-        : path === "/Dashboard/connection"
-        ? connectionHeader()
-        : dashboardHeader()}
+      {path === "/Dashboard/task" ? taskHeader() : connectionHeader()}
       {/*copied taskHeader for now*/}
       <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
