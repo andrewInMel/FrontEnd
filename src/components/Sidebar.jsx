@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     color: "#834F69",
   },
   defaultIconStyle: {
-    color: "#4F7E83;"
+    color: "#4F7E83;",
   },
 });
 
@@ -92,7 +92,11 @@ function Sidebar(props) {
           alignItems="center"
         >
           <AssessmentIcon
-            classes={clicked[0] ? { root: classes.colorStyle } : { root: classes.defaultIconStyle }}
+            classes={
+              clicked[0]
+                ? { root: classes.colorStyle }
+                : { root: classes.defaultIconStyle }
+            }
             className={classes.iconStyle}
           />
           <Typography
@@ -103,6 +107,7 @@ function Sidebar(props) {
             }
             component={Link}
             to={`${props.linkPath}`}
+            // onClick={() => {props.setCustomPath("dashboard")}}
           >
             Dashboard
           </Typography>
@@ -122,7 +127,11 @@ function Sidebar(props) {
           style={{ paddingLeft: "1px" }}
         >
           <RecentActorsIcon
-            classes={clicked[1] ? { root: classes.colorStyle } : { root: classes.defaultIconStyle }}
+            classes={
+              clicked[1]
+                ? { root: classes.colorStyle }
+                : { root: classes.defaultIconStyle }
+            }
             className={classes.iconStyle}
           />
           <Typography
@@ -133,6 +142,8 @@ function Sidebar(props) {
             }
             component={Link}
             to={`${props.linkPath}/connection`}
+
+            //   onClick={() => {props.setCustomPath("connection")}}
           >
             Connection
           </Typography>
@@ -151,7 +162,11 @@ function Sidebar(props) {
           alignItems="center"
         >
           <ListAltIcon
-            classes={clicked[2] ? { root: classes.colorStyle } : { root: classes.defaultIconStyle }}
+            classes={
+              clicked[2]
+                ? { root: classes.colorStyle }
+                : { root: classes.defaultIconStyle }
+            }
             className={classes.iconStyle}
           />
           <Typography
@@ -162,6 +177,7 @@ function Sidebar(props) {
             }
             component={Link}
             to={`${props.linkPath}/task`}
+            //onClick={() => {props.setCustomPath("task")}}
           >
             Task
           </Typography>

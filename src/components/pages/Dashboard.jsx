@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 let allConnections = [];
 
-function DashBd() {
+function DashBd(props) {
   const classes = useStyles();
   const [connectionData, setConnectionData] = useState(null);
   const [taskData, setTaskData] = useState(null);
@@ -35,6 +35,11 @@ function DashBd() {
   const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
   const userId = sessionStorage.getItem("id");
   let { url, path } = useRouteMatch();
+
+  /* filtered data & page direction */
+  const [filteredConnectionData, setFilteredConnectionData] = useState([]);
+  const [filteredTaskData, setFilteredTaskData] = useState([]);
+  const [customPath, setCustomPath] = useState("dashboard");
 
   /* fetch user's data */
   useEffect(() => {
@@ -44,6 +49,11 @@ function DashBd() {
         .then((res) => {
           allConnections = res.data;
           setConnectionData(
+            res.data.filter(
+              (oneConnection) => oneConnection.selfId !== oneConnection.userId
+            )
+          );
+          setFilteredConnectionData(
             res.data.filter(
               (oneConnection) => oneConnection.selfId !== oneConnection.userId
             )
@@ -61,6 +71,7 @@ function DashBd() {
       Axios.get(`${serverURL}/api/tasks?userId=${userId}`)
         .then((response) => {
           setTaskData(response.data);
+          setFilteredTaskData(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -78,13 +89,53 @@ function DashBd() {
     };
   }, [userId, loggedIn]);
 
+  /* use regular expression to pattern match wanted connections */
+  const filterConnections = (value) => {
+    const regex = new RegExp(`^${value}`, "gi");
+    const myConns = connectionData.filter((connection) => {
+      console.log(connection);
+      if (value === false) {
+        return (
+          connection.firstName.match(regex) ||
+          connection.lastName.match(regex) ||
+          connection.company.match(regex) ||
+          connection.phoneNumber.match(regex) ||
+          connection
+        );
+      } else {
+        return (
+          connection.firstName.match(regex) ||
+          connection.lastName.match(regex) ||
+          connection.company.match(regex) ||
+          connection.phoneNumber.match(regex) ||
+          connection.Vip.toString().match(regex)
+        );
+      }
+    });
+    setFilteredConnectionData(myConns);
+  };
+
+  /* use regular expression to pattern match wanted tasks */
+  const filterTasks = (e) => {
+    const regex = new RegExp(`${e.target.value}`, "gi");
+    const myTasks = taskData.filter((task) => {
+      console.log(task.name);
+      return task.name.match(regex) || task.priority.match(regex);
+    });
+    setFilteredTaskData(myTasks);
+  };
+
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
   } else {
     return (
       <Grid container direction="row">
         {/* Sidebar */}
-        <Sidebar linkPath={url} setStatus={setLoggedIn} />
+        <Sidebar
+          setCustomPath={setCustomPath}
+          linkPath={url}
+          setStatus={setLoggedIn}
+        />
         {/* Content page*/}
         <Grid
           item
@@ -97,7 +148,13 @@ function DashBd() {
           {/* header */}
           <Grid>
             {clientData ? (
-              <Header data={clientData} />
+              <Header
+                {...props}
+                customPath={customPath}
+                filterConnections={filterConnections}
+                filterTasks={filterTasks}
+                data={clientData}
+              />
             ) : (
               <Typography>Loading</Typography>
             )}
@@ -115,18 +172,36 @@ function DashBd() {
               <div className={classes.gutterStyle}>
                 {connectionData && taskData ? (
                   <Switch>
-                    <Route exact path={`${path}`}>
-                      <MainContent
-                        taskList={taskData}
-                        connectionList={connectionData}
-                      />
-                    </Route>
-                    <Route exact path={`${path}/connection`}>
-                      <Connection connectionList={connectionData} />
-                    </Route>
-                    <Route exact path={`${path}/task`}>
-                      <TaskList taskList={taskData} />
-                    </Route>
+                    <Route
+                      exact
+                      path={`${path}`}
+                      render={(props) => (
+                        <MainContent
+                          {...props}
+                          taskList={taskData}
+                          connectionList={connectionData}
+                        />
+                      )}
+                    />
+
+                    <Route
+                      exact
+                      path={`${path}/connection`}
+                      render={(props) => (
+                        <Connection
+                          {...props}
+                          connectionList={filteredConnectionData}
+                        />
+                      )}
+                    />
+
+                    <Route
+                      exact
+                      path={`${path}/task`}
+                      render={(props) => (
+                        <TaskList {...props} taskList={filteredTaskData} />
+                      )}
+                    />
                   </Switch>
                 ) : (
                   <Typography> Loading...</Typography>

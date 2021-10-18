@@ -7,6 +7,15 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Profile from "./pages/Profile.jsx";
+import {
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -61,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [dropdown, setDropdown] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,8 +79,20 @@ export default function PrimarySearchAppBar(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  return (
-    <div>
+
+  const handleChangeDropdown = (e) => {
+    setDropdown(e.target.value);
+    props.filterTasks(e);
+  };
+
+  const handleVipToggle = (e) => {
+    props.filterConnections(e.target.checked);
+  };
+
+  const path = props.location.pathname;
+
+  const dashboardHeader = () => {
+    return (
       <AppBar position="static">
         <Toolbar>
           <div className={classes.search}>
@@ -84,7 +106,78 @@ export default function PrimarySearchAppBar(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={(e) => props.filterTasks(e)}
             />
+          </div>
+          {/* priority category */}
+          <div>
+            <FormControl>
+              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                onChange={handleChangeDropdown}
+                value={dropdown}
+                label="priority"
+              >
+                <MenuItem value={""}>All</MenuItem>
+                <MenuItem value={"high"}>High</MenuItem>
+                <MenuItem value={"low"}>Low</MenuItem>
+                <MenuItem value={"medium"}>Medium</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          {/* profile button */}
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              onClick={handleClickOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
+  const taskHeader = () => {
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search by task name…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+              onChange={(e) => props.filterTasks(e)}
+            />
+          </div>
+          <div>
+            <FormControl>
+              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                onChange={handleChangeDropdown}
+                value={dropdown}
+                label="priority"
+              >
+                <MenuItem value={""}>All</MenuItem>
+                <MenuItem value={"high"}>High</MenuItem>
+                <MenuItem value={"low"}>Low</MenuItem>
+                <MenuItem value={"medium"}>Medium</MenuItem>
+              </Select>
+            </FormControl>
           </div>
 
           <div className={classes.sectionDesktop}>
@@ -100,7 +193,61 @@ export default function PrimarySearchAppBar(props) {
           </div>
         </Toolbar>
       </AppBar>
+    );
+  };
 
+  const connectionHeader = () => {
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search by  connection or company or location"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+              onChange={(e) => props.filterConnections(e.target.value)}
+            />
+          </div>
+          {/* VIP switch */}
+          <div>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch onChange={handleVipToggle} />}
+                label="VIP"
+              />
+            </FormGroup>
+          </div>
+
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              onClick={handleClickOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
+  return (
+    <div>
+      {path === "/Dashboard/task"
+        ? taskHeader()
+        : path === "/Dashboard/connection"
+        ? connectionHeader()
+        : dashboardHeader()}
+      {/*copied taskHeader for now*/}
       <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
   );

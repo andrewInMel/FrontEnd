@@ -97,7 +97,7 @@ const ListHeader = (props) => {
         </Grid>
         {/* ADDRESS */}
         <Grid item xs={2}>
-          <Typography> ADDRESS </Typography>
+          <Typography> PHONE </Typography>
         </Grid>
         {/* TASK */}
         <Grid item xs={1}>

@@ -27,9 +27,9 @@ export default function ConnectionEntry(props) {
       <Grid item xs={3}>
         <Typography> {oneConnection.company} </Typography>
       </Grid>
-      {/* location */}
+      {/* phone number */}
       <Grid item xs={2}>
-        <Typography> {oneConnection.address} </Typography>
+        <Typography> {oneConnection.phoneNumber} </Typography>
       </Grid>
       {/* task */}
       <Grid item xs={1}>
