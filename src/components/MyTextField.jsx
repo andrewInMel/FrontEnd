@@ -1,30 +1,40 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import theme from "./Theme.js";
+import { ClassRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles({
-  notchedOutline: {
-    borderWidth: "2px",
-    borderColor: "grey",
+  input: {
+    borderWidth: "0.1vh",
+    borderColor: `${theme.palette.steelForms.main}`,
+    height: "2vh",
+    fontSize: "2vh"
   },
+  textField: {
+    width: "22.5vw",
+  },
+  label: {
+    fontSize: "2vh",
+  }
 });
 
 function MyTextField(props) {
   const classes = useStyles();
   return (
     <TextField
-      style={{ width: `${props.myWidth}` }}
-      size="small"
+      className={classes.textField}
       variant="outlined"
-      label={props.lable}
+      label={props.label}
       name={props.name}
-      value={props.fieldVaule}
+      value={props.fieldValue}
       onChange={props.handler}
       type={props.type}
       InputProps={{
-        classes: {
-          notchedOutline: classes.notchedOutline,
-        },
+        className: classes.input,
+      }}
+      InputLabelProps={{
+        className: classes.label,
       }}
     />
   );

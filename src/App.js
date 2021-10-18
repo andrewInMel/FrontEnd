@@ -1,5 +1,4 @@
-import React from "react";
-import Greating from "./components/pages/Greating.jsx";
+import Greeting from "./components/pages/Greeting.jsx";
 import Signin from "./components/pages/SignIn.jsx";
 import Signup from "./components/pages/SignUp.jsx";
 import Dashboard from "./components/pages/Dashboard.jsx";
@@ -9,7 +8,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Greating} />
+        <Route exact path="/" component={Greeting} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route path="/dashboard" component={Dashboard} />

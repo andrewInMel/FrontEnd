@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import PropTypes from "prop-types";
@@ -8,24 +8,13 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Container,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Image from "../../imgs/Banana.svg";
 import MyTextField from "../MyTextField";
+import { extStyles } from "../Style.js";
 
-const styles = {
-  background: {
-    minHeight: "100vh",
-    backgroundImage: `url(${Image})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPositionX: "right",
-  },
-  title: {
-    paddingTop: "150px",
-    paddingBottom: "85px",
-    fontWeight: 400,
-    color: "#4B5766",
-  },
+const intStyles = {
   checkboxStyle: {
     width: "383px",
     padding: "5px 0 35px 0",
@@ -37,19 +26,15 @@ const styles = {
     textDecoration: "none",
   },
   space: {
-    paddingTop: "25px",
+    paddingTop: "50px",
   },
-  btnLogin: {
-    height: "48px",
-    width: "383px",
-    backgroundColor: "#4F7E83",
-    "&:hover": {
-      backgroundColor: "#734f83",
-    },
+  centreContainer: {
+    position: "absolute",
+    top: "25%",
   },
 };
 
-//const serverURL = "http://localhost:8000";
+const combinedStyles = {...intStyles , ...extStyles};
 const serverURL = "https://backend-connects.herokuapp.com";
 
 class SignIn extends Component {
@@ -91,7 +76,7 @@ class SignIn extends Component {
 
           this.setState({ validated: true });
         } else {
-          alert("something went wrong");
+          alert("Something went wrong");
         }
       })
       .catch((error) => {
@@ -101,31 +86,30 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props;
-
     const { username, password, validated } = this.state;
     if (validated) {
       return <Redirect to="/Dashboard" />;
     }
     return (
-      <div className={classes.background}>
-        <Typography variant="h2" align="center" className={classes.title}>
-          Stay Connectd
-        </Typography>
-        {/* log in form */}
-        <form onSubmit={this.submitHandler}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
+      <div className={classes.backgroundLanding}>
+        <Container className = {classes.centreContainer}>
+          <Typography variant="h2" align="center">
+            Stay Connectd
+          </Typography>
+          {/* log in form */}
+          <form onSubmit={this.submitHandler}>
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
             {/* username */}
             <Grid item className={classes.space}>
               <MyTextField
-                myWidth="383px"
-                lable="Username"
+                label="Username"
                 name="username"
-                fieldVaule={username}
+                fieldValue={username}
                 handler={this.usernameHandler}
               />
             </Grid>
@@ -133,62 +117,62 @@ class SignIn extends Component {
             {/* password */}
             <Grid item className={classes.space}>
               <MyTextField
-                myWidth="383px"
-                lable="Password"
+                label="Password"
                 name="password"
                 type="password"
-                fieldVaule={password}
+                fieldValue={password}
                 handler={this.passwordHandler}
               />
             </Grid>
 
-            <Grid
-              item
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="baseline"
-              className={classes.checkboxStyle}
-            >
-              {/* checkbox and forgot password */}
-              <Grid item>
-                <FormControlLabel
-                  control={<Checkbox color="default" />}
-                  label={<Typography variant="caption">Remember Me</Typography>}
-                />
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="baseline"
+                className={classes.checkboxStyle}
+              >
+                {/* checkbox and forgot password */}
+                <Grid item>
+                  <FormControlLabel
+                    control={<Checkbox color="default" />}
+                    label={<Typography variant="caption">Remember Me</Typography>}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Typography
+                    className={classes.noDecoration}
+                    variant="caption"
+                    component={Link}
+                    to="/Signup"
+                  >
+                    Forgot password
+                  </Typography>
+                </Grid>
               </Grid>
 
+              {/* login button */}
               <Grid item>
-                <Typography
-                  className={classes.noDecoration}
-                  variant="caption"
-                  component={Link}
-                  to="/Signup"
-                >
-                  Forgot password
-                </Typography>
+                <Button className={classes.btnLandingLogIn} type="submit">
+                  Login
+                </Button>
               </Grid>
             </Grid>
-
-            {/* login button */}
-            <Grid item>
-              <Button className={classes.btnLogin} type="submit">
-                Login
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-        {/* redirct to signup */}
-        <Typography
-          variant="caption"
-          align="center"
-          display="block"
-          className={`${classes.noDecoration} ${classes.spaceStyle}`}
-          component={Link}
-          to="/Signup"
-        >
-          New here? Get Started
-        </Typography>
+          </form>
+          {/* redirct to signup */}
+          <Typography
+            variant="caption"
+            align="center"
+            display="block"
+            className={`${classes.noDecoration} ${classes.spaceStyle}`}
+            component={Link}
+            to="/Signup"
+          >
+            New here? Get Started
+          </Typography>
+        </Container>
       </div>
     );
   }
@@ -198,5 +182,5 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+export default withStyles(combinedStyles)(SignIn);
 export { serverURL };
