@@ -32,7 +32,7 @@ const styles = {
     padding: "5px 0 35px 0",
   },
   spaceStyle: {
-    paddingTop: "10px",
+    paddingTop: "20px",
   },
   noDecoration: {
     textDecoration: "none",
@@ -168,19 +168,19 @@ class SignIn extends Component {
                 Login
               </Button>
             </Grid>
+            {/* redirct to signup */}
+            <Grid item className={classes.spaceStyle}>
+              <Typography
+                variant="caption"
+                className={classes.noDecoration}
+                component={Link}
+                to="/Signup"
+              >
+                New here? Get Started
+              </Typography>
+            </Grid>
           </Grid>
         </form>
-        {/* redirct to signup */}
-        <Typography
-          variant="caption"
-          align="center"
-          display="block"
-          className={`${classes.noDecoration} ${classes.spaceStyle}`}
-          component={Link}
-          to="/Signup"
-        >
-          New here? Get Started
-        </Typography>
       </div>
     );
   }
