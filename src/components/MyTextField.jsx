@@ -17,7 +17,8 @@ function MyTextField(props) {
   const classes = useStyles();
   return (
     <TextField
-      className={classes.textField}
+      style={{ width: `${props.myWidth}` }}
+      size="small"
       variant="outlined"
       label={props.label}
       name={props.name}

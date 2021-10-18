@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import PropTypes from "prop-types";
