@@ -2,20 +2,14 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import theme from "./Theme.js";
-import { ClassRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   input: {
-    borderWidth: "0.1vh",
+    fontSize: "2.5vh"
+  },
+  notchedOutline: {
+    borderWidth: "0.5vh",
     borderColor: `${theme.palette.steelForms.main}`,
-    height: "2vh",
-    fontSize: "2vh"
-  },
-  textField: {
-    width: "22.5vw",
-  },
-  label: {
-    fontSize: "2vh",
   }
 });
 
@@ -31,10 +25,10 @@ function MyTextField(props) {
       onChange={props.handler}
       type={props.type}
       InputProps={{
-        className: classes.input,
-      }}
-      InputLabelProps={{
-        className: classes.label,
+        classes: {
+          input: classes.input,
+          notchedOutline: classes.notchedOutline
+        },
       }}
     />
   );

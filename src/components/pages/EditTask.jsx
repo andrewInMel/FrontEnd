@@ -1,37 +1,37 @@
-import React, { useState /*, useEffect */ } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import { TextField, Typography, MenuItem } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import IconButton from "@material-ui/core/IconButton";
-import Popover from "@material-ui/core/Popover";
-import Chip from "@material-ui/core/Chip";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { serverURL } from "./SignIn.jsx";
+import { allConnections } from "./Dashboard.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
-    width: "980px",
-    height: "475px",
+    width: "960px",
+    height: "550px",
     padding: "40px 30px 10px 40px",
+    backgroundColor: "#f7faf9",
   },
   closeIcon: {
-    margin: "0 auto",
+    paddingLeft: "30px",
   },
   bold: {
     fontWeight: "600",
   },
   textPosition: {
     paddingTop: "8%",
+    width: "350px",
   },
   rowSpace: {
     padding: "10px 0",
   },
   midStyle: {
-    padding: "100px 0 125px 75px",
+    paddingTop: "75px",
   },
   chipStyle: {
     margin: "10px 0 10px 10px",
@@ -40,40 +40,43 @@ const useStyles = makeStyles({
 
 export default function EditTask(props) {
   const data = props.taskData;
-  console.log(data)  
   const classes = useStyles();
   /* states */
-  const [count, setCount] = useState(0);
-  const [members, setMembers] = useState([]);
   const [text, setText] = useState(data.description);
   const [priority, setPriority] = useState(data.priority);
   const [status, setStatus] = useState(data.status);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [name, setName] = useState("");
+
+  const [members, setMembers] = useState(data.connections);
+  const [startDate, setStartDate] = useState(data.startDate);
+
   const [dueDate, setDueDate] = useState(data.endDate);
   const [taskName, setTaskName] = useState(data.name);
 
   /* data to be sent to backend */
   const taskData = {
-    id: data.id,
+    userId: sessionStorage.getItem("id"),
+    name: taskName,
     description: text,
     priority: priority,
     status: status,
-    members: members,
-    taskName: taskName,
-    dueDate: dueDate,
+    connections: members,
+    startDate: startDate,
+    endDate: dueDate,
   };
 
-  /* add task memeber, popOver state */
-  const open = Boolean(anchorEl);
-  const handleTaskAssignment = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleAssignmentClose = () => {
-    setAnchorEl(null);
-    setName("");
-  };
+  /* add task member */
+  function addMembers(event, values) {
+    if (event != null) {
+      console.log(values);
+      setMembers(values);
+    }
+  }
+
   /* control methods */
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
   };
@@ -90,50 +93,35 @@ export default function EditTask(props) {
     setTaskName(event.target.value);
   };
 
-  const handleMemberName = (event) => {
-    setName(event.target.value);
-  };
-
   const handleDueDateChange = (event) => {
     setDueDate(event.target.value);
   };
-  /* remove and add task member */
-  const addMember = () => {
-    setMembers(members.concat({ chipName: name, chipCount: count }));
-    setAnchorEl(null);
-    setCount(count + 1);
-    setName("");
+
+  const handleClose = () => {
+    resetAll();
+    props.onClose();
   };
 
-  const removeMember = (memberToRemove) => () => {
-    setMembers(members.filter((oneMember) => oneMember !== memberToRemove));
+  const resetAll = () => {
+    setMembers(data.connections);
+    setText(data.description);
+    setPriority(data.priority);
+    setStatus(data.status);
+    setStartDate(data.startDate);
+    setDueDate(data.endDate);
+    setTaskName(data.name);
   };
 
   /* sent data to backend */
-  const updateTask = () => {
+  const createTask = () => {
     axios
-      .patch(`${serverURL}/api/tasks/${data.id}`, taskData)
-      .then((res) => {
-        console.log(res.data);
-        resetAll();
+      .patch(`${serverURL}/api/tasks/${data.id}/`, taskData)
+      .then(() => {
         props.onClose();
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  /* reset all state */
-  const resetAll = () => {
-    setCount(0);
-    setMembers([]);
-    setText("");
-    setPriority("critical");
-    setStatus("progress");
-    setAnchorEl(null);
-    setName("");
-    setDueDate("");
-    setTaskName("");
   };
 
   return (
@@ -150,7 +138,7 @@ export default function EditTask(props) {
           <Grid item xs={5} direction="column" alignItems="stretch" container>
             {/* title */}
             <Grid item>
-              <Typography variant="h3">View/Edit Task</Typography>
+              <Typography variant="h3">View/Edit task</Typography>
             </Grid>
             {/* title */}
             <Grid item className={classes.textPosition}>
@@ -190,7 +178,7 @@ export default function EditTask(props) {
             xs={6}
             container
             direction="column"
-            justifyContent="center"
+            justifyContent="flex-start"
             alignItems="flex-start"
             className={classes.midStyle}
           >
@@ -203,7 +191,7 @@ export default function EditTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <Typography> Status</Typography>
               </Grid>
               <Grid item xs={7}>
@@ -214,13 +202,13 @@ export default function EditTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="In Progress">
-                    <img src="/imgs/status/progress.svg" alt="progress" />
+                    <img src="/imgs/status/In Progress.svg" alt="progress" />
                   </MenuItem>
                   <MenuItem value="Review">
-                    <img src="/imgs/status/review.svg" alt="review" />
+                    <img src="/imgs/status/Review.svg" alt="review" />
                   </MenuItem>
                   <MenuItem value="Complete">
-                    <img src="/imgs/status/complete.svg" alt="complete" />
+                    <img src="/imgs/status/Complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
               </Grid>
@@ -234,7 +222,7 @@ export default function EditTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <Typography> Priority</Typography>
               </Grid>
               <Grid item xs={7}>
@@ -245,21 +233,45 @@ export default function EditTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="Critical">
-                    <img src="/imgs/priority/critical.svg" alt="critical" />
+                    <img src="/imgs/priority/Critical.svg" alt="critical" />
                   </MenuItem>
                   <MenuItem value="High">
-                    <img src="/imgs/priority/high.svg" alt="high" />
+                    <img src="/imgs/priority/High.svg" alt="high" />
                   </MenuItem>
                   <MenuItem value="Medium">
-                    <img src="/imgs/priority/medium.svg" alt="medium" />
+                    <img src="/imgs/priority/Medium.svg" alt="medium" />
                   </MenuItem>
                   <MenuItem value="Low">
-                    <img src="/imgs/priority/low.svg" alt="low" />
+                    <img src="/imgs/priority/Low.svg" alt="low" />
                   </MenuItem>
                   <MenuItem value="Unknown">
-                    <img src="/imgs/priority/unknown.svg" alt="unknown" />
+                    <img src="/imgs/priority/Unknown.svg" alt="unknown" />
                   </MenuItem>
                 </TextField>
+              </Grid>
+            </Grid>
+            {/* start date */}
+            <Grid
+              item
+              container
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+              className={classes.rowSpace}
+            >
+              <Grid item xs={4}>
+                <Typography> Start Date</Typography>
+              </Grid>
+              <Grid item xs={7}>
+                <TextField
+                  id="startDate"
+                  type="date"
+                  value={startDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleStartDateChange}
+                />
               </Grid>
             </Grid>
             {/* Due date */}
@@ -271,7 +283,7 @@ export default function EditTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <Typography> Due date</Typography>
               </Grid>
               <Grid item xs={7}>
@@ -286,7 +298,7 @@ export default function EditTask(props) {
                 />
               </Grid>
             </Grid>
-            {/* Assign chips */}
+            {/* Assign task memebers */}
             <Grid
               item
               container
@@ -295,67 +307,32 @@ export default function EditTask(props) {
               alignItems="center"
               className={classes.rowSpace}
             >
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <Typography> Assign </Typography>
               </Grid>
-              <Grid item xs={7}>
-                {members.map((member) => {
-                  return (
-                    <Chip
-                      key={member.chipCount}
-                      label={member.chipName}
-                      variant="outlined"
-                      onDelete={removeMember(member)}
-                    />
-                  );
-                })}
-                <Chip
-                  label="Add"
-                  onClick={handleTaskAssignment}
-                  icon={<AddCircleIcon />}
-                />
-                {/* add member component */}
-                <Popover
-                  id="add memeber"
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleAssignmentClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Grid item>
+              <Grid item xs={6}>
+                {allConnections === [] ? null : (
+                  <Autocomplete
+                    multiple
+                    id="task member"
+                    options={allConnections}
+                    getOptionLabel={(option) =>
+                      `${option.firstName} ${option.lastName}`
+                    }
+                    value={members}
+                    onChange={(event, value) => {
+                      addMembers(event, value);
+                    }}
+                    renderInput={(params) => (
                       <TextField
-                        id="Member Name"
-                        label="Member Name"
+                        {...params}
                         variant="outlined"
-                        className={classes.chipStyle}
-                        onChange={handleMemberName}
-                        value={name}
+                        label="Task Members"
+                        placeholder="Choose a member"
                       />
-                    </Grid>
-                    <Grid item>
-                      <IconButton
-                        onClick={addMember}
-                        size="large"
-                        style={{ margin: "5px" }}
-                      >
-                        <AddCircleIcon />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                </Popover>
+                    )}
+                  />
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -366,16 +343,14 @@ export default function EditTask(props) {
             xs={1}
             direction="column"
             justifyContent="space-between"
-            alignItems="flex-end"
+            alignItems="center"
+            style={{ height: "520px" }}
           >
             <Grid item>
-              <CloseIcon
-                onClick={props.onClose}
-                className={classes.closeIcon}
-              />
+              <CloseIcon onClick={handleClose} className={classes.closeIcon} />
             </Grid>
             <Grid item>
-              <Button onClick={updateTask} variant="contained" color="primary">
+              <Button onClick={createTask} variant="contained" color="primary">
                 Save
               </Button>
             </Grid>

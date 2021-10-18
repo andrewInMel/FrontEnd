@@ -20,6 +20,13 @@ export default createTheme({
       letterSpacing: "0",
       color: '#4B5766',
     },
+    caption: {
+      textDecoration: "none",
+      color: '#1E1E1E',
+      fontWeight: "400",
+      fontSize: "2vh",
+      lineHeight: "3vh",
+    }
   },
   //Colour palette that all components will use
   palette: {
@@ -94,4 +101,3 @@ export default createTheme({
     },
   },
 });
-

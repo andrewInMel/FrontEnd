@@ -13,29 +13,27 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import MyTextField from "../MyTextField";
 import { extStyles } from "../Style.js";
+import theme from "../Theme.js";
 
 const intStyles = {
-  checkboxStyle: {
-    width: "383px",
-    padding: "5px 0 35px 0",
-  },
-  spaceStyle: {
-    paddingTop: "10px",
-  },
-  noDecoration: {
-    textDecoration: "none",
-  },
-  space: {
-    paddingTop: "50px",
-  },
   centreContainer: {
     position: "absolute",
-    top: "25%",
+    top: "20%",
+  },
+  checkboxStyle: {
+    width: "40vw",
+    padding: "2vh 0 4vh 0",
+  },
+  spaceStyle: {
+    paddingTop: "4vh",
+  },
+  space: {
+    paddingTop: "5vh",
   },
 };
 
-const combinedStyles = {...intStyles , ...extStyles};
 const serverURL = "https://backend-connects.herokuapp.com";
+const combinedStyles = {...intStyles , ...extStyles};
 
 class SignIn extends Component {
   constructor(props) {
@@ -45,7 +43,6 @@ class SignIn extends Component {
       password: "",
       validated: false,
     };
-    sessionStorage.setItem("status", "false");
   }
 
   /* handlers */
@@ -57,23 +54,15 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-      console.log({
-          username: this.state.username,
-          password: this.state.password,
-      })
-      Axios.post(`${serverURL}/auth/login/`, {
-          username: this.state.username,
-          password: this.state.password,
-      })
+    Axios.post(`${serverURL}/auth/login/`, this.state)
       .then((res) => {
-        if (res.data.token) {
+        if (res.data.token && res.data.user_id && res.data.expiry) {
           sessionStorage.setItem("status", true);
-          sessionStorage.setItem("id", res.data.userId);
+          sessionStorage.setItem("id", res.data.user_id);
           sessionStorage.setItem(
             "navStatus",
             JSON.stringify([true, false, false])
           );
-
           this.setState({ validated: true });
         } else {
           alert("Something went wrong");
@@ -81,6 +70,7 @@ class SignIn extends Component {
       })
       .catch((error) => {
         console.log(error);
+        alert("Login failed, please check your username/password");
       });
   };
 
@@ -93,7 +83,7 @@ class SignIn extends Component {
     return (
       <div className={classes.backgroundLanding}>
         <Container className = {classes.centreContainer}>
-          <Typography variant="h2" align="center">
+          <Typography variant="h2" align="center" style = {{marginBottom: "4vh"}}>
             Stay Connectd
           </Typography>
           {/* log in form */}
@@ -104,26 +94,28 @@ class SignIn extends Component {
               justifyContent="center"
               alignItems="center"
             >
-            {/* username */}
-            <Grid item className={classes.space}>
-              <MyTextField
-                label="Username"
-                name="username"
-                fieldValue={username}
-                handler={this.usernameHandler}
-              />
-            </Grid>
+              {/* username */}
+              <Grid item className={classes.space}>
+                <MyTextField
+                  myWidth="40vw"
+                  label="Username"
+                  name="username"
+                  fieldValue={username}
+                  handler={this.usernameHandler}
+                />
+              </Grid>
 
-            {/* password */}
-            <Grid item className={classes.space}>
-              <MyTextField
-                label="Password"
-                name="password"
-                type="password"
-                fieldValue={password}
-                handler={this.passwordHandler}
-              />
-            </Grid>
+              {/* password */}
+              <Grid item className={classes.space}>
+                <MyTextField
+                  myWidth="40vw"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  fieldValue={password}
+                  handler={this.passwordHandler}
+                />
+              </Grid>
 
               <Grid
                 item
@@ -136,14 +128,13 @@ class SignIn extends Component {
                 {/* checkbox and forgot password */}
                 <Grid item>
                   <FormControlLabel
-                    control={<Checkbox color="default" />}
+                    control={<Checkbox style = {{color: theme.palette.steelForms.main}} />}
                     label={<Typography variant="caption">Remember Me</Typography>}
                   />
                 </Grid>
 
                 <Grid item>
                   <Typography
-                    className={classes.noDecoration}
                     variant="caption"
                     component={Link}
                     to="/Signup"
@@ -159,19 +150,18 @@ class SignIn extends Component {
                   Login
                 </Button>
               </Grid>
+              {/* redirct to signup */}
+              <Grid item className={classes.spaceStyle}>
+                <Typography
+                  variant="caption"
+                  component={Link}
+                  to="/Signup"
+                >
+                  New here? Get Started
+                </Typography>
+              </Grid>
             </Grid>
           </form>
-          {/* redirct to signup */}
-          <Typography
-            variant="caption"
-            align="center"
-            display="block"
-            className={`${classes.noDecoration} ${classes.spaceStyle}`}
-            component={Link}
-            to="/Signup"
-          >
-            New here? Get Started
-          </Typography>
         </Container>
       </div>
     );

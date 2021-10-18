@@ -7,13 +7,19 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Profile from "./pages/Profile.jsx";
+import {
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  Grid,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
   search: {
-    flexGrow: "1",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -39,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
+    width: "900px",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -52,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: "none",
+    paddingLeft: "20px",
     [theme.breakpoints.up("md")]: {
       display: "flex",
     },
@@ -61,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [dropdown, setDropdown] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,38 +78,124 @@ export default function PrimarySearchAppBar(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  return (
-    <div>
+
+  const handleChangeDropdown = (e) => {
+    setDropdown(e.target.value);
+    props.filterTasks(e);
+  };
+
+  const handleVipToggle = (e) => {
+    props.filterConnections(e.target.checked);
+  };
+
+  const path = props.location.pathname;
+
+  const taskHeader = () => {
+    return (
       <AppBar position="static">
         <Toolbar>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleClickOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          <Grid container direction="row" alignItems="center">
+            <Grid item xs={10} className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search by task name…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+                onChange={(e) => props.filterTasks(e)}
+              />
+            </Grid>
+            <Grid item xs={1}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  onChange={handleChangeDropdown}
+                  value={dropdown}
+                  label="priority"
+                >
+                  <MenuItem value={""}>All</MenuItem>
+                  <MenuItem value={"critical"}>Critical</MenuItem>
+                  <MenuItem value={"high"}>High</MenuItem>
+                  <MenuItem value={"medium"}>Medium</MenuItem>
+                  <MenuItem value={"low"}>Low</MenuItem>
+                  <MenuItem value={"unknown"}>Unknown</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item cs={1} className={classes.sectionDesktop}>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={handleClickOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
+    );
+  };
 
+  const connectionHeader = () => {
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          {/*search bar*/}
+          <Grid container direction="row" alignItems="center">
+            <Grid item xs={10} className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search by  connection or company or location"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+                onChange={(e) => props.filterConnections(e.target.value)}
+              />
+            </Grid>
+            {/* VIP switch */}
+            <Grid item>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch onChange={handleVipToggle} />}
+                  label="VIP"
+                />
+              </FormGroup>
+            </Grid>
+            {/* profile */}
+            <Grid item className={classes.sectionDesktop}>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                onClick={handleClickOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
+  return (
+    <div>
+      {path === "/Dashboard/task" ? taskHeader() : connectionHeader()}
+      {/*copied taskHeader for now*/}
       <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
   );

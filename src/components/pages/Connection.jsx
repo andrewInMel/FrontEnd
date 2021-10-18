@@ -9,15 +9,13 @@ import { Typography, Grid } from "@material-ui/core";
 const useStyles = makeStyles(() => ({
   headerStyle: {
     backgroundColor: "#afc1c9",
-    height: "35px",
-    padding: "0 33px 0 16px",
+    height: "50px",
+    padding: "20px 33px 0 20px",
   },
   changeColor: {
     backgroundColor: "#DEE2E3",
   },
 }));
-
-
 
 function renderRow(props) {
   const { data, index, style } = props;
@@ -29,9 +27,7 @@ function renderRow(props) {
         root: index % 2 === 0 ? null : data.myStyle,
       }}
     >
-      <ConnectionEntry connection={data.dataList.list[index]} 
-      removeItem={data.dataList.removeItem}
-      index={index} />
+      <ConnectionEntry connection={data.dataList[index]} />
     </ListItem>
   );
 }
@@ -53,12 +49,6 @@ function Connection(props) {
     };
   }
 
-  function removeItem(index) {
-    props.connectionList.splice(index, 1)
-  
-    console.log(props.connectionList)
-  }
-
   function handleResize() {
     if (ref.current) {
       setMyWidth(ref.current.offsetWidth);
@@ -67,7 +57,7 @@ function Connection(props) {
   useEffect(() => {
     window.addEventListener("resize", delay(handleResize, 500));
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", delay);
     };
   }, []);
 
@@ -81,18 +71,12 @@ function Connection(props) {
         itemCount={props.connectionList.length}
         itemData={{
           myStyle: classes.changeColor,
-          dataList: {
-            list: props.connectionList,
-            removeItem: removeItem,
-          },
+          dataList: props.connectionList,
           otherData: true,
         }}
       >
         {renderRow}
       </FixedSizeList>
-      {/* {props.connectionList.map((connection) => {
-        <ConnectionEntry connection={connection} />
-      })} */}
     </Paper>
   );
 }
@@ -111,13 +95,13 @@ const ListHeader = (props) => {
         <Grid item xs={3}>
           <Typography> COMPANY </Typography>
         </Grid>
-        {/* location */}
+        {/* ADDRESS */}
         <Grid item xs={2}>
-          <Typography> LOCATION </Typography>
+          <Typography> PHONE </Typography>
         </Grid>
-        {/* task */}
+        {/* TASK */}
         <Grid item xs={1}>
-          <Typography> TASK </Typography>
+          {/* <Typography> TASK </Typography> */}
         </Grid>
         {/* vip */}
         <Grid item xs={1}>
