@@ -65,7 +65,6 @@ export default function AddTask(props) {
   /* add task member */
   function addMembers(event, values) {
     if (event != null) {
-      console.log(values);
       setMembers(values);
     }
   }
@@ -202,13 +201,13 @@ export default function AddTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="In Progress">
-                    <img src="/imgs/status/In Progress.svg" alt="progress" />
+                    <img src="/status/In Progress.svg" alt="progress" />
                   </MenuItem>
                   <MenuItem value="Review">
-                    <img src="/imgs/status/Review.svg" alt="review" />
+                    <img src="/status/Review.svg" alt="review" />
                   </MenuItem>
                   <MenuItem value="Complete">
-                    <img src="/imgs/status/Complete.svg" alt="complete" />
+                    <img src="/status/Complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
               </Grid>
@@ -233,19 +232,19 @@ export default function AddTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="Critical">
-                    <img src="/imgs/priority/Critical.svg" alt="critical" />
+                    <img src="/priority/Critical.svg" alt="critical" />
                   </MenuItem>
                   <MenuItem value="High">
-                    <img src="/imgs/priority/High.svg" alt="high" />
+                    <img src="/priority/High.svg" alt="high" />
                   </MenuItem>
                   <MenuItem value="Medium">
-                    <img src="/imgs/priority/Medium.svg" alt="medium" />
+                    <img src="/priority/Medium.svg" alt="medium" />
                   </MenuItem>
                   <MenuItem value="Low">
-                    <img src="/imgs/priority/Low.svg" alt="low" />
+                    <img src="/priority/Low.svg" alt="low" />
                   </MenuItem>
                   <MenuItem value="Unknown">
-                    <img src="/imgs/priority/Unknown.svg" alt="unknown" />
+                    <img src="/priority/Unknown.svg" alt="unknown" />
                   </MenuItem>
                 </TextField>
               </Grid>

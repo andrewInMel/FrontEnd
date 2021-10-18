@@ -1,6 +1,6 @@
 import { Typography, Grid, Avatar } from "@material-ui/core";
 import React from "react";
-import Option from "./OptionMenu";
+import OptionMenu from "./OptionMenu";
 import VIP from "../imgs/Vip.svg";
 
 export default function ConnectionEntry(props) {
@@ -43,9 +43,8 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
-        <Option selected={oneConnection} type="connection" />
+        <OptionMenu selected={oneConnection} type="connection" />
       </Grid>
     </Grid>
   );
 }
-

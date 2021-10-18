@@ -10,8 +10,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 const useStyles = makeStyles((theme) => ({
   myWidth: {
     minWidth: "780px",
-    backgroundColor: (myProps) =>
-      !myProps.myIndex || myProps.myIndex % 2 === 0 ? null : "#DEE2E3",
   },
   small: {
     width: theme.spacing(3),
@@ -26,18 +24,17 @@ const useStyles = makeStyles((theme) => ({
   },
   myBar: {
     borderRadius: 5,
-    backgroundColor: (myProps) =>
-      myProps.myProgress !== 100 ? "#478562" : "#C91C00",
+    backgroundColor: (progress) => (progress !== 100 ? "#478562" : "#C91C00"),
   },
   progressPosition: {
     paddingBottom: "10px",
   },
 }));
 
-export default function TaskEntry({ task, index, style }) {
+export default function TaskEntry({ task }) {
   const oneTask = task;
   /* priority img path */
-  const path = `/imgs/priority/${oneTask.priority}.svg`;
+  const path = `/priority/${oneTask.priority}.svg`;
   /* calculate progress */
   const startTime = new Date(oneTask.startDate).getTime();
   const dueTime = new Date(oneTask.endDate).getTime();
@@ -47,11 +44,8 @@ export default function TaskEntry({ task, index, style }) {
   );
   const progress = percentage < 100 ? percentage : 100;
   /* variable required at runtime */
-  const myProps = {
-    myIndex: index,
-    myProgress: progress,
-  };
-  const classes = useStyles(myProps);
+
+  const classes = useStyles(progress);
 
   return (
     <Grid
@@ -59,7 +53,6 @@ export default function TaskEntry({ task, index, style }) {
       direction="row"
       alignItems="center"
       className={classes.myWidth}
-      style={style}
     >
       {/* fisrt column */}
       <Grid
@@ -127,4 +120,3 @@ export default function TaskEntry({ task, index, style }) {
     </Grid>
   );
 }
-

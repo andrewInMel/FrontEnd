@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
 function EditConnection(props) {
   const data = props.userData;
-
   const classes = useStyles();
   /* left section state */
   const [userPhoto, setUserPhoto] = useState(null);
@@ -170,8 +169,8 @@ function EditConnection(props) {
   };
   /* handle close dialog */
   const handleClose = () => {
-    props.onClose();
     resetAll();
+    props.onClose();
   };
   /* File upload operation */
   const handleFileSelect = (event) => {
@@ -185,7 +184,6 @@ function EditConnection(props) {
       setPhotoSrc(URL.createObjectURL(userPhoto));
     }
   }, [userPhoto]);
-
 
   /* submit connection detail */
   const submitConnection = () => {
@@ -208,7 +206,6 @@ function EditConnection(props) {
 
   function updateDetail(myImageSrc) {
     axios
-
       .patch(`${serverURL}/api/connections/${id}/`, {
         userId: sessionStorage.getItem("id"),
         emailAddress: email,
@@ -235,7 +232,6 @@ function EditConnection(props) {
         console.log(error);
       });
   }
-
 
   const resetAll = () => {
     setName(data.firstName);

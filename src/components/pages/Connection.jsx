@@ -17,21 +17,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function renderRow(props) {
-  const { data, index, style } = props;
-  return (
-    <ListItem
-      style={style}
-      key={index}
-      classes={{
-        root: index % 2 === 0 ? null : data.myStyle,
-      }}
-    >
-      <ConnectionEntry connection={data.dataList[index]} />
-    </ListItem>
-  );
-}
-
 function Connection(props) {
   const classes = useStyles();
   const [myWidth, setMyWidth] = useState(null);
@@ -81,6 +66,20 @@ function Connection(props) {
   );
 }
 
+function renderRow({ data, index, style }) {
+  return (
+    <ListItem
+      style={style}
+      key={data.dataList == null ? 0 : data.dataList[index].id}
+      classes={{
+        root: index % 2 === 0 ? null : data.myStyle,
+      }}
+    >
+      <ConnectionEntry connection={data.dataList[index]} />
+    </ListItem>
+  );
+}
+
 const ListHeader = (props) => {
   return (
     <div className={props.myClasses.headerStyle}>
@@ -95,8 +94,8 @@ const ListHeader = (props) => {
         <Grid item xs={3}>
           <Typography> COMPANY </Typography>
         </Grid>
-        {/* ADDRESS */}
-        <Grid item xs={2}>
+        {/* Phone */}
+        <Grid item xs={2} style={{ paddingLeft: "1%" }}>
           <Typography> PHONE </Typography>
         </Grid>
         {/* TASK */}
@@ -104,7 +103,7 @@ const ListHeader = (props) => {
           {/* <Typography> TASK </Typography> */}
         </Grid>
         {/* vip */}
-        <Grid item xs={1}>
+        <Grid item xs={1} style={{ paddingLeft: "1.5%" }}>
           <Typography> VIP </Typography>
         </Grid>
       </Grid>

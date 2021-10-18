@@ -40,7 +40,6 @@ export default function LongMenu(props) {
     }
   }
 
-
   /* choice of view/edit or delete task record */
   const handleOptionClick = (e) => {
     e.currentTarget.id === "Delete"
@@ -52,6 +51,7 @@ export default function LongMenu(props) {
   const handleDialogClose = () => {
     setOptionOpen(false);
   };
+
   return (
     <div>
       <IconButton id="long-button" onClick={handleClick}>

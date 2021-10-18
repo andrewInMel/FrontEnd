@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import TaskEntry from "../TaskEntry";
 import PropTypes from "prop-types";
 import { FixedSizeList } from "react-window";
-// import ListItem from "@material-ui/core/ListItem";
+import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
@@ -17,11 +17,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#DEE2E3",
   },
 }));
-
-function renderRow(props) {
-  const { data, index, style } = props;
-  return <TaskEntry task={data.taskList[index]} style={style} index={index} />;
-}
 
 renderRow.propTypes = {
   index: PropTypes.number.isRequired,
@@ -66,6 +61,7 @@ function TaskList(props) {
         itemSize={80}
         itemCount={props.taskList.length}
         itemData={{
+          myStyle: classes.changeColor,
           taskList: props.taskList,
           otherData: true,
         }}
@@ -76,16 +72,30 @@ function TaskList(props) {
   );
 }
 
+function renderRow({ data, index, style }) {
+  return (
+    <ListItem
+      style={style}
+      key={data.taskList == null ? 0 : data.taskList[index].id}
+      classes={{
+        root: index % 2 === 0 ? null : data.myStyle,
+      }}
+    >
+      <TaskEntry task={data.taskList[index]} />
+    </ListItem>
+  );
+}
+
 const TaskListHeader = (props) => {
   return (
     <div className={props.headerClass.headerStyle}>
       <Grid container direction="row">
         {/* taks name */}
-        <Grid item xs={4} style={{ paddingLeft: "8.5%" }}>
+        <Grid item xs={4} style={{ paddingLeft: "10%" }}>
           <Typography>TASK</Typography>
         </Grid>
         {/* priority */}
-        <Grid item xs={3}>
+        <Grid item xs={3} style={{ paddingLeft: "1%" }}>
           <Typography> PRIORITY </Typography>
         </Grid>
         {/* progress */}

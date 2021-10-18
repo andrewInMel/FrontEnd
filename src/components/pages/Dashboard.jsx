@@ -92,15 +92,8 @@ function DashBd(props) {
   const filterConnections = (value) => {
     const regex = new RegExp(`^${value}`, "gi");
     const myConns = connectionData.filter((connection) => {
-      console.log(connection);
       if (value === false) {
-        return (
-          connection.firstName.match(regex) ||
-          connection.lastName.match(regex) ||
-          connection.company.match(regex) ||
-          connection.phoneNumber.match(regex) ||
-          connection
-        );
+        return connection;
       } else {
         return (
           connection.firstName.match(regex) ||
@@ -118,7 +111,6 @@ function DashBd(props) {
   const filterTasks = (e) => {
     const regex = new RegExp(`${e.target.value}`, "gi");
     const myTasks = taskData.filter((task) => {
-      console.log(task.name);
       return task.name.match(regex) || task.priority.match(regex);
     });
     setFilteredTaskData(myTasks);
