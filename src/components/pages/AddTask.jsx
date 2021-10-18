@@ -57,7 +57,8 @@ export default function AddTask(props) {
     priority: priority,
     status: status,
     connections: members,
-    startDate: startDate,
+    startDate:
+      startDate === "" ? new Date().toISOString().slice(0, 10) : startDate,
     endDate: dueDate,
   };
 
@@ -201,13 +202,13 @@ export default function AddTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="In Progress">
-                    <img src="/imgs/status/progress.svg" alt="progress" />
+                    <img src="/imgs/status/In Progress.svg" alt="progress" />
                   </MenuItem>
                   <MenuItem value="Review">
-                    <img src="/imgs/status/review.svg" alt="review" />
+                    <img src="/imgs/status/Review.svg" alt="review" />
                   </MenuItem>
                   <MenuItem value="Complete">
-                    <img src="/imgs/status/complete.svg" alt="complete" />
+                    <img src="/imgs/status/Complete.svg" alt="complete" />
                   </MenuItem>
                 </TextField>
               </Grid>
@@ -232,19 +233,19 @@ export default function AddTask(props) {
                   InputProps={{ disableUnderline: true }}
                 >
                   <MenuItem value="Critical">
-                    <img src="/imgs/priority/critical.svg" alt="critical" />
+                    <img src="/imgs/priority/Critical.svg" alt="critical" />
                   </MenuItem>
                   <MenuItem value="High">
-                    <img src="/imgs/priority/high.svg" alt="high" />
+                    <img src="/imgs/priority/High.svg" alt="high" />
                   </MenuItem>
                   <MenuItem value="Medium">
-                    <img src="/imgs/priority/medium.svg" alt="medium" />
+                    <img src="/imgs/priority/Medium.svg" alt="medium" />
                   </MenuItem>
                   <MenuItem value="Low">
-                    <img src="/imgs/priority/low.svg" alt="low" />
+                    <img src="/imgs/priority/Low.svg" alt="low" />
                   </MenuItem>
                   <MenuItem value="Unknown">
-                    <img src="/imgs/priority/unknown.svg" alt="unknown" />
+                    <img src="/imgs/priority/Unknown.svg" alt="unknown" />
                   </MenuItem>
                 </TextField>
               </Grid>
@@ -359,4 +360,3 @@ export default function AddTask(props) {
     </Dialog>
   );
 }
-
