@@ -8,49 +8,32 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Container,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Image from "../../imgs/Banana.svg";
 import MyTextField from "../MyTextField";
+import { extStyles } from "../Style.js";
+import theme from "../Theme.js";
 
-const styles = {
-  background: {
-    minHeight: window.innerHeight,
-    backgroundImage: `url(${Image})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPositionX: "right",
-    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
-  },
-  title: {
-    paddingTop: "150px",
-    paddingBottom: "85px",
-    fontWeight: 400,
-    color: "#4B5766",
+const intStyles = {
+  centreContainer: {
+    position: "absolute",
+    top: "20%",
   },
   checkboxStyle: {
-    width: "383px",
-    padding: "5px 0 35px 0",
+    width: "40vw",
+    padding: "2vh 0 4vh 0",
   },
   spaceStyle: {
-    paddingTop: "20px",
-  },
-  noDecoration: {
-    textDecoration: "none",
+    paddingTop: "4vh",
   },
   space: {
-    paddingTop: "25px",
-  },
-  btnLogin: {
-    height: "48px",
-    width: "383px",
-    backgroundColor: "#4F7E83",
-    "&:hover": {
-      backgroundColor: "#734f83",
-    },
+    paddingTop: "5vh",
   },
 };
 
-const serverURL = "https://connectdcrm.herokuapp.com";
+const serverURL = "https://backend-connects.herokuapp.com";
+const combinedStyles = {...intStyles , ...extStyles};
 
 class SignIn extends Component {
   constructor(props) {
@@ -99,88 +82,88 @@ class SignIn extends Component {
       return <Redirect to="/Dashboard" />;
     }
     return (
-      <div className={classes.background}>
-        <Typography variant="h2" align="center" className={classes.title}>
-          Stay Connectd
-        </Typography>
-        {/* log in form */}
-        <form onSubmit={this.submitHandler}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {/* username */}
-            <Grid item className={classes.space}>
-              <MyTextField
-                myWidth="383px"
-                lable="Username"
-                name="username"
-                fieldVaule={username}
-                handler={this.usernameHandler}
-              />
-            </Grid>
-
-            {/* password */}
-            <Grid item className={classes.space}>
-              <MyTextField
-                myWidth="383px"
-                lable="Password"
-                name="password"
-                type="password"
-                fieldVaule={password}
-                handler={this.passwordHandler}
-              />
-            </Grid>
-
+      <div className={classes.backgroundLanding}>
+        <Container className = {classes.centreContainer}>
+          <Typography variant="h2" align="center" style = {{marginBottom: "4vh"}}>
+            Stay Connectd
+          </Typography>
+          {/* log in form */}
+          <form onSubmit={this.submitHandler}>
             <Grid
-              item
               container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="baseline"
-              className={classes.checkboxStyle}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              {/* checkbox and forgot password */}
-              <Grid item>
-                <FormControlLabel
-                  control={<Checkbox color="default" />}
-                  label={<Typography variant="caption">Remember Me</Typography>}
+              {/* username */}
+              <Grid item className={classes.space}>
+                <MyTextField
+                  myWidth="40vw"
+                  label="Username"
+                  name="username"
+                  fieldValue={username}
+                  handler={this.usernameHandler}
                 />
               </Grid>
 
+              {/* password */}
+              <Grid item className={classes.space}>
+                <MyTextField
+                  myWidth="40vw"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  fieldValue={password}
+                  handler={this.passwordHandler}
+                />
+              </Grid>
+
+              <Grid
+                item
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="baseline"
+                className={classes.checkboxStyle}
+              >
+                {/* checkbox and forgot password */}
+                <Grid item>
+                  <FormControlLabel
+                    control={<Checkbox style = {{color: theme.palette.steelForms.main}} />}
+                    label={<Typography variant="caption">Remember Me</Typography>}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Typography
+                    variant="caption"
+                    component={Link}
+                    to="/Signup"
+                  >
+                    Forgot password
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              {/* login button */}
               <Grid item>
+                <Button className={classes.btnLandingLogIn} type="submit">
+                  Login
+                </Button>
+              </Grid>
+              {/* redirct to signup */}
+              <Grid item className={classes.spaceStyle}>
                 <Typography
-                  className={classes.noDecoration}
                   variant="caption"
                   component={Link}
                   to="/Signup"
                 >
-                  Forgot password
+                  New here? Get Started
                 </Typography>
               </Grid>
             </Grid>
-
-            {/* login button */}
-            <Grid item>
-              <Button className={classes.btnLogin} type="submit">
-                Login
-              </Button>
-            </Grid>
-            {/* redirct to signup */}
-            <Grid item className={classes.spaceStyle}>
-              <Typography
-                variant="caption"
-                className={classes.noDecoration}
-                component={Link}
-                to="/Signup"
-              >
-                New here? Get Started
-              </Typography>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Container>
       </div>
     );
   }
@@ -190,5 +173,5 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+export default withStyles(combinedStyles)(SignIn);
 export { serverURL };
