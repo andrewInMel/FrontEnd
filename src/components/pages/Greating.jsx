@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     fontSize: "1.85vmin",
     lineHeight: "4.5vmin",
     fontStyle: "italic",
-    color: '#4F7E83',
+    color: "#4F7E83",
   },
   centreContainer: {
     position: "absolute",
@@ -36,29 +36,37 @@ function Greating() {
       <div>
         <img className={intClasses.logoStyle} src={logo} alt="Logo" />
       </div>
-      <Container maxWidth className = {intClasses.centreContainer}>
-        <div style={{marginBottom: "10vh" }}>
+      <Container maxWidth="xl" className={intClasses.centreContainer}>
+        <div style={{ marginBottom: "10vh" }}>
           <Typography variant="h1" align="center">
             Personal CRM
           </Typography>
-          <Typography className = {intClasses.subtitle} align="center">
+          <Typography className={intClasses.subtitle} align="center">
             Our goal is to make staying connected easy.
           </Typography>
         </div>
-        <Grid 
-        container 
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
         >
           <Grid item>
-            <Button className = {extClasses.btnLandingLogIn} component={Link} to="/Signin">
-                Login
+            <Button
+              className={extClasses.btnLandingLogIn}
+              component={Link}
+              to="/Signin"
+            >
+              Login
             </Button>
           </Grid>
-          <Grid item className = {intClasses.space}>
-            <Button className={extClasses.btnLandingRegister} component={Link} to="/SignUp">
-                Sign Up
+          <Grid item className={intClasses.space}>
+            <Button
+              className={extClasses.btnLandingRegister}
+              component={Link}
+              to="/SignUp"
+            >
+              Sign Up
             </Button>
           </Grid>
         </Grid>

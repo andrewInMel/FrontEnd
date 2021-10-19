@@ -18,79 +18,72 @@ export default createTheme({
       lineHeight: "11vh",
       fontStyle: "normal",
       letterSpacing: "0",
-      color: '#4B5766',
+      color: "#4B5766",
     },
-    caption: {
-      textDecoration: "none",
-      color: '#1E1E1E',
-      fontWeight: "400",
-      fontSize: "2vmin",
-      lineHeight: "3vh",
-    }
   },
   //Colour palette that all components will use
   palette: {
     blackish: {
-      main: '#1E1E1E',
+      main: "#1E1E1E",
     },
     greyBackground: {
-      main: '#DEE2E3',
+      main: "#DEE2E3",
     },
     greyForms: {
-      main: '#E6E6E6',
-      light: '#F9F9F9',
+      main: "#E6E6E6",
+      light: "#F9F9F9",
     },
     blueblack: {
-      main: '#252B42',
-      light: '#BEC0C7',
+      main: "#252B42",
+      light: "#BEC0C7",
     },
     greyblueBackground: {
-      main: '#B9C7C8',
+      main: "#B9C7C8",
     },
     steelForms: {
-      dark: '#4B5766',
-      main: '#6F7985',
-      light: '#939AA3',
+      dark: "#4B5766",
+      main: "#6F7985",
+      light: "#939AA3",
     },
     greyredBackground: {
-      dark: '#CEC4C4',
-      main: '#D8D0D0',
-      light: '#E2DCDC',
+      dark: "#CEC4C4",
+      main: "#D8D0D0",
+      light: "#E2DCDC",
     },
     olive: {
-      main: '#95937D',
+      main: "#95937D",
     },
     maroon: {
-      main: '#944646',
+      main: "#944646",
     },
     redpurple: {
-      main: '#834F69',
+      main: "#834F69",
     },
     oceanPrimary: {
-      main: '#4F7E83',
+      main: "#4F7E83",
     },
     banana: {
-      main: '#DEB525',
-      light: '#E8CC67',
+      main: "#DEB525",
+      light: "#E8CC67",
     },
     white: {
-      main: '#FFFFFF',
+      main: "#FFFFFF",
     },
     redExit: {
-      main: '#CE7171',
-      light: '#F5E3E3',
+      main: "#CE7171",
+      light: "#F5E3E3",
     },
     greenStatus: {
-      main: '#478562',
-      light: '#DAE7E0',
+      main: "#478562",
+      light: "#DAE7E0",
     },
     yellowStatus: {
-      main: '#F6C721',
-      light: '#E8DFBE',
+      main: "#F6C721",
+      light: "#E8DFBE",
     },
     redStatus: {
-      main: '#C91C00',
-      light: '#F4D2CC',
+      main: "#C91C00",
+      light: "#F4D2CC",
     },
   },
   overrides: {

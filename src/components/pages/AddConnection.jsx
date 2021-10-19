@@ -720,8 +720,6 @@ function AddConnection(props) {
                   {noteList === []
                     ? null
                     : noteList.map((oneNote) => {
-                        const index = noteList.indexOf(oneNote);
-
                         return (
                           <NoteField
                             nodeValue={oneNote}
@@ -729,7 +727,7 @@ function AddConnection(props) {
                             update={setNoteList}
                             onDelete={handleDeleteNote(oneNote)}
                             list={noteList}
-                            key={index}
+                            key={oneNote}
                           />
                         );
                       })}

@@ -17,19 +17,18 @@ import theme from "../Theme.js";
 
 const intStyles = {
   fieldSpace: {
-    paddingTop: "4vh",
+    paddingTop: "2.5vh",
   },
   centreContainer: {
     position: "absolute",
     top: "15vh",
   },
   space: {
-    paddingTop: "3vh",
-  }
+    paddingTop: "2vh",
+  },
 };
-
 const url = "https://connectdcrm.herokuapp.com";
-const combinedStyles = {...intStyles , ...extStyles};
+const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignUp extends Component {
   constructor(props) {
@@ -44,7 +43,6 @@ class SignUp extends Component {
       match: true,
     };
   }
-
   /* handlers */
   firstNameHandler = (event) => {
     this.setState({ first_name: event.target.value });
@@ -106,8 +104,12 @@ class SignUp extends Component {
     }
     return (
       <div className={classes.backgroundLanding}>
-        <Container maxWidth = {false} className = {classes.centreContainer}>
-          <Typography variant="h2" align="center">
+        <Container maxWidth={false} className={classes.centreContainer}>
+          <Typography
+            variant="h2"
+            align="center"
+            style={{ paddingBottom: "3vh" }}
+          >
             Start Connecting
           </Typography>
           {/* sign up form */}
@@ -120,18 +122,18 @@ class SignUp extends Component {
               alignItems="center"
             >
               {/* name */}
-              <Grid 
+              <Grid
                 container
                 item
                 className={classes.fieldSpace}
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                style={{ width: "45vw" }}
+                style={{ width: "25vw" }}
               >
                 <Grid item className={classes.fieldSpace}>
                   <MyTextField
-                    myWidth="21vw"
+                    myWidth="12vw"
                     label="Firstname"
                     name="firstname"
                     fieldValue={first_name}
@@ -140,7 +142,7 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item className={classes.fieldSpace}>
                   <MyTextField
-                    myWidth="21vw"
+                    myWidth="12vw"
                     label="Lastname"
                     name="lastname"
                     fieldVaule={last_name}
@@ -151,7 +153,7 @@ class SignUp extends Component {
               {/* Email */}
               <Grid item className={classes.fieldSpace}>
                 <MyTextField
-                  myWidth="45vw"
+                  myWidth="25vw"
                   label="Email"
                   fieldValue={email}
                   name="email"
@@ -162,7 +164,7 @@ class SignUp extends Component {
               {/* password */}
               <Grid item className={classes.fieldSpace}>
                 <MyTextField
-                  myWidth="45vw"
+                  myWidth="25vw"
                   label="Password"
                   fieldValue={password}
                   name="password"
@@ -173,7 +175,7 @@ class SignUp extends Component {
               {/* confirm password */}
               <Grid item className={classes.fieldSpace}>
                 <MyTextField
-                  myWidth="45vw"
+                  myWidth="25vw"
                   label="Confirm Password"
                   fieldValue={confirmPassword}
                   name="Confirm Password"
@@ -183,17 +185,20 @@ class SignUp extends Component {
               </Grid>
               {/* password warning */}
               {this.state.match ? null : (
-                <Grid item style={{ width: "45vw" }}>
+                <Grid item style={{ width: "25vw" }}>
                   <Typography variant="caption" color="error">
                     Password does not match
                   </Typography>
                 </Grid>
               )}
-
               {/* check box */}
-              <Grid item style={{ width: "45vw" }}>
+              <Grid item style={{ width: "25vw" }}>
                 <FormControlLabel
-                  control={<Checkbox style = {{color: theme.palette.steelForms.main}} />}
+                  control={
+                    <Checkbox
+                      style={{ color: theme.palette.steelForms.main }}
+                    />
+                  }
                   label={
                     <Typography variant="caption">
                       Accept Terms and Conditions
@@ -204,7 +209,11 @@ class SignUp extends Component {
 
               {/* submit */}
               <Grid item className={classes.space}>
-                <Button className={classes.btnLandingLogIn} style = {{width: "45vw"}} type="submit">
+                <Button
+                  className={classes.btnLandingLogIn}
+                  style={{ width: "25vw" }}
+                  type="submit"
+                >
                   Register
                 </Button>
               </Grid>
@@ -215,7 +224,7 @@ class SignUp extends Component {
             align="center"
             variant="caption"
             display="block"
-            className = {classes.space}
+            className={classes.space}
             component={Link}
             to="/Signin"
           >

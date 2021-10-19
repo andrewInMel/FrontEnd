@@ -79,13 +79,17 @@ export default function PrimarySearchAppBar(props) {
     setOpen(false);
   };
 
-  const handleChangeDropdown = (e) => {
-    setDropdown(e.target.value);
-    props.filterTasks(e);
+  const handleChangeDropdown = (event) => {
+    setDropdown(event.target.value);
+    props.filterTasks(event);
   };
 
-  const handleVipToggle = (e) => {
-    props.filterConnections(e.target.checked);
+  const handleVipToggle = (event) => {
+    props.SetVip(event.target.checked);
+  };
+
+  const handleSearchValue = (event) => {
+    props.setSearchValue(event.target.value);
   };
 
   const path = props.location.pathname;
@@ -162,7 +166,7 @@ export default function PrimarySearchAppBar(props) {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-                onChange={(e) => props.filterConnections(e.target.value)}
+                onChange={handleSearchValue}
               />
             </Grid>
             {/* VIP switch */}

@@ -21,19 +21,19 @@ const intStyles = {
     top: "20%",
   },
   checkboxStyle: {
-    width: "40vw",
-    padding: "2vh 0 4vh 0",
+    width: "25vw",
+    padding: "0 0 4vh 0",
   },
   spaceStyle: {
-    paddingTop: "4vh",
+    paddingTop: "3vh",
   },
   space: {
-    paddingTop: "5vh",
+    paddingTop: "2vh",
   },
 };
 
 const serverURL = "https://connectdcrm.herokuapp.com";
-const combinedStyles = {...intStyles , ...extStyles};
+const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
   constructor(props) {
@@ -82,8 +82,12 @@ class SignIn extends Component {
     }
     return (
       <div className={classes.backgroundLanding}>
-        <Container maxWidth = {false} className = {classes.centreContainer}>
-          <Typography variant="h2" align="center" style = {{marginBottom: "4vh"}}>
+        <Container maxWidth={false} className={classes.centreContainer}>
+          <Typography
+            variant="h2"
+            align="center"
+            style={{ marginBottom: "6vh" }}
+          >
             Stay Connectd
           </Typography>
           {/* log in form */}
@@ -97,7 +101,7 @@ class SignIn extends Component {
               {/* username */}
               <Grid item className={classes.space}>
                 <MyTextField
-                  myWidth="40vw"
+                  myWidth="25vw"
                   label="Username"
                   name="username"
                   fieldValue={username}
@@ -108,7 +112,7 @@ class SignIn extends Component {
               {/* password */}
               <Grid item className={classes.space}>
                 <MyTextField
-                  myWidth="40vw"
+                  myWidth="25vw"
                   label="Password"
                   name="password"
                   type="password"
@@ -128,17 +132,19 @@ class SignIn extends Component {
                 {/* checkbox and forgot password */}
                 <Grid item>
                   <FormControlLabel
-                    control={<Checkbox style = {{color: theme.palette.steelForms.main}} />}
-                    label={<Typography variant="caption">Remember Me</Typography>}
+                    control={
+                      <Checkbox
+                        style={{ color: theme.palette.steelForms.main }}
+                      />
+                    }
+                    label={
+                      <Typography variant="caption">Remember Me</Typography>
+                    }
                   />
                 </Grid>
 
                 <Grid item>
-                  <Typography
-                    variant="caption"
-                    component={Link}
-                    to="/Signup"
-                  >
+                  <Typography variant="caption" component={Link} to="/Signup">
                     Forgot password
                   </Typography>
                 </Grid>
@@ -146,17 +152,17 @@ class SignIn extends Component {
 
               {/* login button */}
               <Grid item>
-                <Button className={classes.btnLandingLogIn} style = {{width: "40vw"}} type="submit">
+                <Button
+                  className={classes.btnLandingLogIn}
+                  style={{ width: "25vw" }}
+                  type="submit"
+                >
                   Login
                 </Button>
               </Grid>
               {/* redirct to signup */}
               <Grid item className={classes.spaceStyle}>
-                <Typography
-                  variant="caption"
-                  component={Link}
-                  to="/Signup"
-                >
+                <Typography variant="caption" component={Link} to="/Signup">
                   New here? Get Started
                 </Typography>
               </Grid>
