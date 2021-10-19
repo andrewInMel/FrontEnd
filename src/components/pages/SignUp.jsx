@@ -7,40 +7,29 @@ import {
   Grid,
   Button,
   Checkbox,
+  Container,
   FormControlLabel,
 } from "@material-ui/core";
-import Image from "../../imgs/Banana.svg";
 import { withStyles } from "@material-ui/core/styles";
 import MyTextField from "../MyTextField";
+import { extStyles } from "../Style.js";
+import theme from "../Theme.js";
 
-const styles = {
+const intStyles = {
   fieldSpace: {
-    paddingTop: "2rem",
+    paddingTop: "4vh",
   },
-  background: {
-    minHeight: window.innerHeight,
-    backgroundImage: `url(${Image})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPositionX: "right",
-    backgroundSize: `${window.innerWidth * 0.85}px ${window.innerHeight}px`,
+  centreContainer: {
+    position: "absolute",
+    top: "15vh",
   },
-  title: {
-    paddingTop: "125px",
-    paddingBottom: "50px",
-    fontWeight: 400,
-    color: "#4B5766",
-  },
-  btnLogin: {
-    height: "48px",
-    width: "383px",
-    backgroundColor: "#4F7E83",
-    "&:hover": {
-      backgroundColor: "#734f83",
-    },
-  },
+  space: {
+    paddingTop: "3vh",
+  }
 };
 
 const url = "https://connectdcrm.herokuapp.com";
+const combinedStyles = {...intStyles , ...extStyles};
 
 class SignUp extends Component {
   constructor(props) {
@@ -116,118 +105,123 @@ class SignUp extends Component {
       return <Redirect to="/Signin" />;
     }
     return (
-      <div className={classes.background}>
-        <Typography variant="h2" align="center" className={classes.title}>
-          Start Connecting
-        </Typography>
-        {/* sign up form */}
+      <div className={classes.backgroundLanding}>
+        <Container maxWidth = {false} className = {classes.centreContainer}>
+          <Typography variant="h2" align="center">
+            Start Connecting
+          </Typography>
+          {/* sign up form */}
 
-        <form onSubmit={this.submitHandler}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {/* name */}
+          <form onSubmit={this.submitHandler}>
             <Grid
               container
-              item
-              direction="row"
-              justifyContent="space-between"
+              direction="column"
+              justifyContent="center"
               alignItems="center"
-              style={{ width: "383px" }}
             >
+              {/* name */}
+              <Grid 
+                container
+                item
+                className={classes.fieldSpace}
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                style={{ width: "45vw" }}
+              >
+                <Grid item className={classes.fieldSpace}>
+                  <MyTextField
+                    myWidth="21vw"
+                    label="Firstname"
+                    name="firstname"
+                    fieldValue={first_name}
+                    handler={this.firstNameHandler}
+                  />
+                </Grid>
+                <Grid item className={classes.fieldSpace}>
+                  <MyTextField
+                    myWidth="21vw"
+                    label="Lastname"
+                    name="lastname"
+                    fieldVaule={last_name}
+                    handler={this.lastNameHandler}
+                  />
+                </Grid>
+              </Grid>
+              {/* Email */}
               <Grid item className={classes.fieldSpace}>
                 <MyTextField
-                  myWidth="186px"
-                  lable="Firstname"
-                  name="firstname"
-                  fieldVaule={first_name}
-                  handler={this.firstNameHandler}
+                  myWidth="45vw"
+                  label="Email"
+                  fieldValue={email}
+                  name="email"
+                  type="email"
+                  handler={this.emailHandler}
                 />
               </Grid>
+              {/* password */}
               <Grid item className={classes.fieldSpace}>
                 <MyTextField
-                  myWidth="186px"
-                  lable="Lastname"
-                  name="lastname"
-                  fieldVaule={last_name}
-                  handler={this.lastNameHandler}
+                  myWidth="45vw"
+                  label="Password"
+                  fieldValue={password}
+                  name="password"
+                  type="password"
+                  handler={this.passwordHandler}
                 />
               </Grid>
-            </Grid>
-            {/* Email */}
-            <Grid item className={classes.fieldSpace}>
-              <MyTextField
-                myWidth="383px"
-                lable="Email"
-                fieldVaule={email}
-                name="email"
-                type="email"
-                handler={this.emailHandler}
-              />
-            </Grid>
-            {/* password */}
-            <Grid item className={classes.fieldSpace}>
-              <MyTextField
-                myWidth="383px"
-                lable="Password"
-                fieldVaule={password}
-                name="password"
-                type="password"
-                handler={this.passwordHandler}
-              />
-            </Grid>
-            {/* confirm password */}
-            <Grid item className={classes.fieldSpace}>
-              <MyTextField
-                myWidth="383px"
-                lable="Comfirm Password"
-                fieldVaule={confirmPassword}
-                name="Comfirm Password"
-                type="password"
-                handler={this.confirmPasswordHandler}
-              />
-            </Grid>
-            {/* password warning */}
-            {this.state.match ? null : (
-              <Grid item style={{ width: "383px" }}>
-                <Typography variant="caption" color="error">
-                  Password does not match
-                </Typography>
+              {/* confirm password */}
+              <Grid item className={classes.fieldSpace}>
+                <MyTextField
+                  myWidth="45vw"
+                  label="Confirm Password"
+                  fieldValue={confirmPassword}
+                  name="Confirm Password"
+                  type="password"
+                  handler={this.confirmPasswordHandler}
+                />
               </Grid>
-            )}
-
-            {/* check box */}
-            <Grid item style={{ width: "383px" }}>
-              <FormControlLabel
-                control={<Checkbox color="default" />}
-                label={
-                  <Typography variant="caption">
-                    Accept Terms and Conditions
+              {/* password warning */}
+              {this.state.match ? null : (
+                <Grid item style={{ width: "45vw" }}>
+                  <Typography variant="caption" color="error">
+                    Password does not match
                   </Typography>
-                }
-              />
-            </Grid>
+                </Grid>
+              )}
 
-            {/* submit */}
-            <Grid item className={classes.fieldSpace}>
-              <Button className={classes.btnLogin} type="submit">
-                Register
-              </Button>
+              {/* check box */}
+              <Grid item style={{ width: "45vw" }}>
+                <FormControlLabel
+                  control={<Checkbox style = {{color: theme.palette.steelForms.main}} />}
+                  label={
+                    <Typography variant="caption">
+                      Accept Terms and Conditions
+                    </Typography>
+                  }
+                />
+              </Grid>
+
+              {/* submit */}
+              <Grid item className={classes.space}>
+                <Button className={classes.btnLandingLogIn} style = {{width: "45vw"}} type="submit">
+                  Register
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-        {/* link to sign in page */}
-        <Typography
-          align="center"
-          variant="caption"
-          display="block"
-          style={{ paddingTop: "1rem" }}
-        >
-          <Link to="/Signin">Already have an account</Link>
-        </Typography>
+          </form>
+          {/* link to sign in page */}
+          <Typography
+            align="center"
+            variant="caption"
+            display="block"
+            className = {classes.space}
+            component={Link}
+            to="/Signin"
+          >
+            Already have an account
+          </Typography>
+        </Container>
       </div>
     );
   }
@@ -237,4 +231,4 @@ SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignUp);
+export default withStyles(combinedStyles)(SignUp);
