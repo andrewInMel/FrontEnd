@@ -28,7 +28,7 @@ const intStyles = {
   }
 };
 
-const url = "https://connectdcrm.herokuapp.com/";
+const url = "https://connectdcrm.herokuapp.com";
 const combinedStyles = {...intStyles , ...extStyles};
 
 class SignUp extends Component {
@@ -106,7 +106,7 @@ class SignUp extends Component {
     }
     return (
       <div className={classes.backgroundLanding}>
-        <Container maxWidth className = {classes.centreContainer}>
+        <Container maxWidth = {false} className = {classes.centreContainer}>
           <Typography variant="h2" align="center">
             Start Connecting
           </Typography>

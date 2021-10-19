@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     fontSize: "2.5vmin"
   },
   notchedOutline: {
-    borderWidth: "0.2vmin",
+    borderWidth: "0.3vmin",
     borderColor: `${theme.palette.steelForms.main}`,
   },
   label: {
