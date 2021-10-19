@@ -5,11 +5,14 @@ import theme from "./Theme.js";
 
 const useStyles = makeStyles({
   input: {
-    fontSize: "2.5vh"
+    fontSize: "2.5vmin"
   },
   notchedOutline: {
-    borderWidth: "0.5vh",
+    borderWidth: "0.2vmin",
     borderColor: `${theme.palette.steelForms.main}`,
+  },
+  label: {
+    fontSize: "2.5vmin",
   }
 });
 
@@ -30,6 +33,9 @@ function MyTextField(props) {
           input: classes.input,
           notchedOutline: classes.notchedOutline
         },
+      }}
+      InputLabelProps={{
+        className: classes.label
       }}
     />
   );

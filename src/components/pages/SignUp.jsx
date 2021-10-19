@@ -21,14 +21,14 @@ const intStyles = {
   },
   centreContainer: {
     position: "absolute",
-    top: "10vh",
+    top: "15vh",
   },
   space: {
     paddingTop: "3vh",
   }
 };
 
-const url = "https://backend-connects.herokuapp.com";
+const url = "https://connectdcrm.herokuapp.com/";
 const combinedStyles = {...intStyles , ...extStyles};
 
 class SignUp extends Component {
@@ -106,7 +106,7 @@ class SignUp extends Component {
     }
     return (
       <div className={classes.backgroundLanding}>
-        <Container className = {classes.centreContainer}>
+        <Container maxWidth className = {classes.centreContainer}>
           <Typography variant="h2" align="center">
             Start Connecting
           </Typography>
@@ -204,7 +204,7 @@ class SignUp extends Component {
 
               {/* submit */}
               <Grid item className={classes.space}>
-                <Button className={classes.btnLandingLogIn} type="submit">
+                <Button className={classes.btnLandingLogIn} style = {{width: "45vw"}} type="submit">
                   Register
                 </Button>
               </Grid>

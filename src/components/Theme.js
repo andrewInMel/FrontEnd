@@ -7,14 +7,14 @@ export default createTheme({
     fontFamily: ["Poppins"].join(","),
     h1: {
       fontWeight: "400",
-      fontSize: "5.85vh",
+      fontSize: "6vmin",
       lineHeight: "9vh",
       fontStyle: "normal",
       letterSpacing: "0",
     },
     h2: {
       fontWeight: "400",
-      fontSize: "7vh",
+      fontSize: "7vmin",
       lineHeight: "11vh",
       fontStyle: "normal",
       letterSpacing: "0",
@@ -24,7 +24,7 @@ export default createTheme({
       textDecoration: "none",
       color: '#1E1E1E',
       fontWeight: "400",
-      fontSize: "2vh",
+      fontSize: "2vmin",
       lineHeight: "3vh",
     }
   },

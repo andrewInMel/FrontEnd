@@ -1,3 +1,4 @@
+import React from "react";
 import Greating from "./components/pages/Greating.jsx";
 import Signin from "./components/pages/SignIn.jsx";
 import Signup from "./components/pages/SignUp.jsx";
