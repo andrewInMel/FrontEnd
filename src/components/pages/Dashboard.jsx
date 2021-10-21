@@ -38,7 +38,10 @@ function DashBd(props) {
   /* filtered data & page direction */
   const [filteredConnectionData, setFilteredConnectionData] = useState([]);
   const [filteredTaskData, setFilteredTaskData] = useState([]);
+  const [vipSelection, setVipSelection] = useState([]);
   const [customPath, setCustomPath] = useState("dashboard");
+  const [searchValue, setSearchValue] = useState("");
+  const [vip, SetVip] = useState(false);
 
   /* fetch user's data */
   useEffect(() => {
@@ -46,17 +49,13 @@ function DashBd(props) {
       /* fetch user's own profile & connections' data */
       Axios.get(`${serverURL}/api/connections?userId=${userId}`)
         .then((res) => {
+          const myConnections = res.data.filter(
+            (oneConnection) => oneConnection.selfId !== oneConnection.userId
+          );
           allConnections = res.data;
-          setConnectionData(
-            res.data.filter(
-              (oneConnection) => oneConnection.selfId !== oneConnection.userId
-            )
-          );
-          setFilteredConnectionData(
-            res.data.filter(
-              (oneConnection) => oneConnection.selfId !== oneConnection.userId
-            )
-          );
+          setConnectionData(myConnections);
+          setVipSelection(myConnections);
+          setFilteredConnectionData(myConnections);
           setClientData(
             res.data.filter(
               (oneConnection) => oneConnection.selfId === oneConnection.userId
@@ -88,25 +87,6 @@ function DashBd(props) {
     };
   }, [userId, loggedIn]);
 
-  /* use regular expression to pattern match wanted connections */
-  const filterConnections = (value) => {
-    const regex = new RegExp(`^${value}`, "gi");
-    const myConns = connectionData.filter((connection) => {
-      if (value === false) {
-        return connection;
-      } else {
-        return (
-          connection.firstName.match(regex) ||
-          connection.lastName.match(regex) ||
-          connection.company.match(regex) ||
-          connection.phoneNumber.match(regex) ||
-          connection.Vip.toString().match(regex)
-        );
-      }
-    });
-    setFilteredConnectionData(myConns);
-  };
-
   /* use regular expression to pattern match wanted tasks */
   const filterTasks = (e) => {
     const regex = new RegExp(`${e.target.value}`, "gi");
@@ -115,6 +95,44 @@ function DashBd(props) {
     });
     setFilteredTaskData(myTasks);
   };
+
+  /* implement seasrch function on connection */
+  useEffect(() => {
+    /* use regular expression to pattern match wanted connections */
+    function filterConnections(value) {
+      const regex = new RegExp(`^${value}`, "gi");
+      const myConns = vipSelection.filter((connection) => {
+        return (
+          connection.firstName.match(regex) ||
+          connection.lastName.match(regex) ||
+          connection.company.match(regex) ||
+          connection.phoneNumber.match(regex)
+        );
+      });
+      setFilteredConnectionData(myConns);
+    }
+    if (vipSelection) {
+      filterConnections(searchValue);
+    }
+  }, [vipSelection, searchValue]);
+
+  /* filter Vip connections */
+  useEffect(() => {
+    /* Vip connneciton filter */
+    function filterVipConnections(value) {
+      if (value === false) {
+        setVipSelection(connectionData);
+      } else {
+        const tempData = connectionData.filter((connection) => {
+          return connection.Vip === true;
+        });
+        setVipSelection(tempData);
+      }
+    }
+    if (connectionData) {
+      filterVipConnections(vip);
+    }
+  }, [vip, connectionData]);
 
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
@@ -142,7 +160,8 @@ function DashBd(props) {
               <Header
                 {...props}
                 customPath={customPath}
-                filterConnections={filterConnections}
+                setSearchValue={setSearchValue}
+                SetVip={SetVip}
                 filterTasks={filterTasks}
                 data={clientData}
               />

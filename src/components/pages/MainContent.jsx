@@ -19,13 +19,13 @@ const useStyle = makeStyles({
     margin: "15px",
   },
   circleSpace: {
-    margin: "20px 0 0 -50px",
+    marginTop: "20px",
   },
   listStyle: {
     listStyleType: "none",
   },
   circleBox: {
-    width: "300px",
+    width: "250px",
   },
   changeColor: {
     color: "#4F7E83",
@@ -96,6 +96,7 @@ function MainContent(props) {
             <Grid
               container
               direction="column"
+              justifyContent="center"
               alignItems="center"
               className={classes.topBox}
             >

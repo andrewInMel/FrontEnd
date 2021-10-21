@@ -66,7 +66,16 @@ function Sidebar(props) {
     >
       {/* Logo */}
       <Grid item className={classes.topStyle}>
-        <a href="/Dashboard">
+        <a
+          href="/Dashboard"
+          onClick={() => {
+            setClicked([true, false, false]);
+            sessionStorage.setItem(
+              "navStatus",
+              JSON.stringify([true, false, false])
+            );
+          }}
+        >
           <img src={logo} className={classes.imgStyle} alt="Logo"></img>
         </a>
       </Grid>
@@ -78,6 +87,7 @@ function Sidebar(props) {
         justifyContent="space-evenly"
         className={classes.middleStyle}
       >
+        {/* dashboard link */}
         <Grid
           container
           item
@@ -107,11 +117,11 @@ function Sidebar(props) {
             }
             component={Link}
             to={`${props.linkPath}`}
-            // onClick={() => {props.setCustomPath("dashboard")}}
           >
             Dashboard
           </Typography>
         </Grid>
+        {/* Connection link */}
         <Grid
           container
           item
@@ -148,6 +158,7 @@ function Sidebar(props) {
             Connection
           </Typography>
         </Grid>
+        {/* Task link */}
         <Grid
           container
           item
@@ -193,11 +204,6 @@ function Sidebar(props) {
         alignItems="center"
         className={classes.bottomStyle}
       >
-        <Grid item>
-          {/* <Typography className={classes.text} component={Link} to={"/Setting"}>
-            Settings
-          </Typography> */}
-        </Grid>
         <Grid item>
           <Typography
             className={classes.text}

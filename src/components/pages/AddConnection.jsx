@@ -3,14 +3,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid, Avatar, Typography, Switch } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
-import axios from "axios";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Button from "@material-ui/core/Button";
 import AddSocialMedia from "../AddSocialMedia.jsx";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
   },
   iconStyle: {
-    margin: "0 10px 0 0",
+    marginRight: "10px",
   },
   sectionGap: {
     paddingBottom: "50px",
@@ -73,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   textBox: {
     width: "350px",
+  },
+  notePadding: {
+    paddingLeft: "0",
+    paddingRight: "0",
   },
 }));
 
@@ -716,24 +722,28 @@ function AddConnection(props) {
                 >
                   SAVE
                 </Button>
-                <div style={{ paddingBottom: "0 20px" }}>
-                  {noteList === []
-                    ? null
-                    : noteList.map((oneNote) => {
-                        const index = noteList.indexOf(oneNote);
 
-                        return (
+                {noteList === [] ? null : (
+                  <List>
+                    {noteList.map((oneNote) => {
+                      return (
+                        <ListItem
+                          classes={{ root: classes.notePadding }}
+                          key={`${oneNote.note.slice(0, 8)}${Math.floor(
+                            Math.random() * 1000000
+                          )}`}
+                        >
                           <NoteField
                             nodeValue={oneNote}
-                            classes={classes}
                             update={setNoteList}
                             onDelete={handleDeleteNote(oneNote)}
                             list={noteList}
-                            key={index}
                           />
-                        );
-                      })}
-                </div>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
               </Grid>
             )}
           </Grid>
@@ -741,6 +751,7 @@ function AddConnection(props) {
           <Grid item xs={1}>
             <CloseIcon
               onClick={() => {
+                resetAll();
                 props.onClose();
               }}
               fontSize="large"
@@ -755,7 +766,7 @@ function AddConnection(props) {
 
 export default AddConnection;
 
-const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
+const NoteField = ({ nodeValue, onDelete, update, list }) => {
   const [text, setText] = useState(nodeValue.note);
 
   const handleDelte = () => {
@@ -775,23 +786,24 @@ const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
     update(newList);
   };
   return (
-    <>
+    <Grid container direction="row">
+      {/* text area */}
       <TextField
         value={text}
         variant="outlined"
         multiline
         onChange={updateNote}
-        className={classes.textBox}
+        style={{ width: "350px" }}
       />
-      <Grid container direction="row" style={{ paddingBottom: "20px" }}>
-        <Grid item xs={5}>
+      {/* date, then delete & edit functionality */}
+      <Grid container direction="row">
+        <Grid item xs={5} style={{ paddingLeft: "5px" }}>
           <Typography variant="caption">{nodeValue.date}</Typography>
         </Grid>
-
         <Button
           variant="text"
           onClick={handleDelte}
-          style={{ padding: "0", marginLeft: "25px" }}
+          style={{ padding: "0", marginLeft: "20px" }}
         >
           <Typography variant="caption"> Delete </Typography>
         </Button>
@@ -799,6 +811,6 @@ const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
           <Typography variant="caption"> save change</Typography>
         </Button>
       </Grid>
-    </>
+    </Grid>
   );
 };

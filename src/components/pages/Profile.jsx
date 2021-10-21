@@ -11,6 +11,8 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Button from "@material-ui/core/Button";
 import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -73,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   textBox: {
     width: "350px",
+  },
+  notePadding: {
+    paddingLeft: "0",
+    paddingRight: "0",
   },
 }));
 
@@ -719,24 +725,27 @@ function Profile(props) {
                 >
                   SAVE NOTE
                 </Button>
-                <div style={{ paddingTop: "10px" }}>
-                  {noteList === []
-                    ? null
-                    : noteList.map((oneNote) => {
-                        const index = noteList.indexOf(oneNote);
-
-                        return (
+                {noteList === [] ? null : (
+                  <List>
+                    {noteList.map((oneNote) => {
+                      return (
+                        <ListItem
+                          classes={{ root: classes.notePadding }}
+                          key={`${oneNote.note.slice(0, 8)}${Math.floor(
+                            Math.random() * 1000000
+                          )}`}
+                        >
                           <NoteField
                             nodeValue={oneNote}
-                            classes={classes}
                             update={setNoteList}
                             onDelete={handleDeleteNote(oneNote)}
                             list={noteList}
-                            key={index}
                           />
-                        );
-                      })}
-                </div>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
               </Grid>
             )}
           </Grid>
@@ -759,7 +768,7 @@ function Profile(props) {
 
 export default Profile;
 
-const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
+const NoteField = ({ nodeValue, onDelete, update, list }) => {
   const [text, setText] = useState(nodeValue.note);
 
   const handleDelte = () => {
@@ -779,23 +788,23 @@ const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
     update(newList);
   };
   return (
-    <>
+    <Grid container direction="row">
       <TextField
         value={text}
         variant="outlined"
         multiline
         onChange={updateNote}
-        className={classes.textBox}
+        style={{ width: "350px" }}
       />
-      <Grid container direction="row" style={{ paddingBottom: "10px" }}>
-        <Grid item xs={5}>
+      {/* date, then delete & edit functionality */}
+      <Grid container direction="row">
+        <Grid item xs={5} style={{ paddingLeft: "5px" }}>
           <Typography variant="caption">{nodeValue.date}</Typography>
         </Grid>
-
         <Button
           variant="text"
           onClick={handleDelte}
-          style={{ padding: "0", marginLeft: "25px" }}
+          style={{ padding: "0", marginLeft: "20px" }}
         >
           <Typography variant="caption"> Delete </Typography>
         </Button>
@@ -803,6 +812,6 @@ const NoteField = ({ nodeValue, classes, onDelete, update, list }) => {
           <Typography variant="caption"> save change</Typography>
         </Button>
       </Grid>
-    </>
+    </Grid>
   );
 };
