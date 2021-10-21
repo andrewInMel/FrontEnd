@@ -36,7 +36,7 @@ function Greating() {
       <div>
         <img className={intClasses.logoStyle} src={logo} alt="Logo" />
       </div>
-      <Container maxWidth="xl" className={intClasses.centreContainer}>
+      <Container maxWidth={false} className={intClasses.centreContainer}>
         <div style={{ marginBottom: "10vh" }}>
           <Typography variant="h1" align="center">
             Personal CRM
