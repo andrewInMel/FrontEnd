@@ -100,7 +100,7 @@ function DashBd(props) {
   useEffect(() => {
     /* use regular expression to pattern match wanted connections */
     function filterConnections(value) {
-      const regex = new RegExp(`^${value}`, "gi");
+      const regex = new RegExp(`${value}`, "gi");
       const myConns = vipSelection.filter((connection) => {
         return (
           connection.firstName.match(regex) ||
