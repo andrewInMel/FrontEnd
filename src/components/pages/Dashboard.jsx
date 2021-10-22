@@ -14,6 +14,7 @@ import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 import Calendar from "./Calendar.jsx";
 
+
 const useStyles = makeStyles({
   pushFooter: {
     flexGrow: "1",
@@ -47,8 +48,9 @@ function DashBd(props) {
   const [searchValue, setSearchValue] = useState("");
   const [vip, SetVip] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-
-  console.log(taskData, "task ddata");
+ 
+  
+  
 
   /* fetch user's data */
   useEffect(() => {
@@ -77,6 +79,8 @@ function DashBd(props) {
         .then((response) => {
           setTaskData(response.data);
           setFilteredTaskData(response.data);
+        
+          
         })
         .catch((error) => {
           console.log(error);
@@ -175,6 +179,7 @@ function DashBd(props) {
                 SetVip={SetVip}
                 filterTasks={filterTasks}
                 data={clientData}
+                taskData={taskData}
               />
             ) : (
               <Typography>Loading</Typography>

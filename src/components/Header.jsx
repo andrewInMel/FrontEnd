@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Profile from "./pages/Profile.jsx";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import theme from "./Theme.js";
 import {
   FormControl,
   FormControlLabel,
@@ -19,7 +20,9 @@ import {
   Grid,
   Badge,
   Box,
+  styled,
 } from "@material-ui/core";
+import Alert from "./pages/Alert.jsx";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -73,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar(props) {
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [dropdown, setDropdown] = React.useState("");
@@ -100,25 +105,40 @@ export default function PrimarySearchAppBar(props) {
 
   const path = props.location.pathname;
 
+  // const BananaSwitch = styled(Switch)(({ theme }) => ({
+  //   "& .MuiSwitch-switchBase.Mui-checked": {
+  //     color: `${theme.palette.banana.main}`,
+  //     "&:hover": {
+  //       backgroundColor: alpha(`${theme.palette.banana.main}`, 
+  //       theme.palette.action.hoverOpacity),
+  //     },
+  //   },
+  //   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+  //     backgroundColor: `${theme.palette.banana.main}`,
+  //   },
+  // }));
+
   const taskHeader = () => {
     return (
-      <AppBar position="static">
+      <AppBar color="transparent" position="static">
         <Toolbar>
           <Grid container direction="row" alignItems="center">
-            <Grid item xs={8} className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search by task name…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-                onChange={(e) => props.filterTasks(e)}
-              />
-            </Grid>
+            <Box display="flex" flexGrow={1}>
+              <Grid item xs={8} className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search by task name…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={(e) => props.filterTasks(e)}
+                />
+              </Grid>
+            </Box>
             <Grid item xs={1}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Priority</InputLabel>
@@ -139,10 +159,11 @@ export default function PrimarySearchAppBar(props) {
               </FormControl>
             </Grid>
             <Grid item cs={1} className={classes.sectionDesktop}>
-              <Box sx={{ color: 'action.active' }}>
-              <Badge color="secondary" variant="dot">
-                <NotificationsIcon  />
-              </Badge>
+              <Box sx={{ color: "action.active" }}>
+                {/* <Badge color="secondary" variant="dot">
+                  <NotificationsIcon />
+                </Badge> */}
+                {props.taskData && <Alert taskData={props.taskData} />}
               </Box>
               <IconButton
                 edge="end"
@@ -162,29 +183,33 @@ export default function PrimarySearchAppBar(props) {
 
   const connectionHeader = () => {
     return (
-      <AppBar position="static">
+      <AppBar color="transparent" position="static">
         <Toolbar>
           {/*search bar*/}
           <Grid container direction="row" alignItems="center">
-            <Grid item xs={8} className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search by  connection or company or location"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-                onChange={handleSearchValue}
-              />
-            </Grid>
+            <Box display="flex" flexGrow={1}>
+              <Grid item xs={8} className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search by  connection or company or location"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={handleSearchValue}
+                />
+              </Grid>
+            </Box>
             {/* VIP switch */}
-            <Grid item >
+            <Grid item>
               <FormGroup>
                 <FormControlLabel
-                  control={<Switch onChange={handleVipToggle} />}
+                  control={
+                    <Switch onChange={handleVipToggle}  />
+                  }
                   label="VIP"
                 />
               </FormGroup>
