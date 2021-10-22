@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
-    width: "900px",
+    width: "100%",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+      '&:focus': {
+        width: "40ch",
+      }
     },
   },
   sectionDesktop: {
@@ -102,7 +105,7 @@ export default function PrimarySearchAppBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Grid container direction="row" alignItems="center">
-            <Grid item xs={10} className={classes.search}>
+            <Grid item xs={8} className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -163,7 +166,7 @@ export default function PrimarySearchAppBar(props) {
         <Toolbar>
           {/*search bar*/}
           <Grid container direction="row" alignItems="center">
-            <Grid item xs={10} className={classes.search}>
+            <Grid item xs={8} className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -178,7 +181,7 @@ export default function PrimarySearchAppBar(props) {
               />
             </Grid>
             {/* VIP switch */}
-            <Grid item>
+            <Grid item >
               <FormGroup>
                 <FormControlLabel
                   control={<Switch onChange={handleVipToggle} />}
