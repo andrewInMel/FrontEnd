@@ -12,6 +12,7 @@ import Footer from "../Footer.jsx";
 import Add from "../Add.jsx";
 import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
+import Calendar from "./Calendar.jsx";
 
 const useStyles = makeStyles({
   pushFooter: {
@@ -42,6 +43,9 @@ function DashBd(props) {
   const [customPath, setCustomPath] = useState("dashboard");
   const [searchValue, setSearchValue] = useState("");
   const [vip, SetVip] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  console.log(taskData, "task ddata");
 
   /* fetch user's data */
   useEffect(() => {
@@ -134,6 +138,10 @@ function DashBd(props) {
     }
   }, [vip, connectionData]);
 
+  const switchView = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
   } else {
@@ -209,9 +217,24 @@ function DashBd(props) {
                     <Route
                       exact
                       path={`${path}/task`}
-                      render={(props) => (
-                        <TaskList {...props} taskList={filteredTaskData} />
-                      )}
+                      render={(props) => {
+                        if (showCalendar) {
+                          return (
+                            <Calendar
+                              {...props}
+                              switchView={switchView}
+                              taskList={filteredTaskData}
+                            />
+                          );
+                        }
+                        return (
+                          <TaskList
+                            {...props}
+                            switchView={switchView}
+                            taskList={filteredTaskData}
+                          />
+                        );
+                      }}
                     />
                   </Switch>
                 ) : (

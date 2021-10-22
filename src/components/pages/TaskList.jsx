@@ -54,6 +54,7 @@ function TaskList(props) {
 
   return (
     <Paper ref={ref} elevation={3}>
+      <button onClick={props.switchView}>Calendar View </button>
       <TaskListHeader headerClass={classes} />
       <FixedSizeList
         height={window.innerHeight * 0.8}
