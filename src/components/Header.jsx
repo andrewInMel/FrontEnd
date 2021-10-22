@@ -7,6 +7,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Profile from "./pages/Profile.jsx";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import {
   FormControl,
   FormControlLabel,
@@ -16,6 +17,8 @@ import {
   Select,
   Switch,
   Grid,
+  Badge,
+  Box,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -133,6 +136,11 @@ export default function PrimarySearchAppBar(props) {
               </FormControl>
             </Grid>
             <Grid item cs={1} className={classes.sectionDesktop}>
+              <Box sx={{ color: 'action.active' }}>
+              <Badge color="secondary" variant="dot">
+                <NotificationsIcon  />
+              </Badge>
+              </Box>
               <IconButton
                 edge="end"
                 aria-label="account of current user"

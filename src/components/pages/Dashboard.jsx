@@ -17,6 +17,9 @@ import Calendar from "./Calendar.jsx";
 const useStyles = makeStyles({
   pushFooter: {
     flexGrow: "1",
+     margin: "10vh auto",
+     position: "relative"
+    
   },
   addBtnStyle: {
     padding: "0 0 0 35% ",
@@ -183,7 +186,8 @@ function DashBd(props) {
             item
             direction="row"
             justifyContent="center"
-            alignItems="center"
+
+           // alignItems="center"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>

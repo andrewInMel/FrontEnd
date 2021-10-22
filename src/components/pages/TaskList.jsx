@@ -5,7 +5,7 @@ import { FixedSizeList } from "react-window";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, Button } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   headerStyle: {
@@ -54,8 +54,16 @@ function TaskList(props) {
 
   return (
     <Paper ref={ref} elevation={3}>
-      <button onClick={props.switchView}>Calendar View </button>
+     <Button
+      //  style={{ position: "absolute",  top: 0 }}
+        variant="contained"
+        onClick={props.switchView}
+      >
+        Calendar View{" "}
+      </Button>
+
       <TaskListHeader headerClass={classes} />
+  
       <FixedSizeList
         height={window.innerHeight * 0.8}
         width={myWidth}

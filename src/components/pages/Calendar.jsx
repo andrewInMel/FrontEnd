@@ -1,3 +1,4 @@
+import { Button, Paper } from "@material-ui/core";
 import { Scheduler, MonthView } from "@progress/kendo-react-scheduler";
 // import { baseData } from "./events-utc";
 
@@ -63,16 +64,22 @@ const Calendar = ({ taskList, switchView }) => {
   //   }));
 
   return (
-    <>
-      <button onClick={switchView}>List View </button>
+    <Paper elevation={3} style={{ position: "relative" }}>
+      <Button
+      //  style={{ position: "absolute", right: 0, top: 0 }}
+        variant="contained"
+        onClick={switchView}
+      >
+        List View{" "}
+      </Button>
       <Scheduler data={sampleData} defaultDate={displayDate}>
         <MonthView
-          title="Month"
+          title="Month View"
           selectedDateFormat="{0:M}"
           selectedShortDateFormat="{0:M}"
         />
       </Scheduler>
-    </>
+    </Paper>
   );
 };
 
