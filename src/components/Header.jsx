@@ -16,7 +16,9 @@ import {
   Select,
   Switch,
   Grid,
+  Box,
 } from "@material-ui/core";
+import Alert from "./pages/Alert.jsx";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
-    width: "900px",
+    width: "100%",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -55,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+      "&:focus": {
+        width: "40ch",
+      },
     },
   },
   sectionDesktop: {
@@ -94,12 +99,27 @@ export default function PrimarySearchAppBar(props) {
 
   const path = props.location.pathname;
 
+  // const BananaSwitch = styled(Switch)(({ theme }) => ({
+  //   "& .MuiSwitch-switchBase.Mui-checked": {
+  //     color: `${theme.palette.banana.main}`,
+  //     "&:hover": {
+  //       backgroundColor: alpha(
+  //         `${theme.palette.banana.main}`,
+  //         theme.palette.action.hoverOpacity
+  //       ),
+  //     },
+  //   },
+  //   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+  //     backgroundColor: `${theme.palette.banana.main}`,
+  //   },
+  // }));
+
   const taskHeader = () => {
     return (
-      <AppBar position="static">
+      <AppBar color="transparent" position="static">
         <Toolbar>
-          <Grid container direction="row" alignItems="center">
-            <Grid item xs={10} className={classes.search}>
+          <Box display="flex" flexGrow={10}>
+            <Grid item className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -113,37 +133,40 @@ export default function PrimarySearchAppBar(props) {
                 onChange={(e) => props.filterTasks(e)}
               />
             </Grid>
-            <Grid item xs={1}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  onChange={handleChangeDropdown}
-                  value={dropdown}
-                  label="priority"
-                >
-                  <MenuItem value={""}>All</MenuItem>
-                  <MenuItem value={"Critical"}>Critical</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Unknown"}>Unknown</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item cs={1} className={classes.sectionDesktop}>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                onClick={handleClickOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Grid>
-          </Grid>
+          </Box>
+
+          <FormControl style={{ flexGrow: "0.75", paddingBottom: " 20px" }}>
+            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={handleChangeDropdown}
+              value={dropdown}
+              label="priority"
+            >
+              <MenuItem value={""}>All</MenuItem>
+              <MenuItem value={"Critical"}>Critical</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Unknown"}>Unknown</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Box style={{ flexGrow: "0.5", paddingLeft: " 20px" }}>
+            {props.taskData && (
+              <Alert taskData={props.taskData} style={{ marginTop: "-10px" }} />
+            )}
+          </Box>
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-haspopup="true"
+            onClick={handleClickOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
     );
@@ -151,33 +174,40 @@ export default function PrimarySearchAppBar(props) {
 
   const connectionHeader = () => {
     return (
-      <AppBar position="static">
+      <AppBar color="transparent" position="static">
         <Toolbar>
           {/*search bar*/}
           <Grid container direction="row" alignItems="center">
-            <Grid item xs={10} className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search by  connection or company or location"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-                onChange={handleSearchValue}
-              />
-            </Grid>
+            <Box display="flex" flexGrow={1}>
+              <Grid item xs={8} className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search by  connection or company or location"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={handleSearchValue}
+                />
+              </Grid>
+            </Box>
             {/* VIP switch */}
             <Grid item>
-              <FormGroup>
+              <FormGroup style={{ paddingTop: "10px" }}>
                 <FormControlLabel
                   control={<Switch onChange={handleVipToggle} />}
                   label="VIP"
                 />
               </FormGroup>
             </Grid>
+
+            <Box style={{ paddingLeft: " 20px" }}>
+              {props.taskData && <Alert taskData={props.taskData} />}
+            </Box>
+
             {/* profile */}
             <Grid item className={classes.sectionDesktop}>
               <IconButton
@@ -186,6 +216,7 @@ export default function PrimarySearchAppBar(props) {
                 aria-haspopup="true"
                 onClick={handleClickOpen}
                 color="inherit"
+                style={{ transform: "scale(1.5)" }}
               >
                 <AccountCircle />
               </IconButton>
@@ -199,7 +230,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div>
       {path === "/Dashboard/task" ? taskHeader() : connectionHeader()}
-      {/*copied taskHeader for now*/}
+      {/*copied connectionHeader for now*/}
       <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
   );

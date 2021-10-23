@@ -755,12 +755,8 @@ function EditConnection(props) {
             )}
           </Grid>
           {/* right section */}
-          <Grid item xs={1}>
-            <CloseIcon
-              fontSize="large"
-              style={{ paddingLeft: "40px" }}
-              onClick={handleClose}
-            />
+          <Grid item xs={1} style={{ paddingLeft: "40px" }}>
+            <CloseIcon fontSize="large" onClick={handleClose} />
           </Grid>
         </Grid>
       </div>

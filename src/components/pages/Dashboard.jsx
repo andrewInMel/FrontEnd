@@ -12,10 +12,15 @@ import Footer from "../Footer.jsx";
 import Add from "../Add.jsx";
 import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
+import Calendar from "./Calendar.jsx";
+
 
 const useStyles = makeStyles({
   pushFooter: {
     flexGrow: "1",
+     margin: "10vh auto",
+     position: "relative"
+    
   },
   addBtnStyle: {
     padding: "0 0 0 35% ",
@@ -42,6 +47,10 @@ function DashBd(props) {
   const [customPath, setCustomPath] = useState("dashboard");
   const [searchValue, setSearchValue] = useState("");
   const [vip, SetVip] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+ 
+  
+  
 
   /* fetch user's data */
   useEffect(() => {
@@ -70,6 +79,8 @@ function DashBd(props) {
         .then((response) => {
           setTaskData(response.data);
           setFilteredTaskData(response.data);
+        
+          
         })
         .catch((error) => {
           console.log(error);
@@ -134,6 +145,10 @@ function DashBd(props) {
     }
   }, [vip, connectionData]);
 
+  const switchView = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
   } else {
@@ -164,6 +179,7 @@ function DashBd(props) {
                 SetVip={SetVip}
                 filterTasks={filterTasks}
                 data={clientData}
+                taskData={taskData}
               />
             ) : (
               <Typography>Loading</Typography>
@@ -175,7 +191,8 @@ function DashBd(props) {
             item
             direction="row"
             justifyContent="center"
-            alignItems="center"
+
+           // alignItems="center"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>
@@ -209,9 +226,24 @@ function DashBd(props) {
                     <Route
                       exact
                       path={`${path}/task`}
-                      render={(props) => (
-                        <TaskList {...props} taskList={filteredTaskData} />
-                      )}
+                      render={(props) => {
+                        if (showCalendar) {
+                          return (
+                            <Calendar
+                              {...props}
+                              switchView={switchView}
+                              taskList={filteredTaskData}
+                            />
+                          );
+                        }
+                        return (
+                          <TaskList
+                            {...props}
+                            switchView={switchView}
+                            taskList={filteredTaskData}
+                          />
+                        );
+                      }}
                     />
                   </Switch>
                 ) : (

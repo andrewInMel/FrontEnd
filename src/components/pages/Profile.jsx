@@ -750,14 +750,13 @@ function Profile(props) {
             )}
           </Grid>
           {/* right section */}
-          <Grid item xs={1}>
+          <Grid item xs={1} style={{ paddingLeft: "40px" }}>
             <CloseIcon
               onClick={() => {
                 resetAll();
                 props.onClose();
               }}
               fontSize="large"
-              style={{ paddingLeft: "40px" }}
             />
           </Grid>
         </Grid>
