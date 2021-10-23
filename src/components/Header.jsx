@@ -7,8 +7,6 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Profile from "./pages/Profile.jsx";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import theme from "./Theme.js";
 import {
   FormControl,
   FormControlLabel,
@@ -18,9 +16,7 @@ import {
   Select,
   Switch,
   Grid,
-  Badge,
   Box,
-  styled,
 } from "@material-ui/core";
 import Alert from "./pages/Alert.jsx";
 
@@ -61,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
-      '&:focus': {
+      "&:focus": {
         width: "40ch",
-      }
+      },
     },
   },
   sectionDesktop: {
@@ -76,8 +72,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar(props) {
-
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [dropdown, setDropdown] = React.useState("");
@@ -109,8 +103,10 @@ export default function PrimarySearchAppBar(props) {
   //   "& .MuiSwitch-switchBase.Mui-checked": {
   //     color: `${theme.palette.banana.main}`,
   //     "&:hover": {
-  //       backgroundColor: alpha(`${theme.palette.banana.main}`, 
-  //       theme.palette.action.hoverOpacity),
+  //       backgroundColor: alpha(
+  //         `${theme.palette.banana.main}`,
+  //         theme.palette.action.hoverOpacity
+  //       ),
   //     },
   //   },
   //   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
@@ -122,60 +118,55 @@ export default function PrimarySearchAppBar(props) {
     return (
       <AppBar color="transparent" position="static">
         <Toolbar>
-          <Grid container direction="row" alignItems="center">
-            <Box display="flex" flexGrow={1}>
-              <Grid item xs={8} className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search by task name…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                  onChange={(e) => props.filterTasks(e)}
-                />
-              </Grid>
-            </Box>
-            <Grid item xs={1}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  onChange={handleChangeDropdown}
-                  value={dropdown}
-                  label="priority"
-                >
-                  <MenuItem value={""}>All</MenuItem>
-                  <MenuItem value={"Critical"}>Critical</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Unknown"}>Unknown</MenuItem>
-                </Select>
-              </FormControl>
+          <Box display="flex" flexGrow={10}>
+            <Grid item className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search by task name…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+                onChange={(e) => props.filterTasks(e)}
+              />
             </Grid>
-            <Grid item cs={1} className={classes.sectionDesktop}>
-              <Box sx={{ color: "action.active" }}>
-                {/* <Badge color="secondary" variant="dot">
-                  <NotificationsIcon />
-                </Badge> */}
-                {props.taskData && <Alert taskData={props.taskData} />}
-              </Box>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                onClick={handleClickOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Grid>
-          </Grid>
+          </Box>
+
+          <FormControl style={{ flexGrow: "0.75", paddingBottom: " 20px" }}>
+            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={handleChangeDropdown}
+              value={dropdown}
+              label="priority"
+            >
+              <MenuItem value={""}>All</MenuItem>
+              <MenuItem value={"Critical"}>Critical</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Unknown"}>Unknown</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Box style={{ flexGrow: "0.5", paddingLeft: " 20px" }}>
+            {props.taskData && (
+              <Alert taskData={props.taskData} style={{ marginTop: "-10px" }} />
+            )}
+          </Box>
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-haspopup="true"
+            onClick={handleClickOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
     );
@@ -205,15 +196,18 @@ export default function PrimarySearchAppBar(props) {
             </Box>
             {/* VIP switch */}
             <Grid item>
-              <FormGroup>
+              <FormGroup style={{ paddingTop: "10px" }}>
                 <FormControlLabel
-                  control={
-                    <Switch onChange={handleVipToggle}  />
-                  }
+                  control={<Switch onChange={handleVipToggle} />}
                   label="VIP"
                 />
               </FormGroup>
             </Grid>
+
+            <Box style={{ paddingLeft: " 20px" }}>
+              {props.taskData && <Alert taskData={props.taskData} />}
+            </Box>
+
             {/* profile */}
             <Grid item className={classes.sectionDesktop}>
               <IconButton
@@ -222,6 +216,7 @@ export default function PrimarySearchAppBar(props) {
                 aria-haspopup="true"
                 onClick={handleClickOpen}
                 color="inherit"
+                style={{ transform: "scale(1.5)" }}
               >
                 <AccountCircle />
               </IconButton>
@@ -235,7 +230,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div>
       {path === "/Dashboard/task" ? taskHeader() : connectionHeader()}
-      {/*copied taskHeader for now*/}
+      {/*copied connectionHeader for now*/}
       <Profile open={open} onClose={handleClose} userData={props.data} />
     </div>
   );

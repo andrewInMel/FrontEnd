@@ -440,13 +440,15 @@ function AddConnection(props) {
             </Grid>
             {/* bottom section */}
             <Grid item className={classes.bottomStyle}>
-              <Button
-                classes={{ root: classes.btnColor }}
-                variant="contained"
-                onClick={submitConnection}
-              >
-                Add
-              </Button>
+              <a href="/Dashboard">
+                <Button
+                  classes={{ root: classes.btnColor }}
+                  variant="contained"
+                  onClick={submitConnection}
+                >
+                  Add
+                </Button>
+              </a>
             </Grid>
           </Grid>
           {/* middle section */}
@@ -748,14 +750,13 @@ function AddConnection(props) {
             )}
           </Grid>
           {/* right section */}
-          <Grid item xs={1}>
+          <Grid item xs={1} style={{ paddingLeft: "40px" }}>
             <CloseIcon
               onClick={() => {
                 resetAll();
                 props.onClose();
               }}
               fontSize="large"
-              style={{ paddingLeft: "40px" }}
             />
           </Grid>
         </Grid>
