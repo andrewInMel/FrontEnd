@@ -13,7 +13,7 @@ const useStyle = makeStyles({
 });
 
 const Alert = ({ taskData }) => {
-  const [reminders, setReminders] = useState("");
+  const [reminders, setReminders] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [clicked, setClicked] = useState(false);
   const classes = useStyle();
@@ -28,12 +28,12 @@ const Alert = ({ taskData }) => {
   };
 
   useEffect(() => {
-    taskData.forEach((task) => {
-      const day = moment(task.endDate).endOf("day").fromNow();
+    taskData.forEach((oneTask) => {
+      const day = moment(oneTask.endDate).endOf("day").fromNow();
       if (day === "in 2 days" || day === "in a day") {
         setReminders((reminders) => {
-          if (!reminders.includes(task)) {
-            return [...reminders, task];
+          if (reminders.length === 0 || !reminders.task.includes(oneTask)) {
+            return [...reminders, { task: oneTask, exprire: day }];
           } else {
             return reminders;
           }
@@ -45,7 +45,7 @@ const Alert = ({ taskData }) => {
   return (
     <Badge
       color="secondary"
-      variant={reminders.length > 0 && !clicked && "dot"}
+      variant={reminders.length > 0 && !clicked ? "dot" : "standard"}
     >
       <NotificationsIcon onClick={handleClick} />
 
@@ -58,8 +58,8 @@ const Alert = ({ taskData }) => {
       >
         {reminders
           ? reminders.map((reminder) => (
-              <MenuItem key={reminder.id}>
-                {reminder.name} is due in 2 days
+              <MenuItem key={reminder.task.id}>
+                {reminder.task.name} is due {reminder.exprire}
               </MenuItem>
             ))
           : null}

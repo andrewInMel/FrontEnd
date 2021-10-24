@@ -9,7 +9,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
   myWidth: {
-    minWidth: "780px",
+    minWidth: "900px",
   },
   small: {
     width: theme.spacing(3),

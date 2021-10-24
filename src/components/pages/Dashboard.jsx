@@ -14,13 +14,11 @@ import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 import Calendar from "./Calendar.jsx";
 
-
 const useStyles = makeStyles({
   pushFooter: {
     flexGrow: "1",
-     margin: "10vh auto",
-     position: "relative"
-    
+    margin: "10vh auto",
+    position: "relative",
   },
   addBtnStyle: {
     padding: "0 0 0 35% ",
@@ -48,9 +46,6 @@ function DashBd(props) {
   const [searchValue, setSearchValue] = useState("");
   const [vip, SetVip] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
- 
-  
-  
 
   /* fetch user's data */
   useEffect(() => {
@@ -79,8 +74,6 @@ function DashBd(props) {
         .then((response) => {
           setTaskData(response.data);
           setFilteredTaskData(response.data);
-        
-          
         })
         .catch((error) => {
           console.log(error);
@@ -191,8 +184,7 @@ function DashBd(props) {
             item
             direction="row"
             justifyContent="center"
-
-           // alignItems="center"
+            // alignItems="center"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>
