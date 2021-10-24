@@ -98,22 +98,6 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const path = props.location.pathname;
-
-  // const BananaSwitch = styled(Switch)(({ theme }) => ({
-  //   "& .MuiSwitch-switchBase.Mui-checked": {
-  //     color: `${theme.palette.banana.main}`,
-  //     "&:hover": {
-  //       backgroundColor: alpha(
-  //         `${theme.palette.banana.main}`,
-  //         theme.palette.action.hoverOpacity
-  //       ),
-  //     },
-  //   },
-  //   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-  //     backgroundColor: `${theme.palette.banana.main}`,
-  //   },
-  // }));
-
   const taskHeader = () => {
     return (
       <AppBar color="transparent" position="static">

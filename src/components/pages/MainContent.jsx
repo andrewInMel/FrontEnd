@@ -8,8 +8,13 @@ import TaskEntry from "../TaskEntry.jsx";
 
 const useStyle = makeStyles({
   topBox: {
-    width: "400px",
+    width: "300px",
     height: "300px",
+    backgroundColor: "#DEE2E3",
+  },
+  middleBox: {
+    width: "300px",
+    height: "145px",
     backgroundColor: "#DEE2E3",
   },
   gridStyle: {
@@ -40,8 +45,25 @@ const useStyle = makeStyles({
 
 function MainContent(props) {
   const classes = useStyle();
-  const data2 = props.taskList.slice(0, 4);
-  const data = props.connectionList.slice(0, 3);
+  /* task manipulate */
+  const unfinishedTask = props.taskList.filter(
+    (task) => task.status !== "Complete"
+  );
+  const finishedCount = props.taskList.length - unfinishedTask.length;
+  /* sort task by its due date */
+  const sortedTasklist = unfinishedTask.sort((el1, el2) => {
+    if (el1.endDate > el2.endDate) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+  const data2 = sortedTasklist.slice(0, 4);
+  /* vip connection */
+  const data = props.connectionList
+    .filter((connection) => connection.Vip === true)
+    .slice(0, 3);
+
   return (
     <Grid
       container
@@ -84,11 +106,59 @@ function MainContent(props) {
               <Grid item>
                 <Typography variant="h4">connections</Typography>
               </Grid>
-              <Grid item>
-                <Typography variant="h4">this month</Typography>
-              </Grid>
             </Grid>
           </Paper>
+        </Grid>
+        {/* top middle section */}
+        <Grid item className={classes.gridStyle}>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="center"
+            style={{ height: "300px" }}
+          >
+            <Paper elevation={3} className={classes.middleBox}>
+              <Grid
+                container
+                item
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  variant="h1"
+                  classes={{
+                    h1: classes.changeColor,
+                  }}
+                >
+                  {" "}
+                  {finishedCount}{" "}
+                </Typography>
+                <Typography variant="h4"> Task Completed</Typography>
+              </Grid>
+            </Paper>
+            <Paper elevation={3} className={classes.middleBox}>
+              <Grid
+                container
+                item
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  variant="h1"
+                  classes={{
+                    h1: classes.changeColor,
+                  }}
+                >
+                  {" "}
+                  {unfinishedTask.length}{" "}
+                </Typography>
+                <Typography variant="h4">Task Remained</Typography>
+              </Grid>
+            </Paper>
+          </Grid>
         </Grid>
         {/* top right section */}
         <Grid item className={classes.gridStyle}>
