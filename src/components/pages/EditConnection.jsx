@@ -13,6 +13,7 @@ import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -230,6 +231,10 @@ function EditConnection(props) {
         linkedIn: linkedIn,
         notes: noteList,
         imageSrc: myImageSrc,
+      }, {
+          headers: {
+              'Authorization': `Token ${Cookies.get("token")}`
+          }
       })
       .then(() => {
         props.onClose();

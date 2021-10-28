@@ -7,6 +7,7 @@ import EditTask from "./pages/EditTask.jsx";
 import EditConnection from "./pages/EditConnection.jsx";
 import { serverURL } from "./pages/SignIn.jsx";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const options = ["Edit", "Delete"];
 
@@ -30,11 +31,19 @@ export default function LongMenu(props) {
     //useing Delete request to delete the task record
 
     if (props.type === "connection") {
-      axios.delete(`${serverURL}/api/connections/${id}/`).catch((error) => {
+        axios.delete(`${serverURL}/api/connections/${id}/`, {
+            headers: {
+                'Authorization': `Token ${Cookies.get("token")}` 
+            }
+        }).catch((error) => {
         console.log(error);
       });
     } else {
-      axios.delete(`${serverURL}/api/tasks/${id}/`).catch((error) => {
+        axios.delete(`${serverURL}/api/tasks/${id}/`, {
+            headers: {
+                'Authorization': `Token ${Cookies.get("token")}`
+            }
+        }).catch((error) => {
         console.log(error);
       });
     }
