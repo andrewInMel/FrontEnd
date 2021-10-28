@@ -6,6 +6,7 @@ import { Typography, Grid } from "@material-ui/core";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import AssessmentIcon from "@material-ui/icons/Assessment";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +53,7 @@ function Sidebar(props) {
   const classes = useStyles();
 
   const handleSignOut = () => {
+    Cookies.remove("token");
     props.setStatus(false);
   };
   return (

@@ -13,6 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -221,10 +222,14 @@ function AddConnection(props) {
         linkedIn: linkedIn,
         notes: noteList,
         imageSrc: myImageSrc,
+      }, { headers: {
+          'Authorization': `Token ${Cookies.get("token")}`
+         } 
       })
-      .then(() => {
+      .then((res) => {
         resetAll();
         props.onClose();
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
