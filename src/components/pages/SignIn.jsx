@@ -33,8 +33,8 @@ const intStyles = {
   },
 };
 
-// const serverURL = "https://connectdcrm.herokuapp.com";
-const serverURL = "http://localhost:8000";
+const serverURL = "https://connectdcrm.herokuapp.com";
+// const serverURL = "http://localhost:8000";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
