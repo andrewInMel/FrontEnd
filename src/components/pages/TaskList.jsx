@@ -65,7 +65,7 @@ function TaskList(props) {
       <TaskListHeader headerClass={classes} />
 
       <FixedSizeList
-        height={window.innerHeight * 0.65}
+        height={window.innerHeight * 0.7}
         width={myWidth}
         itemSize={80}
         itemCount={props.taskList.length}

@@ -189,7 +189,7 @@ function DashBd(props) {
             container
             item
             direction="row"
-            alignItems="flex-end"
+            alignItems="centre"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>
@@ -249,8 +249,11 @@ function DashBd(props) {
               </div>
             </Grid>
             {/* "Add" functionality */}
-            <Grid item xs={2}>
-              <Add />
+            <Grid container>
+              <Grid style={{ flexGrow: "1" }}></Grid>
+              <Grid item xs={2}>
+                <Add />
+              </Grid>
             </Grid>
           </Grid>
           {/* footer */}

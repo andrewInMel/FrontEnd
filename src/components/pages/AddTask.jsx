@@ -13,13 +13,10 @@ import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   rootStyle: {
-    width: "960px",
-    height: "550px",
+    width: "950px",
+    minHeight: "550px",
     padding: "40px 30px 10px 40px",
     backgroundColor: "#f7faf9",
-  },
-  closeIcon: {
-    paddingLeft: "30px",
   },
   bold: {
     fontWeight: "600",
@@ -32,7 +29,7 @@ const useStyles = makeStyles({
     padding: "10px 0",
   },
   midStyle: {
-    paddingTop: "75px",
+    padding: "75px 0 0 50px",
   },
   chipStyle: {
     margin: "10px 0 10px 10px",
@@ -103,11 +100,11 @@ export default function AddTask(props) {
   /* sent data to backend */
   const createTask = () => {
     axios
-          .post(`${serverURL}/api/tasks/`, taskData, {
-              headers: {
-                  'Authorization': `Token ${Cookies.get("token")}`
-              }
-          })
+      .post(`${serverURL}/api/tasks/`, taskData, {
+        headers: {
+          Authorization: `Token ${Cookies.get("token")}`,
+        },
+      })
       .then(() => {
         resetAll();
         props.onClose();
@@ -348,10 +345,10 @@ export default function AddTask(props) {
             direction="column"
             justifyContent="space-between"
             alignItems="center"
-            style={{ height: "500px" }}
+            style={{ minHeight: "480px" }}
           >
             <Grid item>
-              <CloseIcon onClick={handleClose} className={classes.closeIcon} />
+              <CloseIcon onClick={handleClose} />
             </Grid>
             <Grid item>
               <Button onClick={createTask} variant="contained" color="primary">
