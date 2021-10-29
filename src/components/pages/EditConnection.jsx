@@ -13,6 +13,7 @@ import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,19 +32,19 @@ const useStyles = makeStyles((theme) => ({
   },
   rootStyle: {
     width: "960px",
-    height: "600px",
     padding: "20px 30px 0 50px",
     backgroundColor: "#f7faf9",
+    minHeight: "584px",
   },
   large: {
     width: theme.spacing(16),
     height: theme.spacing(16),
   },
   buttonStyle: {
-    padding: "10px",
+    padding: "5px",
   },
   iconStyle: {
-    margin: "0 10px 0 0",
+    marginRight: "10px",
   },
   sectionGap: {
     paddingBottom: "50px",
@@ -53,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#478562",
     },
-  },
-  bottomStyle: {
-    margin: "0 0 -20px 20px",
   },
   inputStyle: {
     backgroundColor: "#f7f7f7",
@@ -113,6 +111,9 @@ function EditConnection(props) {
   const [option, setOption] = useState(true);
   const myRef = useRef(null);
   const id = data.id;
+  /* tags */
+  const [chosenTags, setChosenTags] = useState(data.tags);
+  const tags = JSON.parse(localStorage.getItem("tags"));
 
   /* handle about */
   const handleEmail = (event) => {
@@ -194,6 +195,8 @@ function EditConnection(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
+    const newTags = chosenTags.filter((oneTag) => !tags.includes(oneTag));
+    localStorage.setItem("tags", JSON.stringify([...tags, ...newTags]));
     if (userPhoto !== null) {
       const fd = new FormData();
       fd.append("file", userPhoto);
@@ -209,6 +212,7 @@ function EditConnection(props) {
     } else {
       updateDetail(data.imageSrc);
     }
+    props.onClose();
   };
 
   function updateDetail(myImageSrc) {
@@ -223,7 +227,6 @@ function EditConnection(props) {
         firstName: name,
         lastName: lastName,
         occupation: occupation,
-
         Vip: vip,
         twitter: twitter,
         instagram: instagram,
@@ -231,13 +234,11 @@ function EditConnection(props) {
         linkedIn: linkedIn,
         notes: noteList,
         imageSrc: myImageSrc,
+        tags: chosenTags,
       }, {
           headers: {
               'Authorization': `Token ${Cookies.get("token")}`
           }
-      })
-      .then(() => {
-        props.onClose();
       })
       .catch((error) => {
         console.log(error);
@@ -264,6 +265,7 @@ function EditConnection(props) {
     setPhotoSrc(data.imageSrc);
     setLinkOpen([false, false, false, false]);
     setOption(true);
+    setChosenTags(data.tags);
   };
 
   return (
@@ -277,7 +279,6 @@ function EditConnection(props) {
             direction="column"
             justifyContent="space-around"
             xs={4}
-            style={{ height: "570px" }}
           >
             {/* top seciton */}
             <Grid item container direction="row" alignItems="center">
@@ -331,7 +332,7 @@ function EditConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <TwitterIcon />
+                  <TwitterIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -342,6 +343,7 @@ function EditConnection(props) {
                       onClick={() => {
                         setLinkOpen([true, false, false, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Twitter Link
                     </Button>
@@ -358,7 +360,7 @@ function EditConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <InstagramIcon />
+                  <InstagramIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -369,6 +371,7 @@ function EditConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, true, false, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Instagram Link
                     </Button>
@@ -385,7 +388,7 @@ function EditConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <GitHubIcon />
+                  <GitHubIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -396,6 +399,7 @@ function EditConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, false, true, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Github Link
                     </Button>
@@ -412,7 +416,7 @@ function EditConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <LinkedInIcon />
+                  <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
                   {linkedIn === null ? (
@@ -422,6 +426,7 @@ function EditConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, false, false, true]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add LinkedIn Link
                     </Button>
@@ -429,6 +434,30 @@ function EditConnection(props) {
                     <a href={linkedIn}>LinkedIn</a>
                   )}
                 </Grid>
+              </Grid>
+              {/* customise tags */}
+              <Grid item style={{ paddingTop: "30px" }}>
+                <Typography variant="subtitle1" gutterBottom={true}>
+                  Choose or Customize Tag
+                </Typography>
+                <Autocomplete
+                  style={{ width: "230px" }}
+                  freeSolo
+                  multiple
+                  id="tags"
+                  options={tags}
+                  getOptionLabel={(tag) => tag}
+                  value={chosenTags}
+                  size="small"
+                  onChange={(event, value) => {
+                    if (event != null) {
+                      setChosenTags(value);
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} variant="outlined" />
+                  )}
+                />
               </Grid>
               <AddSocialMedia
                 open={linkOpen[0]}
@@ -694,18 +723,6 @@ function EditConnection(props) {
                     />
                   </Grid>
                 </Grid>
-                {/* tag */}
-                {/* <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  className={classes.formGapStyle}
-                >
-                  <Grid item xs={4}>
-                    <Typography> Tags </Typography>
-                  </Grid>
-                </Grid> */}
               </Grid>
             ) : (
               /* notes component */

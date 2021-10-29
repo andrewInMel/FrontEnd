@@ -348,7 +348,7 @@ export default function AddTask(props) {
             direction="column"
             justifyContent="space-between"
             alignItems="center"
-            style={{ height: "520px" }}
+            style={{ height: "500px" }}
           >
             <Grid item>
               <CloseIcon onClick={handleClose} className={classes.closeIcon} />

@@ -1,5 +1,4 @@
-import * as React from "react";
-import IconButton from "@material-ui/core/IconButton";
+import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -10,6 +9,8 @@ import AddConnection from "./pages/AddConnection";
 const useStyle = makeStyles({
   iconStyle: {
     transform: "scale(3)",
+    marginLeft: "100px",
+    cursor: "pointer",
   },
 });
 const options = ["Add Task", "Add Connection"];
@@ -47,9 +48,8 @@ export default function LongMenu() {
 
   return (
     <>
-      <IconButton id="long-button" onClick={handleClick}>
-        <AddCircleIcon className={classes.iconStyle} />
-      </IconButton>
+      <AddCircleIcon className={classes.iconStyle} onClick={handleClick} />
+
       <Menu
         id="long-menu"
         anchorEl={anchorEl}

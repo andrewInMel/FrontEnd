@@ -59,6 +59,12 @@ class SignIn extends Component {
     Axios.post(`${serverURL}/auth/login/`, this.state)
       .then((res) => {
         if (res.data.token && res.data.user_id && res.data.expiry) {
+          if (localStorage.getItem("tags") === null) {
+            localStorage.setItem(
+              "tags",
+              JSON.stringify(["family", "friend", "colleague"])
+            );
+          }
           Cookies.remove("token");
           Cookies.set("token", res.data.token);
           sessionStorage.setItem("status", true);

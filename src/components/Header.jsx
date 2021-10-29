@@ -2,7 +2,6 @@ import React from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -68,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       display: "flex",
     },
+  },
+  btnStyle: {
+    transform: "scale(1.5)",
+    cursor: "pointer",
   },
 }));
 
@@ -142,15 +145,10 @@ export default function PrimarySearchAppBar(props) {
               <Alert taskData={props.taskData} style={{ marginTop: "-10px" }} />
             )}
           </Box>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
+          <AccountCircle
             onClick={handleClickOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+            className={classes.btnStyle}
+          />
         </Toolbar>
       </AppBar>
     );
@@ -194,16 +192,10 @@ export default function PrimarySearchAppBar(props) {
 
             {/* profile */}
             <Grid item className={classes.sectionDesktop}>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
+              <AccountCircle
                 onClick={handleClickOpen}
-                color="inherit"
-                style={{ transform: "scale(1.5)" }}
-              >
-                <AccountCircle />
-              </IconButton>
+                className={classes.btnStyle}
+              />
             </Grid>
           </Grid>
         </Toolbar>

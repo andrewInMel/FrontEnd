@@ -18,11 +18,8 @@ import Cookies from "js-cookie";
 const useStyles = makeStyles({
   pushFooter: {
     flexGrow: "1",
-    margin: "10vh auto",
+    margin: "5vh auto",
     position: "relative",
-  },
-  addBtnStyle: {
-    padding: "0 0 0 35% ",
   },
   gutterStyle: {
     padding: "0 0 1% 3%",
@@ -193,8 +190,7 @@ function DashBd(props) {
             container
             item
             direction="row"
-            justifyContent="center"
-            // alignItems="center"
+            alignItems="flex-end"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>
@@ -254,11 +250,8 @@ function DashBd(props) {
               </div>
             </Grid>
             {/* "Add" functionality */}
-            <Grid container item xs={2} direction="column">
-              <Grid item style={{ height: window.innerHeight * 0.7 }}></Grid>
-              <Grid item className={classes.addBtnStyle}>
-                <Add />
-              </Grid>
+            <Grid item xs={2}>
+              <Add />
             </Grid>
           </Grid>
           {/* footer */}
