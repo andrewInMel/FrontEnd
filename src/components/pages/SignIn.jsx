@@ -116,6 +116,7 @@ class SignIn extends Component {
                   name="username"
                   fieldValue={username}
                   handler={this.usernameHandler}
+                  type="email"
                 />
               </Grid>
 

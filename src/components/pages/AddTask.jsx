@@ -107,11 +107,14 @@ export default function AddTask(props) {
       })
       .then(() => {
         resetAll();
-        props.onClose();
+        alert("Task create successfully");
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
+        alert("Task Edit failed");
       });
+    props.onClose();
   };
 
   /* reset all state */

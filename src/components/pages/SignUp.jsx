@@ -61,9 +61,11 @@ class SignUp extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    if (this.state.confirmPassword === this.state.password) {
+    if (
+      this.state.confirmPassword === this.state.password &&
+      this.state.password !== ""
+    ) {
       this.setState({ match: true });
-      this.setState({ signedUp: true });
       Axios.post(`${url}/auth/register/`, this.state)
         .then((res) => {
           if (res.data.user_id) {
@@ -81,17 +83,19 @@ class SignUp extends Component {
                   Authorization: `Token ${res.data.token}`,
                 },
               }
-            ).then((response) => {
-              console.log(response.data);
+            ).then(() => {
+              this.setState({ signedUp: true });
             });
           } else {
             alert("something went wrong");
           }
         })
         .catch((error) => {
+          alert("Sorry, Something went wrong. Please try again");
           console.log(error);
         });
     } else {
+      alert("Something is wrong with the password");
       this.setState({ match: false });
     }
   };

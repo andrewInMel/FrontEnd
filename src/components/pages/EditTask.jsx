@@ -119,11 +119,14 @@ export default function EditTask(props) {
         },
       })
       .then(() => {
-        props.onClose();
+        alert("Task Edit successfully");
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
+        alert("Task Edit failed");
       });
+    props.onClose();
   };
 
   return (

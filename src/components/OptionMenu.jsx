@@ -28,24 +28,38 @@ export default function LongMenu(props) {
 
   /*  record delete fucntion */
   function deleteRecord(id) {
-    //useing Delete request to delete the task record
-
-    if (props.type === "connection") {
-        axios.delete(`${serverURL}/api/connections/${id}/`, {
+    //using Delete request to delete the task record
+    let signal = window.confirm("Are you sure you want to delete");
+    if (signal) {
+      if (props.type === "connection") {
+        axios
+          .delete(`${serverURL}/api/connections/${id}/`, {
             headers: {
-                'Authorization': `Token ${Cookies.get("token")}` 
-            }
-        }).catch((error) => {
-        console.log(error);
-      });
-    } else {
-        axios.delete(`${serverURL}/api/tasks/${id}/`, {
+              Authorization: `Token ${Cookies.get("token")}`,
+            },
+          })
+          .then(() => {
+            alert("Connection deleted");
+            window.location.reload(false);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        axios
+          .delete(`${serverURL}/api/tasks/${id}/`, {
             headers: {
-                'Authorization': `Token ${Cookies.get("token")}`
-            }
-        }).catch((error) => {
-        console.log(error);
-      });
+              Authorization: `Token ${Cookies.get("token")}`,
+            },
+          })
+          .then(() => {
+            alert("Task deleted");
+            window.location.reload(false);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   }
 

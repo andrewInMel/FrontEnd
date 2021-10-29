@@ -24,7 +24,7 @@ function AddSocialMedia(props) {
         <Grid>
           <TextField
             id="Link"
-            label="Link"
+            label="Please Enter Username"
             variant="outlined"
             onChange={handleOneLink}
             value={onelink}

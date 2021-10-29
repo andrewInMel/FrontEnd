@@ -88,10 +88,10 @@ function EditConnection(props) {
   const [userPhoto, setUserPhoto] = useState(null);
   const [occupation, setOccupation] = useState(data.occupation);
   const [vip, setVip] = useState(data.Vip);
-  const [twitter, setTwitter] = useState(null);
-  const [instagram, setInstagram] = useState(null);
-  const [github, setGithub] = useState(null);
-  const [linkedIn, setLinkedIn] = useState(null);
+  const [twitter, setTwitter] = useState(data.twitter);
+  const [instagram, setInstagram] = useState(data.instagram);
+  const [github, setGithub] = useState(data.github);
+  const [linkedIn, setLinkedIn] = useState(data.linkedIn);
   /* about states */
   const [name, setName] = useState(data.firstName);
   const [email, setEmail] = useState(data.emailAddress);
@@ -240,8 +240,13 @@ function EditConnection(props) {
           },
         }
       )
+      .then(() => {
+        alert("Connection created successfully");
+        window.location.reload(false);
+      })
       .catch((error) => {
         console.log(error);
+        alert("create connection failed");
       });
   }
 
@@ -251,10 +256,10 @@ function EditConnection(props) {
     setUserPhoto(null);
     setOccupation(data.occupation);
     setVip(data.Vip);
-    setTwitter(null);
-    setInstagram(null);
-    setGithub(null);
-    setLinkedIn(null);
+    setTwitter(data.twitter);
+    setInstagram(data.instagram);
+    setGithub(data.github);
+    setLinkedIn(data.linkedIn);
     setEmail(data.emailAddress);
     setAddr(data.address);
     setPhone(data.phoneNumber);
@@ -336,7 +341,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {twitter === null ? (
+                  {twitter == null ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -348,7 +353,7 @@ function EditConnection(props) {
                       Add Twitter Link
                     </Button>
                   ) : (
-                    <a href={twitter}>Twitter</a>
+                    <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
                   )}
                 </Grid>
               </Grid>
@@ -364,7 +369,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {instagram === null ? (
+                  {instagram == null ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -376,7 +381,9 @@ function EditConnection(props) {
                       Add Instagram Link
                     </Button>
                   ) : (
-                    <a href={instagram}>Instagram</a>
+                    <a href={`https://www.instagram.com/${instagram}/`}>
+                      {instagram}
+                    </a>
                   )}
                 </Grid>
               </Grid>
@@ -392,7 +399,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {github === null ? (
+                  {github == null ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -404,7 +411,7 @@ function EditConnection(props) {
                       Add Github Link
                     </Button>
                   ) : (
-                    <a href={github}>Github</a>
+                    <a href={`https://github.com/${github}`}>{github}</a>
                   )}
                 </Grid>
               </Grid>
@@ -419,7 +426,7 @@ function EditConnection(props) {
                   <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
-                  {linkedIn === null ? (
+                  {linkedIn == null ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -431,7 +438,9 @@ function EditConnection(props) {
                       Add LinkedIn Link
                     </Button>
                   ) : (
-                    <a href={linkedIn}>LinkedIn</a>
+                    <a href={`https://www.linkedin.com/in/${linkedIn}/`}>
+                      {linkedIn}
+                    </a>
                   )}
                 </Grid>
               </Grid>

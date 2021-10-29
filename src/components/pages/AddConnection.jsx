@@ -14,7 +14,6 @@ import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
 import axios from "axios";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Redirect } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
@@ -88,6 +87,7 @@ function AddConnection(props) {
   const [userPhoto, setUserPhoto] = useState(null);
   const [occupation, setOccupation] = useState("");
   const [vip, setVip] = useState(false);
+  /* social media */
   const [twitter, setTwitter] = useState(null);
   const [instagram, setInstagram] = useState(null);
   const [github, setGithub] = useState(null);
@@ -111,8 +111,7 @@ function AddConnection(props) {
   /* tags */
   const [chosenTags, setChosenTags] = useState([]);
   const tags = JSON.parse(localStorage.getItem("tags"));
-  /* auto refresh */
-  const [refresh, setRefresh] = useState(false);
+
   /* handle about */
   const handleEmail = (event) => {
     setEmail(event.target.value);
@@ -199,7 +198,6 @@ function AddConnection(props) {
         .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
         .then((res) => {
           updateDetail(res.data.secure_url);
-          setRefresh(true);
         })
         .catch((error) => {
           console.log(error);
@@ -207,7 +205,6 @@ function AddConnection(props) {
         });
     } else {
       updateDetail("");
-      setRefresh(true);
     }
     props.onClose();
   };
@@ -241,8 +238,10 @@ function AddConnection(props) {
           },
         }
       )
-      .then((res) => {
+      .then(() => {
         resetAll();
+        alert("Connection created successfully");
+        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
@@ -273,230 +272,53 @@ function AddConnection(props) {
     setChosenTags([]);
   };
 
-  if (refresh) {
-    return <Redirect to="/Dashboard" />;
-  } else {
-    return (
-      <Dialog open={props.open} onClose={props.onClose}>
-        <div className={classes.rootStyle}>
-          <Grid container direction="row">
-            {/* left section */}
-            <Grid
-              item
-              container
-              direction="column"
-              justifyContent="space-around"
-              xs={4}
-            >
-              {/* top seciton */}
-              <Grid item container direction="row" alignItems="center">
-                {/* photo */}
-                <Grid item xs={6}>
-                  <Avatar
-                    alt="user photo"
-                    src={photoSrc}
-                    className={`${classes.large} ${classes.cursorStyle}`}
-                    onClick={() => myRef.current.click()}
-                  >
-                    <Typography align="center">Upload Your Image</Typography>
-                  </Avatar>
-                  <input
-                    type="file"
-                    ref={myRef}
-                    onChange={handleFileSelect}
-                    hidden
-                  />
-                </Grid>
-                {/* name and VIP switch */}
-                <Grid item container direction="column" xs={6}>
-                  <Grid item>
-                    <TextField
-                      value={name}
-                      onChange={handleName}
-                      InputProps={{ disableUnderline: true }}
-                      placeholder="New Contact"
-                    />
-                  </Grid>
-                  <Grid item container alignItems="center">
-                    <Grid item xs={2}>
-                      <Typography variant="subtitle1">VIP</Typography>
-                    </Grid>
-                    <Switch checked={vip} onChange={handleVip} />
-                  </Grid>
-                </Grid>
-              </Grid>
-              {/* middle section */}
-              <Grid
-                item
-                container
-                direction="column"
-                className={`${classes.sectionGap}`}
-              >
-                {/* twitter */}
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  className={classes.buttonStyle}
+  return (
+    <Dialog open={props.open} onClose={props.onClose}>
+      <div className={classes.rootStyle}>
+        <Grid container direction="row">
+          {/* left section */}
+          <Grid
+            item
+            container
+            direction="column"
+            justifyContent="space-around"
+            xs={4}
+          >
+            {/* top seciton */}
+            <Grid item container direction="row" alignItems="center">
+              {/* photo */}
+              <Grid item xs={6}>
+                <Avatar
+                  alt="user photo"
+                  src={photoSrc}
+                  className={`${classes.large} ${classes.cursorStyle}`}
+                  onClick={() => myRef.current.click()}
                 >
-                  <Grid item className={classes.iconStyle}>
-                    <TwitterIcon fontSize="small" />
-                  </Grid>
-
-                  <Grid item>
-                    {twitter === null ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => {
-                          setLinkOpen([true, false, false, false]);
-                        }}
-                        style={{ height: "25px" }}
-                      >
-                        Add Twitter Link
-                      </Button>
-                    ) : (
-                      <a href={twitter}>Twitter</a>
-                    )}
-                  </Grid>
-                </Grid>
-                {/* instagram */}
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  className={classes.buttonStyle}
-                >
-                  <Grid item className={classes.iconStyle}>
-                    <InstagramIcon fontSize="small" />
-                  </Grid>
-
-                  <Grid item>
-                    {instagram === null ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => {
-                          setLinkOpen([false, true, false, false]);
-                        }}
-                        style={{ height: "25px" }}
-                      >
-                        Add Instagram Link
-                      </Button>
-                    ) : (
-                      <a href={instagram}>Instagram</a>
-                    )}
-                  </Grid>
-                </Grid>
-                {/* github */}
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  className={classes.buttonStyle}
-                >
-                  <Grid item className={classes.iconStyle}>
-                    <GitHubIcon fontSize="small" />
-                  </Grid>
-
-                  <Grid item>
-                    {github === null ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => {
-                          setLinkOpen([false, false, true, false]);
-                        }}
-                        style={{ height: "25px" }}
-                      >
-                        Add Github Link
-                      </Button>
-                    ) : (
-                      <a href={github}>Github</a>
-                    )}
-                  </Grid>
-                </Grid>
-                {/* linkedIn */}
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  className={classes.buttonStyle}
-                >
-                  <Grid item className={classes.iconStyle}>
-                    <LinkedInIcon fontSize="small" />
-                  </Grid>
-                  <Grid item>
-                    {linkedIn === null ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => {
-                          setLinkOpen([false, false, false, true]);
-                        }}
-                        style={{ height: "25px" }}
-                      >
-                        Add LinkedIn Link
-                      </Button>
-                    ) : (
-                      <a href={linkedIn}>LinkedIn</a>
-                    )}
-                  </Grid>
-                </Grid>
-                {/* customise tags */}
-                <Grid item style={{ paddingTop: "30px" }}>
-                  <Typography variant="subtitle1" gutterBottom={true}>
-                    Choose or Customize Tag
-                  </Typography>
-                  <Autocomplete
-                    style={{ width: "230px" }}
-                    freeSolo
-                    multiple
-                    id="tags"
-                    options={tags}
-                    getOptionLabel={(tag) => tag}
-                    value={chosenTags}
-                    size="small"
-                    onChange={(event, value) => {
-                      if (event != null) {
-                        setChosenTags(value);
-                      }
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} variant="outlined" />
-                    )}
-                  />
-                </Grid>
-                <AddSocialMedia
-                  open={linkOpen[0]}
-                  onClose={handleLinkClose}
-                  setLink={setTwitter}
-                />
-                <AddSocialMedia
-                  open={linkOpen[1]}
-                  onClose={handleLinkClose}
-                  setLink={setInstagram}
-                />
-                <AddSocialMedia
-                  open={linkOpen[2]}
-                  onClose={handleLinkClose}
-                  setLink={setGithub}
-                />
-                <AddSocialMedia
-                  open={linkOpen[3]}
-                  onClose={handleLinkClose}
-                  setLink={setLinkedIn}
+                  <Typography align="center">Upload Your Image</Typography>
+                </Avatar>
+                <input
+                  type="file"
+                  ref={myRef}
+                  onChange={handleFileSelect}
+                  hidden
                 />
               </Grid>
-              {/* bottom section */}
-              <Grid item>
-                <Button
-                  classes={{ root: classes.btnColor }}
-                  variant="contained"
-                  onClick={submitConnection}
-                >
-                  Add
-                </Button>
+              {/* name and VIP switch */}
+              <Grid item container direction="column" xs={6}>
+                <Grid item>
+                  <TextField
+                    value={name}
+                    onChange={handleName}
+                    InputProps={{ disableUnderline: true }}
+                    placeholder="New Contact"
+                  />
+                </Grid>
+                <Grid item container alignItems="center">
+                  <Grid item xs={2}>
+                    <Typography variant="subtitle1">VIP</Typography>
+                  </Grid>
+                  <Switch checked={vip} onChange={handleVip} />
+                </Grid>
               </Grid>
             </Grid>
             {/* middle section */}
@@ -504,300 +326,477 @@ function AddConnection(props) {
               item
               container
               direction="column"
-              xs={7}
-              className={classes.midSection}
+              className={`${classes.sectionGap}`}
             >
-              {/* top secton */}
-              <Grid item container direction="row">
-                {/* about */}
-                <Grid item xs={10}>
-                  <Typography
-                    variant="h6"
-                    className={classes.cursorStyle}
-                    onClick={handleAbout}
-                    style={
-                      option
-                        ? {
-                            width: "65px",
-                            borderBottom: "6px solid #478562",
-                          }
-                        : null
-                    }
-                  >
-                    About
-                  </Typography>
+              {/* twitter */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <TwitterIcon fontSize="small" />
                 </Grid>
-                {/* Notes */}
-                <Grid item>
-                  <Typography
-                    variant="h6"
-                    className={classes.cursorStyle}
-                    onClick={handleNotes}
-                    style={
-                      option
-                        ? null
-                        : {
-                            width: "59px",
-                            borderBottom: "6px solid #478562",
-                          }
-                    }
-                  >
-                    Notes
-                  </Typography>
-                </Grid>
-              </Grid>
-              {/* divider line */}
-              <Grid item style={{ width: "403.5px" }}>
-                <hr className={classes.solidLine} />
-              </Grid>
-              {/* bottom section */}
-              {option ? (
-                /* about component */
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  style={{ paddingTop: "50px" }}
-                >
-                  {/* name */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> First Name</Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        value={name}
-                        onChange={handleName}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Last Name</Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        value={lastName}
-                        onChange={handleLastName}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* occupation */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Occupation</Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        value={occupation}
-                        onChange={handleOccupation}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* email */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Email</Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        type="email"
-                        value={email}
-                        onChange={handleEmail}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* Address */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Address </Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        value={addr}
-                        onChange={handleAddr}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* phone */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Phone </Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        type="tel"
-                        value={phone}
-                        onChange={handlePhone}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* company */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Company </Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        value={company}
-                        onChange={handleCompany}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* birthday */}
-                  <Grid
-                    item
-                    container
-                    direction="row"
-                    alignItems="center"
-                    className={classes.formGapStyle}
-                  >
-                    <Grid item xs={4}>
-                      <Typography> Birthday </Typography>
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        classes={{ root: classes.inputStyle }}
-                        type="date"
-                        value={birthday}
-                        onChange={handleBirthday}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              ) : (
-                /* notes component */
-                <Grid
-                  item
-                  container
-                  direction="column"
-                  style={{ paddingLeft: "30px" }}
-                >
-                  <Typography
-                    style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
-                  >
-                    Add note
-                  </Typography>
-                  <TextField
-                    variant="outlined"
-                    minRows={2}
-                    multiline
-                    className={classes.textBox}
-                    value={noteText}
-                    onChange={handleNoteText}
-                  />
-                  <Button
-                    variant="contained"
-                    classes={{ contained: classes.btnClass }}
-                    onClick={handleSubmitNote}
-                  >
-                    SAVE
-                  </Button>
 
-                  {noteList === [] ? null : (
-                    <List>
-                      {noteList.map((oneNote) => {
-                        return (
-                          <ListItem
-                            classes={{ root: classes.notePadding }}
-                            key={`${oneNote.note.slice(0, 8)}${Math.floor(
-                              Math.random() * 1000000
-                            )}`}
-                          >
-                            <NoteField
-                              nodeValue={oneNote}
-                              update={setNoteList}
-                              onDelete={handleDeleteNote(oneNote)}
-                              list={noteList}
-                            />
-                          </ListItem>
-                        );
-                      })}
-                    </List>
+                <Grid item>
+                  {twitter == null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([true, false, false, false]);
+                      }}
+                      style={{ height: "25px" }}
+                    >
+                      Add Twitter Link
+                    </Button>
+                  ) : (
+                    <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
                   )}
                 </Grid>
-              )}
-            </Grid>
-            {/* right section */}
-            <Grid item xs={1} style={{ paddingLeft: "40px" }}>
-              <CloseIcon
-                onClick={() => {
-                  resetAll();
-                  props.onClose();
-                }}
-                fontSize="large"
+              </Grid>
+              {/* instagram */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <InstagramIcon fontSize="small" />
+                </Grid>
+
+                <Grid item>
+                  {instagram == null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, true, false, false]);
+                      }}
+                      style={{ height: "25px" }}
+                    >
+                      Add Instagram Link
+                    </Button>
+                  ) : (
+                    <a href={`https://www.instagram.com/${instagram}/`}>
+                      {instagram}
+                    </a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* github */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <GitHubIcon fontSize="small" />
+                </Grid>
+
+                <Grid item>
+                  {github == null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, false, true, false]);
+                      }}
+                      style={{ height: "25px" }}
+                    >
+                      Add Github Link
+                    </Button>
+                  ) : (
+                    <a href={`https://github.com/${github}`}>{github}</a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* linkedIn */}
+              <Grid
+                item
+                container
+                direction="row"
+                className={classes.buttonStyle}
+              >
+                <Grid item className={classes.iconStyle}>
+                  <LinkedInIcon fontSize="small" />
+                </Grid>
+                <Grid item>
+                  {linkedIn == null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setLinkOpen([false, false, false, true]);
+                      }}
+                      style={{ height: "25px" }}
+                    >
+                      Add LinkedIn Link
+                    </Button>
+                  ) : (
+                    <a href={`https://www.linkedin.com/in/${linkedIn}/`}>
+                      {linkedIn}
+                    </a>
+                  )}
+                </Grid>
+              </Grid>
+              {/* customise tags */}
+              <Grid item style={{ paddingTop: "30px" }}>
+                <Typography variant="subtitle1" gutterBottom={true}>
+                  Choose or Customize Tag
+                </Typography>
+                <Autocomplete
+                  style={{ width: "230px" }}
+                  freeSolo
+                  multiple
+                  id="tags"
+                  options={tags}
+                  getOptionLabel={(tag) => tag}
+                  value={chosenTags}
+                  size="small"
+                  onChange={(event, value) => {
+                    if (event != null) {
+                      setChosenTags(value);
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} variant="outlined" />
+                  )}
+                />
+              </Grid>
+              <AddSocialMedia
+                open={linkOpen[0]}
+                onClose={handleLinkClose}
+                setLink={setTwitter}
+              />
+              <AddSocialMedia
+                open={linkOpen[1]}
+                onClose={handleLinkClose}
+                setLink={setInstagram}
+              />
+              <AddSocialMedia
+                open={linkOpen[2]}
+                onClose={handleLinkClose}
+                setLink={setGithub}
+              />
+              <AddSocialMedia
+                open={linkOpen[3]}
+                onClose={handleLinkClose}
+                setLink={setLinkedIn}
               />
             </Grid>
+            {/* bottom section */}
+            <Grid item>
+              <Button
+                classes={{ root: classes.btnColor }}
+                variant="contained"
+                onClick={submitConnection}
+              >
+                Add
+              </Button>
+            </Grid>
           </Grid>
-        </div>
-      </Dialog>
-    );
-  }
+          {/* middle section */}
+          <Grid
+            item
+            container
+            direction="column"
+            xs={7}
+            className={classes.midSection}
+          >
+            {/* top secton */}
+            <Grid item container direction="row">
+              {/* about */}
+              <Grid item xs={10}>
+                <Typography
+                  variant="h6"
+                  className={classes.cursorStyle}
+                  onClick={handleAbout}
+                  style={
+                    option
+                      ? {
+                          width: "65px",
+                          borderBottom: "6px solid #478562",
+                        }
+                      : null
+                  }
+                >
+                  About
+                </Typography>
+              </Grid>
+              {/* Notes */}
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  className={classes.cursorStyle}
+                  onClick={handleNotes}
+                  style={
+                    option
+                      ? null
+                      : {
+                          width: "59px",
+                          borderBottom: "6px solid #478562",
+                        }
+                  }
+                >
+                  Notes
+                </Typography>
+              </Grid>
+            </Grid>
+            {/* divider line */}
+            <Grid item style={{ width: "403.5px" }}>
+              <hr className={classes.solidLine} />
+            </Grid>
+            {/* bottom section */}
+            {option ? (
+              /* about component */
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingTop: "50px" }}
+              >
+                {/* name */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> First Name</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={name}
+                      onChange={handleName}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Last Name</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={lastName}
+                      onChange={handleLastName}
+                    />
+                  </Grid>
+                </Grid>
+                {/* occupation */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Occupation</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={occupation}
+                      onChange={handleOccupation}
+                    />
+                  </Grid>
+                </Grid>
+                {/* email */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Email</Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="email"
+                      value={email}
+                      onChange={handleEmail}
+                    />
+                  </Grid>
+                </Grid>
+                {/* Address */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Address </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={addr}
+                      onChange={handleAddr}
+                    />
+                  </Grid>
+                </Grid>
+                {/* phone */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Phone </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="tel"
+                      value={phone}
+                      onChange={handlePhone}
+                    />
+                  </Grid>
+                </Grid>
+                {/* company */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Company </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      value={company}
+                      onChange={handleCompany}
+                    />
+                  </Grid>
+                </Grid>
+                {/* birthday */}
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={classes.formGapStyle}
+                >
+                  <Grid item xs={4}>
+                    <Typography> Birthday </Typography>
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      classes={{ root: classes.inputStyle }}
+                      type="date"
+                      value={birthday}
+                      onChange={handleBirthday}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : (
+              /* notes component */
+              <Grid
+                item
+                container
+                direction="column"
+                style={{ paddingLeft: "30px" }}
+              >
+                <Typography
+                  style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
+                >
+                  Add note
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  minRows={2}
+                  multiline
+                  className={classes.textBox}
+                  value={noteText}
+                  onChange={handleNoteText}
+                />
+                <Button
+                  variant="contained"
+                  classes={{ contained: classes.btnClass }}
+                  onClick={handleSubmitNote}
+                >
+                  SAVE
+                </Button>
+
+                {noteList === [] ? null : (
+                  <List>
+                    {noteList.map((oneNote) => {
+                      return (
+                        <ListItem
+                          classes={{ root: classes.notePadding }}
+                          key={`${oneNote.note.slice(0, 8)}${Math.floor(
+                            Math.random() * 1000000
+                          )}`}
+                        >
+                          <NoteField
+                            nodeValue={oneNote}
+                            update={setNoteList}
+                            onDelete={handleDeleteNote(oneNote)}
+                            list={noteList}
+                          />
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
+              </Grid>
+            )}
+          </Grid>
+          {/* right section */}
+          <Grid item xs={1} style={{ paddingLeft: "40px" }}>
+            <CloseIcon
+              onClick={() => {
+                resetAll();
+                props.onClose();
+              }}
+              fontSize="large"
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </Dialog>
+  );
 }
 
 export default AddConnection;
