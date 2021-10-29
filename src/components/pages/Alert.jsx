@@ -31,13 +31,16 @@ const Alert = ({ taskData }) => {
     taskData.forEach((oneTask) => {
       const day = moment(oneTask.endDate).endOf("day").fromNow();
       if (day === "in 2 days" || day === "in a day") {
-        setReminders((reminders) => {
-          if (reminders.length === 0) {
-            return [...reminders, { task: oneTask, exprire: day }];
-          } else if (!reminders.task.includes(oneTask)) {
-            return [...reminders, { task: oneTask, exprire: day }];
+        setReminders((prevReminders) => {
+          if (prevReminders.length === 0) {
+            return [...prevReminders, { task: oneTask, exprire: day }];
+          } else if (
+            prevReminders.filter((oneReminder) => oneReminder.id === oneTask.id)
+              .length === 0
+          ) {
+            return [...prevReminders, { task: oneTask, exprire: day }];
           } else {
-            return reminders;
+            return prevReminders;
           }
         });
       }
