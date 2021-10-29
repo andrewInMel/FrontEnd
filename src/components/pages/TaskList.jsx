@@ -54,8 +54,8 @@ function TaskList(props) {
 
   return (
     <Paper ref={ref} elevation={3}>
-     <Button
-      //  style={{ position: "absolute",  top: 0 }}
+      <Button
+        //  style={{ position: "absolute",  top: 0 }}
         variant="contained"
         onClick={props.switchView}
       >
@@ -63,9 +63,9 @@ function TaskList(props) {
       </Button>
 
       <TaskListHeader headerClass={classes} />
-  
+
       <FixedSizeList
-        height={window.innerHeight * 0.8}
+        height={window.innerHeight * 0.65}
         width={myWidth}
         itemSize={80}
         itemCount={props.taskList.length}

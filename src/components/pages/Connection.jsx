@@ -50,7 +50,7 @@ function Connection(props) {
     <Paper ref={ref} elevation={3}>
       <ListHeader myClasses={classes} />
       <FixedSizeList
-        height={window.innerHeight * 0.8}
+        height={window.innerHeight * 0.7}
         width={myWidth}
         itemSize={75}
         itemCount={props.connectionList.length}

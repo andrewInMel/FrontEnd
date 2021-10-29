@@ -112,7 +112,9 @@ function EditConnection(props) {
   const myRef = useRef(null);
   const id = data.id;
   /* tags */
-  const [chosenTags, setChosenTags] = useState(data.tags);
+  const [chosenTags, setChosenTags] = useState(
+    data.tags == null ? [] : data.tags
+  );
   const tags = JSON.parse(localStorage.getItem("tags"));
 
   /* handle about */
@@ -155,23 +157,18 @@ function EditConnection(props) {
   const handleLinkClose = () => {
     setLinkOpen([false, false, false, false]);
   };
-
   const handleName = (event) => {
     setName(event.target.value);
   };
-
   const handleOccupation = (event) => {
     setOccupation(event.target.value);
   };
-
   const handleVip = () => {
     setVip(!vip);
   };
-
   const handleAbout = () => {
     setOption(true);
   };
-
   const handleNotes = () => {
     setOption(false);
   };
@@ -192,7 +189,6 @@ function EditConnection(props) {
       setPhotoSrc(URL.createObjectURL(userPhoto));
     }
   }, [userPhoto]);
-
   /* submit connection detail */
   const submitConnection = () => {
     const newTags = chosenTags.filter((oneTag) => !tags.includes(oneTag));
@@ -217,29 +213,33 @@ function EditConnection(props) {
 
   function updateDetail(myImageSrc) {
     axios
-      .patch(`${serverURL}/api/connections/${id}/`, {
-        userId: sessionStorage.getItem("id"),
-        emailAddress: email,
-        address: addr,
-        phoneNumber: phone,
-        company: company,
-        birthday: birthday,
-        firstName: name,
-        lastName: lastName,
-        occupation: occupation,
-        Vip: vip,
-        twitter: twitter,
-        instagram: instagram,
-        github: github,
-        linkedIn: linkedIn,
-        notes: noteList,
-        imageSrc: myImageSrc,
-        tags: chosenTags,
-      }, {
+      .patch(
+        `${serverURL}/api/connections/${id}/`,
+        {
+          userId: sessionStorage.getItem("id"),
+          emailAddress: email,
+          address: addr,
+          phoneNumber: phone,
+          company: company,
+          birthday: birthday,
+          firstName: name,
+          lastName: lastName,
+          occupation: occupation,
+          Vip: vip,
+          twitter: twitter,
+          instagram: instagram,
+          github: github,
+          linkedIn: linkedIn,
+          notes: noteList,
+          imageSrc: myImageSrc,
+          tags: chosenTags,
+        },
+        {
           headers: {
-              'Authorization': `Token ${Cookies.get("token")}`
-          }
-      })
+            Authorization: `Token ${Cookies.get("token")}`,
+          },
+        }
+      )
       .catch((error) => {
         console.log(error);
       });
@@ -265,7 +265,7 @@ function EditConnection(props) {
     setPhotoSrc(data.imageSrc);
     setLinkOpen([false, false, false, false]);
     setOption(true);
-    setChosenTags(data.tags);
+    setChosenTags(data.tags == null ? [] : data.tags);
   };
 
   return (

@@ -49,12 +49,11 @@ function DashBd(props) {
   useEffect(() => {
     if (loggedIn) {
       /* fetch user's own profile & connections' data */
-        console.log(Cookies.get("token"))
-        Axios.get(`${serverURL}/api/connections/?userId=${userId}`, {
-            headers: {
-                'Authorization': `Token ${Cookies.get("token")}`
-            }
-        })
+      Axios.get(`${serverURL}/api/connections/?userId=${userId}`, {
+        headers: {
+          Authorization: `Token ${Cookies.get("token")}`,
+        },
+      })
         .then((res) => {
           const myConnections = res.data.filter(
             (oneConnection) => oneConnection.selfId !== oneConnection.userId
@@ -73,11 +72,11 @@ function DashBd(props) {
           console.log(error);
         });
       /* fetch user's task data */
-        Axios.get(`${serverURL}/api/tasks/?userId=${userId}`, {
-            headers: {
-                'Authorization': `Token ${Cookies.get("token")}`
-            }
-        })
+      Axios.get(`${serverURL}/api/tasks/?userId=${userId}`, {
+        headers: {
+          Authorization: `Token ${Cookies.get("token")}`,
+        },
+      })
         .then((response) => {
           setTaskData(response.data);
           setFilteredTaskData(response.data);
