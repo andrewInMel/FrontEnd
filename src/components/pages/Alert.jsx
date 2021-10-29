@@ -32,7 +32,9 @@ const Alert = ({ taskData }) => {
       const day = moment(oneTask.endDate).endOf("day").fromNow();
       if (day === "in 2 days" || day === "in a day") {
         setReminders((reminders) => {
-          if (reminders.length === 0 || !reminders.task.includes(oneTask)) {
+          if (reminders.length === 0) {
+            return [...reminders, { task: oneTask, exprire: day }];
+          } else if (!reminders.task.includes(oneTask)) {
             return [...reminders, { task: oneTask, exprire: day }];
           } else {
             return reminders;

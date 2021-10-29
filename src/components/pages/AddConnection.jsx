@@ -13,6 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
 import axios from "axios";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -30,16 +31,16 @@ const useStyles = makeStyles((theme) => ({
   },
   rootStyle: {
     width: "960px",
-    height: "600px",
     padding: "20px 30px 0 50px",
     backgroundColor: "#f7faf9",
+    minHeight: "584px",
   },
   large: {
     width: theme.spacing(16),
     height: theme.spacing(16),
   },
   buttonStyle: {
-    padding: "10px",
+    padding: "5px",
   },
   iconStyle: {
     marginRight: "10px",
@@ -52,9 +53,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#478562",
     },
-  },
-  bottomStyle: {
-    margin: "0 0 -20px 20px",
   },
   inputStyle: {
     backgroundColor: "#f7f7f7",
@@ -108,6 +106,9 @@ function AddConnection(props) {
   const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
   const [option, setOption] = useState(true);
   const myRef = useRef(null);
+  /* tags */
+  const [chosenTags, setChosenTags] = useState([]);
+  const tags = JSON.parse(localStorage.getItem("tags"));
 
   /* handle about */
   const handleEmail = (event) => {
@@ -185,6 +186,8 @@ function AddConnection(props) {
 
   /* submit connection detail */
   const submitConnection = () => {
+    const newTags = chosenTags.filter((oneTag) => !tags.includes(oneTag));
+    localStorage.setItem("tags", JSON.stringify([...tags, ...newTags]));
     if (userPhoto !== null) {
       const fd = new FormData();
       fd.append("file", userPhoto);
@@ -196,10 +199,12 @@ function AddConnection(props) {
         })
         .catch((error) => {
           console.log(error);
+          alert("photo upload failed");
         });
     } else {
       updateDetail("");
     }
+    props.onClose();
   };
 
   function updateDetail(myImageSrc) {
@@ -221,13 +226,14 @@ function AddConnection(props) {
         linkedIn: linkedIn,
         notes: noteList,
         imageSrc: myImageSrc,
+        tags: chosenTags,
       })
       .then(() => {
         resetAll();
-        props.onClose();
       })
       .catch((error) => {
         console.log(error);
+        alert("create connection failed");
       });
   }
 
@@ -251,6 +257,7 @@ function AddConnection(props) {
     setPhotoSrc(null);
     setLinkOpen([false, false, false, false]);
     setOption(true);
+    setChosenTags([]);
   };
 
   return (
@@ -264,7 +271,6 @@ function AddConnection(props) {
             direction="column"
             justifyContent="space-around"
             xs={4}
-            style={{ height: "570px" }}
           >
             {/* top seciton */}
             <Grid item container direction="row" alignItems="center">
@@ -318,7 +324,7 @@ function AddConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <TwitterIcon />
+                  <TwitterIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -329,6 +335,7 @@ function AddConnection(props) {
                       onClick={() => {
                         setLinkOpen([true, false, false, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Twitter Link
                     </Button>
@@ -345,7 +352,7 @@ function AddConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <InstagramIcon />
+                  <InstagramIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -356,6 +363,7 @@ function AddConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, true, false, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Instagram Link
                     </Button>
@@ -372,7 +380,7 @@ function AddConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <GitHubIcon />
+                  <GitHubIcon fontSize="small" />
                 </Grid>
 
                 <Grid item>
@@ -383,6 +391,7 @@ function AddConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, false, true, false]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add Github Link
                     </Button>
@@ -399,7 +408,7 @@ function AddConnection(props) {
                 className={classes.buttonStyle}
               >
                 <Grid item className={classes.iconStyle}>
-                  <LinkedInIcon />
+                  <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
                   {linkedIn === null ? (
@@ -409,6 +418,7 @@ function AddConnection(props) {
                       onClick={() => {
                         setLinkOpen([false, false, false, true]);
                       }}
+                      style={{ height: "25px" }}
                     >
                       Add LinkedIn Link
                     </Button>
@@ -416,6 +426,30 @@ function AddConnection(props) {
                     <a href={linkedIn}>LinkedIn</a>
                   )}
                 </Grid>
+              </Grid>
+              {/* customise tags */}
+              <Grid item style={{ paddingTop: "30px" }}>
+                <Typography variant="subtitle1" gutterBottom={true}>
+                  Choose or Customize Tag
+                </Typography>
+                <Autocomplete
+                  style={{ width: "230px" }}
+                  freeSolo
+                  multiple
+                  id="tags"
+                  options={tags}
+                  getOptionLabel={(tag) => tag}
+                  value={chosenTags}
+                  size="small"
+                  onChange={(event, value) => {
+                    if (event != null) {
+                      setChosenTags(value);
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} variant="outlined" />
+                  )}
+                />
               </Grid>
               <AddSocialMedia
                 open={linkOpen[0]}
@@ -439,7 +473,7 @@ function AddConnection(props) {
               />
             </Grid>
             {/* bottom section */}
-            <Grid item className={classes.bottomStyle}>
+            <Grid item>
               <a href="/Dashboard">
                 <Button
                   classes={{ root: classes.btnColor }}
@@ -462,7 +496,7 @@ function AddConnection(props) {
             {/* top secton */}
             <Grid item container direction="row">
               {/* about */}
-              <Grid item xs={9}>
+              <Grid item xs={10}>
                 <Typography
                   variant="h6"
                   className={classes.cursorStyle}
@@ -479,8 +513,6 @@ function AddConnection(props) {
                   About
                 </Typography>
               </Grid>
-              {/* shared task */}
-              {/* <Grid item> </Grid> */}
               {/* Notes */}
               <Grid item>
                 <Typography
@@ -501,7 +533,7 @@ function AddConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "404px" }}>
+            <Grid item style={{ width: "403.5px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -683,18 +715,6 @@ function AddConnection(props) {
                     />
                   </Grid>
                 </Grid>
-                {/* tag */}
-                {/* <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  className={classes.formGapStyle}
-                >
-                  <Grid item xs={4}>
-                    <Typography> Tags </Typography>
-                  </Grid>
-                </Grid> */}
               </Grid>
             ) : (
               /* notes component */
