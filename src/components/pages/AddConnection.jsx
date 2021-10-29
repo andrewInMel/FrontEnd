@@ -88,10 +88,10 @@ function AddConnection(props) {
   const [occupation, setOccupation] = useState("");
   const [vip, setVip] = useState(false);
   /* social media */
-  const [twitter, setTwitter] = useState(null);
-  const [instagram, setInstagram] = useState(null);
-  const [github, setGithub] = useState(null);
-  const [linkedIn, setLinkedIn] = useState(null);
+  const [twitter, setTwitter] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [github, setGithub] = useState("");
+  const [linkedIn, setLinkedIn] = useState("");
   /* about states */
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -255,10 +255,10 @@ function AddConnection(props) {
     setUserPhoto(null);
     setOccupation("");
     setVip(false);
-    setTwitter(null);
-    setInstagram(null);
-    setGithub(null);
-    setLinkedIn(null);
+    setTwitter("");
+    setInstagram("");
+    setGithub("");
+    setLinkedIn("");
     setEmail("");
     setAddr("");
     setPhone("");
@@ -340,7 +340,7 @@ function AddConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {twitter == null ? (
+                  {twitter === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -368,7 +368,7 @@ function AddConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {instagram == null ? (
+                  {instagram === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -398,7 +398,7 @@ function AddConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {github == null ? (
+                  {github === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -425,7 +425,7 @@ function AddConnection(props) {
                   <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
-                  {linkedIn == null ? (
+                  {linkedIn === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -442,6 +442,22 @@ function AddConnection(props) {
                     </a>
                   )}
                 </Grid>
+              </Grid>
+              {/* reset links */}
+              <Grid item style={{ paddingTop: "15px" }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  style={{ height: "25px" }}
+                  onClick={() => {
+                    setTwitter("");
+                    setInstagram("");
+                    setGithub("");
+                    setLinkedIn("");
+                  }}
+                >
+                  Reset Links
+                </Button>
               </Grid>
               {/* customise tags */}
               <Grid item style={{ paddingTop: "30px" }}>

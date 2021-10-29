@@ -88,10 +88,18 @@ function Profile(props) {
   const [userPhoto, setUserPhoto] = useState(null);
   const [occupation, setOccupation] = useState(data.occupation);
   const [vip, setVip] = useState(data.Vip);
-  const [twitter, setTwitter] = useState(data.twitter);
-  const [instagram, setInstagram] = useState(data.instagram);
-  const [github, setGithub] = useState(data.github);
-  const [linkedIn, setLinkedIn] = useState(data.linkedIn);
+  const [twitter, setTwitter] = useState(
+    data.twitter === null ? "" : data.twitter
+  );
+  const [instagram, setInstagram] = useState(
+    data.twitter === null ? "" : data.instagram
+  );
+  const [github, setGithub] = useState(
+    data.twitter === null ? "" : data.github
+  );
+  const [linkedIn, setLinkedIn] = useState(
+    data.twitter === null ? "" : data.linkedIn
+  );
   /* about states */
   const [name, setName] = useState(data.firstName);
   const [email, setEmail] = useState(data.emailAddress);
@@ -243,12 +251,12 @@ function Profile(props) {
         }
       )
       .then(() => {
-        alert("Connection Edit successfully");
+        alert("Edit profile successfully");
         window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
-        alert("create connection failed");
+        alert("Edit profile failed");
       });
   }
 
@@ -258,10 +266,10 @@ function Profile(props) {
     setUserPhoto(null);
     setOccupation(data.occupation);
     setVip(data.Vip);
-    setTwitter(data.twitter);
-    setInstagram(data.instagram);
-    setGithub(data.github);
-    setLinkedIn(data.linkedIn);
+    setTwitter(data.twitter === null ? "" : data.twitter);
+    setInstagram(data.instagram === null ? "" : data.instagram);
+    setGithub(data.github === null ? "" : data.github);
+    setLinkedIn(data.linkedIn === null ? "" : data.linkedIn);
     setEmail(data.emailAddress);
     setAddr(data.address);
     setPhone(data.phoneNumber);
@@ -343,7 +351,7 @@ function Profile(props) {
                 </Grid>
 
                 <Grid item>
-                  {twitter == null ? (
+                  {twitter === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -371,7 +379,7 @@ function Profile(props) {
                 </Grid>
 
                 <Grid item>
-                  {instagram == null ? (
+                  {instagram === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -401,7 +409,7 @@ function Profile(props) {
                 </Grid>
 
                 <Grid item>
-                  {github == null ? (
+                  {github === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -428,7 +436,7 @@ function Profile(props) {
                   <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
-                  {linkedIn == null ? (
+                  {linkedIn === "" ? (
                     <Button
                       variant="contained"
                       size="small"
@@ -445,6 +453,22 @@ function Profile(props) {
                     </a>
                   )}
                 </Grid>
+              </Grid>
+              {/* reset links */}
+              <Grid item style={{ paddingTop: "15px" }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  style={{ height: "25px" }}
+                  onClick={() => {
+                    setTwitter("");
+                    setInstagram("");
+                    setGithub("");
+                    setLinkedIn("");
+                  }}
+                >
+                  Reset Links
+                </Button>
               </Grid>
               {/* customise tags */}
               <Grid item style={{ paddingTop: "30px" }}>
