@@ -53,7 +53,7 @@ function DashBd(props) {
     if (loggedIn) {
       /* fetch user's own profile & connections' data */
         console.log(Cookies.get("token"))
-        Axios.get(`${serverURL}/api/connections?userId=${userId}`, {
+        Axios.get(`${serverURL}/api/connections?userId=${userId}/`, {
             headers: {
                 'Authorization': `Token ${Cookies.get("token")}`
             }
@@ -76,7 +76,7 @@ function DashBd(props) {
           console.log(error);
         });
       /* fetch user's task data */
-        Axios.get(`${serverURL}/api/tasks?userId=${userId}`, {
+        Axios.get(`${serverURL}/api/tasks?userId=${userId}/`, {
             headers: {
                 'Authorization': `Token ${Cookies.get("token")}`
             }
