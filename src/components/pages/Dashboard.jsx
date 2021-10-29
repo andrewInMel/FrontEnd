@@ -189,7 +189,7 @@ function DashBd(props) {
             container
             item
             direction="row"
-            alignItems="centre"
+            alignItems="center"
             className={classes.pushFooter}
           >
             <Grid item xs={10}>

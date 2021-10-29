@@ -67,13 +67,21 @@ class SignUp extends Component {
       Axios.post(`${url}/auth/register/`, this.state)
         .then((res) => {
           if (res.data.user_id) {
-            return Axios.post(`${url}/api/connections/`, {
-              firstName: this.state.first_name,
-              lastName: this.state.last_name,
-              emailAddress: this.state.email,
-              selfId: res.data.user_id,
-              userId: res.data.user_id,
-            }).then((response) => {
+            return Axios.post(
+              `${url}/api/connections/`,
+              {
+                firstName: this.state.first_name,
+                lastName: this.state.last_name,
+                emailAddress: this.state.email,
+                selfId: res.data.user_id,
+                userId: res.data.user_id,
+              },
+              {
+                headers: {
+                  Authorization: `Token ${res.data.token}`,
+                },
+              }
+            ).then((response) => {
               console.log(response.data);
             });
           } else {
