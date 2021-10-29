@@ -14,6 +14,7 @@ import { withStyles } from "@material-ui/core/styles";
 import MyTextField from "../MyTextField";
 import { extStyles } from "../Style.js";
 import theme from "../Theme.js";
+import Cookies from "js-cookie";
 
 const intStyles = {
   centreContainer: {
@@ -33,6 +34,7 @@ const intStyles = {
 };
 
 const serverURL = "https://connectdcrm.herokuapp.com";
+// const serverURL = "http://localhost:8000";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
@@ -63,6 +65,8 @@ class SignIn extends Component {
               JSON.stringify(["family", "friend", "colleague"])
             );
           }
+          Cookies.remove("token");
+          Cookies.set("token", res.data.token);
           sessionStorage.setItem("status", true);
           sessionStorage.setItem("id", res.data.user_id);
           sessionStorage.setItem(

@@ -14,6 +14,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
 import axios from "axios";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -227,8 +228,11 @@ function AddConnection(props) {
         notes: noteList,
         imageSrc: myImageSrc,
         tags: chosenTags,
+      }, { headers: {
+          'Authorization': `Token ${Cookies.get("token")}`
+         } 
       })
-      .then(() => {
+      .then((res) => {
         resetAll();
       })
       .catch((error) => {

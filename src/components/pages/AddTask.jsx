@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { serverURL } from "./SignIn.jsx";
 import { allConnections } from "./Dashboard.jsx";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -102,7 +103,11 @@ export default function AddTask(props) {
   /* sent data to backend */
   const createTask = () => {
     axios
-      .post(`${serverURL}/api/tasks/`, taskData)
+          .post(`${serverURL}/api/tasks/`, taskData, {
+              headers: {
+                  'Authorization': `Token ${Cookies.get("token")}`
+              }
+          })
       .then(() => {
         resetAll();
         props.onClose();
