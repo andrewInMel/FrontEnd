@@ -54,7 +54,7 @@ update to Trigger heroku build process
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-## Instructions for client
+# Instructions for client
 
 ## About the Front-end App
 
@@ -73,18 +73,16 @@ Heroku official website: https://www.heroku.com/
 
 Git official website: https://git-scm.com/
 
-------------------------------------------------------------------------------------
+## Running Locally
 
-Running Locally
-
-Pre-requirement: 
+**Pre-requirement: **
 
 1). Node version of at least 10
 2). A package manager, npm or yarn
 3). A code editor (optional)
 4). Modern browser
 
-Steps:
+**Steps: **
 
 1). Download the project source files from Github repository provided above.
 
@@ -101,12 +99,10 @@ Steps:
 Optional step: 
 
 6). Open the project in code editot, make any changes you want.
-
-------------------------------------------------------------------------------------
-
-Deploy to Cloud
-
-Pre-requirement: 
+  
+ ## Deploy to Cloud
+  
+**Pre-requirement: ** 
 
 1). A heroku account
 2). install the Heroku CLI
