@@ -75,14 +75,14 @@ Git official website: https://git-scm.com/
 
 ## Running Locally
 
-**Pre-requirement: **
+** Pre-requirement: **
 
-1). Node version of at least 10
-2). A package manager, npm or yarn
-3). A code editor (optional)
-4). Modern browser
+1). Node version of at least 10.
+2). A package manager, npm or yarn.
+3). A code editor (optional).
+4). Modern browser.
 
-**Steps: **
+** Steps: **
 
 1). Download the project source files from Github repository provided above.
 
@@ -102,39 +102,41 @@ Optional step:
   
  ## Deploy to Cloud
   
-**Pre-requirement: ** 
+** Pre-requirement: ** 
 
-1). A heroku account
-2). install the Heroku CLI
-3). React build pack: https://buildpack-registry.s3.amazonaws.com/buildpacks/mars/create-react-app.tgz
-4). Git 
+1). A heroku account.
+2). install the Heroku CLI.
+3). React build pack: https://buildpack-registry.s3.amazonaws.com/buildpacks/mars/create-react-app.tgz.
+4). Git.
 
-Steps:
+** Steps: **
 
 1). Download the project source files from Github repository provided above.
 
-2). Log into your Heroku account & create a new application
+2). Log into your Heroku account & create a new application.
 
 3). Navigate to Settings of the new app, 
     add buildpack link to <Buildpacks section> which locates in the middle of the page.
 
 4). Open terminal, then navigate to project folder. Run the follow commands:
 
-    a). <heroku login> (login your heroku account)
+    a). <heroku login> (login your heroku account).
  
-    b). <git init> (make the project folder a git repository)
+    b). <git init> (make the project folder a git repository).
 
-    c). <heroku git:remote -a {new_app_name}> (link local repository to your heroku app)
+    c). <heroku git:remote -a {new_app_name}> (link local repository to your heroku app).
 
-    d). <git add .> (stage project files)
+    d). <git add .> (stage project files).
 
-    e). <git commit -am "new application deployment"> (commit project files)
+    e). <git commit -am "new application deployment"> (commit project files).
 
-    f). <git push heroku master> (push your project to heroku, and build the application)
+    f). <git push heroku master> (push your project to heroku, and build the application).
 
-5). If the building process succeed, then you have successfully deployed the application to cloud
+5). If the building process succeed, then you have successfully deployed the application to cloud.
 
-6). You can find the URL of your application in setting section of your new app
+6). You can find the URL of your application in setting section of your new app.
     
-    Normally in the form of: https://{new_app_name}.herokuapp.com
+    Normally in the form of:
+    
+    https://{new_app_name}.herokuapp.com
     
