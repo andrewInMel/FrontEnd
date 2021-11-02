@@ -51,16 +51,16 @@ Steps:
 | :------------         | :------- | :------------                     |
 | yarn                  | 1.22.17  | Package manager                   |
 | react                 | 17.0.2   | Web framework for frontend        |
-| react-dom             | 17.0.2   |         |
+| react-dom             | 17.0.2   | serves as the entry point to the DOM and server renderers for React|
 | react-window          | 1.8.6    | Render part of a large data set, improve performance|
-| react-scripts         | 4.0.3    | |
-| react-router-dom      | 5.3.0    | |
+| react-scripts         | 4.0.3    | includes scripts and configuration used by Create React App|
+| react-router-dom      | 5.3.0    | DOM bindings for React Router     |
 | material-ui           | 4.12.3   | Enable material UI |
 | axios                 | 0.22.0   | Fetch data from backend APP using AJAX |
 
 ----------------------------------------------------
 
-# Instructions for client
+# Instructions to client
 
 ## About the Front-end App
 
