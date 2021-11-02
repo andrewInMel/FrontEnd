@@ -4,32 +4,33 @@
 
 This is the front end repository for the IT Project (COMP30022) subject. This is a personal CRM (customer relationship manager) called Connectd, created with React, Django, and MongoDB.
 
-Backend repository is located at: **https://github.com/Andrew-Liu-mel/COMP30022**
+Backend repository is located at: [**Backend Repository**](https://github.com/Andrew-Liu-mel/COMP30022)
 
-This project is documented at: **https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview**
+This project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)
 
 ## Table of contents
 
 - [Team Members](#team-members)
 - [Deployment](#deployment)
-- [To run](#to-run)
-- [Technologies](#technologies)
+- [Local Configuration](#local-configuration)
+- [Tool Stack](#tool-stack)
+- [Instructions for client](#instructions-for-client)
 
 ## Team Members
 
-| Name           |
-| :------------  |
-| Alexander Cain |
-| Han Liu        |
-| David Fletcher  |
-| Jackson Hu     |
-| Tymara Metcalf |
+| Name           | Role              | Contact                         |
+| :------------  | :------------     | :------------                   |
+| Alexander Cain | Scrum Master      | acain1@student.unimelb.edu.au   |
+| Han Liu        | Frontend Lead     | liuh8@student.unimelb.edu.au    |
+| David Fletcher | Product Owner     | dfletcher@student.unimelb.edu.au |
+| Jackson Hu     | Backend Lead      | renweih@student.unimelb.edu.au  |
+| Tymara Metcalf | UI / UX Designer  | tmetcalf@student.unimelb.edu.au |
 
 ## Deployment
 
 Hosted on heroku: https://connectd-front.herokuapp.com/
 
-## To run:
+## Local Configuration:
 
 Steps:
 1. Pull the backend repository from GitHub
@@ -44,15 +45,20 @@ Steps:
    * By default, server will run on port ```3000```
    * Correctly running server will look like should automatically open your browser.
   
-## Technologies
+## Tool Stack
 
-Created with:
-- yarn (version)
-- React (version)
+| Package               | Version  | Notes                             |
+| :------------         | :------- | :------------                     |
+| yarn                  | 1.22.17  | Package manager                   |
+| react                 | 17.0.2   | Web framework for frontend        |
+| react-dom             | 17.0.2   |         |
+| react-window          | 1.8.6    | Render part of a large data set, improve performance|
+| react-scripts         | 4.0.3    | |
+| react-router-dom      | 5.3.0    | |
+| material-ui           | 4.12.3   | Enable material UI |
+| axios                 | 0.22.0   | Fetch data from backend APP using AJAX |
 
-update to Trigger heroku build process
-
----------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------
 
 # Instructions for client
 
@@ -75,66 +81,64 @@ Git official website: https://git-scm.com/
 
 ## Running Locally
 
-** Pre-requirement: **
+**Pre-requirement:**
 
-1). Node version of at least 10.
-2). A package manager, npm or yarn.
-3). A code editor (optional).
-4). Modern browser.
+1. Node version of at least 10.
+2. A package manager, npm or yarn.
+3. A code editor (optional).
+4. Modern browser.
 
-** Steps: **
+**Steps:**
 
-1). Download the project source files from Github repository provided above.
+1. Download the project source files from Github repository provided above.
 
-2). Open a terminal window, PowerShell for windows, and the default terminal for MacOS.
+2. Open a terminal window, PowerShell for windows, and the default terminal for macOS.
     Then, navigate to the project source files folder.
 
-3). Run command <npm install> or <yarn>, depends on the package manager you are using,
+3. Run command `npm install` or `yarn`, depends on the package manager you are using,
     to install dependency packages of the project.
 
-4). Run command <npm start> or <yarn start> to start the application.
+4. Run command `npm start` or `yarn start` to start the application.
  
-5). The application will start running, and a web page will be shown in your default browser. 
+5. The application will start running, and a web page will be shown in your default browser. 
 
-Optional step: 
-
-6). Open the project in code editot, make any changes you want.
+6. Open the project in code editot, make any changes you want. (Optional)
   
- ## Deploy to Cloud
+## Deploy to Cloud
   
-** Pre-requirement: ** 
+**Pre-requirement:** 
 
-1). A heroku account.
-2). install the Heroku CLI.
-3). React build pack: https://buildpack-registry.s3.amazonaws.com/buildpacks/mars/create-react-app.tgz.
-4). Git.
+1. A heroku account.
+2. Install the Heroku CLI.
+3. React build pack: https://buildpack-registry.s3.amazonaws.com/buildpacks/mars/create-react-app.tgz.
+4. Git.
 
-** Steps: **
+**Steps:**
 
-1). Download the project source files from Github repository provided above.
+1. Download the project source files from Github repository provided above.
 
-2). Log into your Heroku account & create a new application.
+2. Log into your Heroku account & create a new application.
 
-3). Navigate to Settings of the new app, 
+3. Navigate to Settings of the new app, 
     add buildpack link to <Buildpacks section> which locates in the middle of the page.
 
-4). Open terminal, then navigate to project folder. Run the follow commands:
+4. Open terminal, then navigate to project folder. Run the follow commands:
 
-    a). <heroku login> (login your heroku account).
+    a). `heroku login` (login your heroku account).
  
-    b). <git init> (make the project folder a git repository).
+    b). `<git init` (make the project folder a git repository).
 
-    c). <heroku git:remote -a {new_app_name}> (link local repository to your heroku app).
+    c). `<heroku git:remote -a {new_app_name}>` (link local repository to your heroku app).
 
-    d). <git add .> (stage project files).
+    d). `git add .` (stage project files).
 
-    e). <git commit -am "new application deployment"> (commit project files).
+    e). `git commit -am "new application deployment"` (commit project files).
 
-    f). <git push heroku master> (push your project to heroku, and build the application).
+    f). `git push heroku master` (push your project to heroku, and build the application).
 
-5). If the building process succeed, then you have successfully deployed the application to cloud.
+5. If the building process succeed, then you have successfully deployed the application to cloud.
 
-6). You can find the URL of your application in setting section of your new app.
+6. You can find the URL of your application in setting section of your new app.
     
     Normally in the form of:
     
