@@ -10,7 +10,7 @@ This is the front end repository for the IT Project (COMP30022) subject. This is
 
 * Frontend hosted on: [**Heroku - connectd-front**](https://connectd-front.herokuapp.com/)
 
-* FroBackendntend hosted on: [**Heroku - connectdcrm**](https://connectdcrm.herokuapp.com/)
+* Backend hosted on: [**Heroku - connectdcrm**](https://connectdcrm.herokuapp.com/)
 
 * This project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)
 
