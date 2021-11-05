@@ -135,7 +135,7 @@ function MainContent(props) {
                   {" "}
                   {finishedCount}{" "}
                 </Typography>
-                <Typography variant="h4"> Task Completed</Typography>
+                <Typography variant="h4"> Tasks Completed</Typography>
               </Grid>
             </Paper>
             <Paper elevation={3} className={classes.middleBox}>
@@ -155,7 +155,7 @@ function MainContent(props) {
                   {" "}
                   {unfinishedTask.length}{" "}
                 </Typography>
-                <Typography variant="h4">Task Remained</Typography>
+                <Typography variant="h4">Tasks Remaining</Typography>
               </Grid>
             </Paper>
           </Grid>
