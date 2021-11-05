@@ -190,23 +190,30 @@ function AddConnection(props) {
   const submitConnection = () => {
     const newTags = chosenTags.filter((oneTag) => !tags.includes(oneTag));
     localStorage.setItem("tags", JSON.stringify([...tags, ...newTags]));
-    if (userPhoto !== null) {
-      const fd = new FormData();
-      fd.append("file", userPhoto);
-      fd.append("upload_preset", "myUpload");
-      axios
-        .post(`https://api.cloudinary.com/v1_1/andrewstorage/image/upload`, fd)
-        .then((res) => {
-          updateDetail(res.data.secure_url);
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("photo upload failed");
-        });
+    if (name !== "") {
+      if (userPhoto !== null) {
+        const fd = new FormData();
+        fd.append("file", userPhoto);
+        fd.append("upload_preset", "myUpload");
+        axios
+          .post(
+            `https://api.cloudinary.com/v1_1/andrewstorage/image/upload`,
+            fd
+          )
+          .then((res) => {
+            updateDetail(res.data.secure_url);
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("photo upload failed");
+          });
+      } else {
+        updateDetail("");
+      }
+      props.onClose();
     } else {
-      updateDetail("");
+      alert("First name must be provided");
     }
-    props.onClose();
   };
 
   function updateDetail(myImageSrc) {
@@ -584,7 +591,7 @@ function AddConnection(props) {
                   className={classes.formGapStyle}
                 >
                   <Grid item xs={4}>
-                    <Typography> First Name</Typography>
+                    <Typography> First Name*</Typography>
                   </Grid>
                   <Grid item>
                     <TextField
