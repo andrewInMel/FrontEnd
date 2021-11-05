@@ -23,7 +23,7 @@ export default function LongMenu({
   isEdit,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-// const [optionOpen, setOptionOpen] = React.useState(false);
+  // const [optionOpen, setOptionOpen] = React.useState(false);
   /* open/close option menu */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -73,16 +73,14 @@ export default function LongMenu({
   }
 
   /* choice of view/edit or delete task record */
-const editRecord = () => {
-  setOptionOpen(true);
-  setIsEdit(true);
-};
+  const editRecord = () => {
+    setOptionOpen(true);
+    setIsEdit(true);
+  };
 
   const handleOptionClick = (e) => {
-      e.currentTarget.id === "Delete"
-        ? deleteRecord(selected.id)
-        : editRecord();
-      setAnchorEl(null);
+    e.currentTarget.id === "Delete" ? deleteRecord(selected.id) : editRecord();
+    setAnchorEl(null);
   };
 
   const handleDialogClose = () => {
@@ -117,6 +115,8 @@ const editRecord = () => {
           open={optionOpen}
           onClose={handleDialogClose}
           userData={selected}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
         />
       ) : (
         <EditTask

@@ -532,7 +532,7 @@ export default function EditTask(props) {
               <Typography> Assigned </Typography>
             </Grid>
             <Grid item xs={6}>
-              {data.connections === []
+              {data.connections.length === 0
                 ? null
                 : data.connections.map((node) => {
                     return (

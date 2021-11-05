@@ -4,15 +4,37 @@ import OptionMenu from "./OptionMenu";
 import VIP from "../imgs/Vip.svg";
 
 export default function ConnectionEntry(props) {
+  const [optionOpen, setOptionOpen] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState(false);
+
+  const handleClose = () => {
+    setOptionOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOptionOpen(true);
+    console.log("open");
+  };
+
   const oneConnection = props.connection;
   return (
     <Grid container direction="row" alignItems="center">
       {/* Connection photos */}
+
       <Grid item xs={1} style={{ paddingLeft: "3%" }}>
         <Avatar alt={oneConnection.name} src={oneConnection.imageSrc} />
       </Grid>
       {/* Connection name & title*/}
-      <Grid item container direction="column" xs={3}>
+      <Grid
+        item
+        container
+        direction="column"
+        xs={3}
+        onClick={() => {
+          handleOpen();
+          setIsEdit(false);
+        }}
+      >
         <Grid item>
           <Typography>
             {oneConnection.firstName} {oneConnection.lastName}
@@ -43,7 +65,15 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* actions */}
       <Grid item xs={1}>
-        <OptionMenu selected={oneConnection} type="connection" />
+        <OptionMenu
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          setOptionOpen={setOptionOpen}
+          optionOpen={optionOpen}
+          onClose={handleClose}
+          selected={oneConnection}
+          type="task"
+        />
       </Grid>
     </Grid>
   );
