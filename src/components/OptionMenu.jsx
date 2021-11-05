@@ -23,7 +23,6 @@ export default function LongMenu({
   isEdit,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [optionOpen, setOptionOpen] = React.useState(false);
   /* open/close option menu */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -83,10 +82,6 @@ export default function LongMenu({
     setAnchorEl(null);
   };
 
-  const handleDialogClose = () => {
-    setOptionOpen(false);
-  };
-
   return (
     <div>
       <IconButton id="long-button" onClick={handleClick}>
@@ -113,7 +108,7 @@ export default function LongMenu({
       {type === "connection" ? (
         <EditConnection
           open={optionOpen}
-          onClose={handleDialogClose}
+          onClose={onClose}
           userData={selected}
           isEdit={isEdit}
           setIsEdit={setIsEdit}

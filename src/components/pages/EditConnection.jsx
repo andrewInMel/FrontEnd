@@ -15,6 +15,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Cookies from "js-cookie";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -574,7 +575,7 @@ function EditConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "404px" }}>
+            <Grid item style={{ width: "369px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -839,15 +840,7 @@ function EditConnection(props) {
                   src={photoSrc}
                   className={`${classes.large} ${classes.cursorStyle}`}
                   onClick={() => myRef.current.click()}
-                >
-                  <Typography align="center">Upload Your Image</Typography>
-                </Avatar>
-                <input
-                  type="file"
-                  ref={myRef}
-                  onChange={handleFileSelect}
-                  hidden
-                />
+                ></Avatar>
               </Grid>
               {/* name and VIP switch */}
               <Grid item container direction="column" xs={6}>
@@ -855,7 +848,7 @@ function EditConnection(props) {
                   <TextField
                     value={name}
                     onChange={handleName}
-                    InputProps={{ disableUnderline: true }}
+                    InputProps={{ readOnly: true, disableUnderline: true }}
                     placeholder="New Contact"
                   />
                 </Grid>
@@ -886,18 +879,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {twitter === "" ? (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => {
-                        setLinkOpen([true, false, false, false]);
-                      }}
-                      style={{ height: "25px" }}
-                    >
-                      Add Twitter Link
-                    </Button>
-                  ) : (
+                  {twitter === "" ? null : (
                     <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
                   )}
                 </Grid>
@@ -914,18 +896,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {instagram === "" ? (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => {
-                        setLinkOpen([false, true, false, false]);
-                      }}
-                      style={{ height: "25px" }}
-                    >
-                      Add Instagram Link
-                    </Button>
-                  ) : (
+                  {instagram === "" ? null : (
                     <a href={`https://www.instagram.com/${instagram}/`}>
                       {instagram}
                     </a>
@@ -944,18 +915,7 @@ function EditConnection(props) {
                 </Grid>
 
                 <Grid item>
-                  {github === "" ? (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => {
-                        setLinkOpen([false, false, true, false]);
-                      }}
-                      style={{ height: "25px" }}
-                    >
-                      Add Github Link
-                    </Button>
-                  ) : (
+                  {github === "" ? null : (
                     <a href={`https://github.com/${github}`}>{github}</a>
                   )}
                 </Grid>
@@ -971,97 +931,32 @@ function EditConnection(props) {
                   <LinkedInIcon fontSize="small" />
                 </Grid>
                 <Grid item>
-                  {linkedIn === "" ? (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => {
-                        setLinkOpen([false, false, false, true]);
-                      }}
-                      style={{ height: "25px" }}
-                    >
-                      Add LinkedIn Link
-                    </Button>
-                  ) : (
+                  {linkedIn === "" ? null : (
                     <a href={`https://www.linkedin.com/in/${linkedIn}/`}>
                       {linkedIn}
                     </a>
                   )}
                 </Grid>
               </Grid>
-              {/* reset links */}
-              <Grid item style={{ paddingTop: "15px" }}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  style={{ height: "25px" }}
-                  onClick={() => {
-                    setTwitter("");
-                    setInstagram("");
-                    setGithub("");
-                    setLinkedIn("");
-                  }}
-                >
-                  Reset Links
-                </Button>
-              </Grid>
+
               {/* customise tags */}
               <Grid item style={{ paddingTop: "30px" }}>
                 <Typography variant="subtitle1" gutterBottom={true}>
-                  Choose or Customize Tag
+                  Tags:
                 </Typography>
-                <Autocomplete
-                  style={{ width: "230px" }}
-                  freeSolo
-                  multiple
-                  id="tags"
-                  options={tags}
-                  getOptionLabel={(tag) => tag}
-                  value={chosenTags}
-                  size="small"
-                  onChange={(event, value) => {
-                    if (event != null) {
-                      setChosenTags(value);
-                    }
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} variant="outlined" />
-                  )}
-                />
+                {chosenTags.map((oneTag) => {
+                  return (
+                    <Chip
+                      key={`${Math.floor(Math.random() * 10000)} ${oneTag}`}
+                      label={oneTag}
+                    />
+                  );
+                })}
               </Grid>
-              <AddSocialMedia
-                open={linkOpen[0]}
-                onClose={handleLinkClose}
-                setLink={setTwitter}
-              />
-              <AddSocialMedia
-                open={linkOpen[1]}
-                onClose={handleLinkClose}
-                setLink={setInstagram}
-              />
-              <AddSocialMedia
-                open={linkOpen[2]}
-                onClose={handleLinkClose}
-                setLink={setGithub}
-              />
-              <AddSocialMedia
-                open={linkOpen[3]}
-                onClose={handleLinkClose}
-                setLink={setLinkedIn}
-              />
-            </Grid>
-            {/* bottom section */}
-            <Grid item className={classes.bottomStyle}>
-              <Button
-                classes={{ root: classes.btnColor }}
-                variant="contained"
-                onClick={submitConnection}
-              >
-                SAVE
-              </Button>
             </Grid>
           </Grid>
-          {/* middle section */}
+
+          {/* page middle section */}
           <Grid
             item
             container
@@ -1089,13 +984,11 @@ function EditConnection(props) {
                   About
                 </Typography>
               </Grid>
-              {/* shared task */}
-              {/* <Grid item> </Grid> */}
               {/* Notes */}
               <Grid item>
                 <Typography
                   variant="h6"
-                  className={classes.cursorStyle}
+                  className={`${classes.cursorStyle}`}
                   onClick={handleNotes}
                   style={
                     option
@@ -1111,7 +1004,7 @@ function EditConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "404px" }}>
+            <Grid item style={{ width: "369px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
@@ -1140,7 +1033,7 @@ function EditConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       value={name}
-                      onChange={handleName}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1160,7 +1053,7 @@ function EditConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       value={lastName}
-                      onChange={handleLastName}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1181,7 +1074,7 @@ function EditConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       value={occupation}
-                      onChange={handleOccupation}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1203,7 +1096,7 @@ function EditConnection(props) {
                       classes={{ root: classes.inputStyle }}
                       type="email"
                       value={email}
-                      onChange={handleEmail}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1224,7 +1117,7 @@ function EditConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       value={addr}
-                      onChange={handleAddr}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1246,7 +1139,7 @@ function EditConnection(props) {
                       classes={{ root: classes.inputStyle }}
                       type="tel"
                       value={phone}
-                      onChange={handlePhone}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1267,7 +1160,7 @@ function EditConnection(props) {
                       size="small"
                       classes={{ root: classes.inputStyle }}
                       value={company}
-                      onChange={handleCompany}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1289,7 +1182,7 @@ function EditConnection(props) {
                       classes={{ root: classes.inputStyle }}
                       type="date"
                       value={birthday}
-                      onChange={handleBirthday}
+                      InputProps={{ readOnly: true }}
                     />
                   </Grid>
                 </Grid>
@@ -1302,26 +1195,6 @@ function EditConnection(props) {
                 direction="column"
                 style={{ paddingLeft: "30px" }}
               >
-                <Typography
-                  style={{ padding: "30px 0 10px 0", fontWeight: "600" }}
-                >
-                  Add note
-                </Typography>
-                <TextField
-                  variant="outlined"
-                  minRows={2}
-                  multiline
-                  className={classes.textBox}
-                  value={noteText}
-                  onChange={handleNoteText}
-                />
-                <Button
-                  variant="contained"
-                  classes={{ contained: classes.btnClass }}
-                  onClick={handleSubmitNote}
-                >
-                  SAVE
-                </Button>
                 {noteList === [] ? null : (
                   <List>
                     {noteList.map((oneNote) => {
@@ -1332,11 +1205,10 @@ function EditConnection(props) {
                             Math.random() * 1000000
                           )}`}
                         >
-                          <NoteField
-                            nodeValue={oneNote}
-                            update={setNoteList}
-                            onDelete={handleDeleteNote(oneNote)}
-                            list={noteList}
+                          <TextField
+                            value={oneNote.note}
+                            variant="outlined"
+                            style={{ width: "350px" }}
                           />
                         </ListItem>
                       );
@@ -1357,10 +1229,8 @@ function EditConnection(props) {
 
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <div className={classes.rootStyle}>
-        {/* root page */}
-        {props.isEdit ? <EditComponent /> : <ViewComponent />}
-      </div>
+      {/* root page */}
+      {props.isEdit ? <EditComponent /> : <ViewComponent />}
     </Dialog>
   );
 }

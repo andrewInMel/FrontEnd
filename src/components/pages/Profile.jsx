@@ -576,7 +576,7 @@ function Profile(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "404px" }}>
+            <Grid item style={{ width: "369px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
