@@ -323,7 +323,7 @@ function EditConnection(props) {
             <Grid item container direction="column" xs={6}>
               <Grid item>
                 <TextField
-                  value={name}
+                  value={name + " " + lastName}
                   onChange={handleName}
                   InputProps={{ disableUnderline: true }}
                   placeholder="New Contact"
@@ -607,7 +607,7 @@ function EditConnection(props) {
                     variant="outlined"
                     size="small"
                     classes={{ root: classes.inputStyle }}
-                    value={name + " " + lastName}
+                    value={name}
                     onChange={handleName}
                   />
                 </Grid>
