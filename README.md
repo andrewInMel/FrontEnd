@@ -54,38 +54,30 @@ It aims to help the user manage their connections & tasks.
 3. Open a terminal window at the folder root directory
    * Check current path using `pwd` command
    * You should see a directory path like `.../COMP30022-Frontend`
-4. Run command `yarn install` to install all dependencies required for frontend
+4. Run command `yarn` to install all dependencies required for frontend
 5. Run command `yarn start` to run yarn frontend server, 
    * By default, server will run on port `3000`
 6. The application will start running, and a web page will be shown in your default browser. 
 7. Open the project in code editor, make any changes you want. (Optional)
 
-## Deploy to Cloud
+##  Tech Info
   
-**Pre-requirement:** 
+**React** 
 
-1. A heroku account.
-2. Install the Heroku CLI.
-3. [React build pack](https://buildpack-registry.s3.amazonaws.com/buildpacks/mars/create-react-app.tgz)
-4. Git.
+react is a both declarative & component-based library. 
+ * `Declarative`: Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes
+ * `component-based`: Build encapsulated components that manage their own state, then compose them to make complex UIs
 
-**Steps:**
+**MaterialUI**
 
-1. Download the project source files from Github repository provided above.
-2. Log into your Heroku account & create a new application.
-3. Navigate to Settings of the new app, 
-    add buildpack link to `Buildpacks section` which locates in the middle of the page.
-4. Open terminal, then navigate to project folder. Run the follow commands:
-    * `heroku login` (login your heroku account).
-    * `git init` (make the project folder a git repository).
-    * `heroku git:remote -a {new_app_name}` (link local repository to your heroku app).
-    * `git add .` (stage project files).
-    * `git commit -am "new application deployment"` (commit project files).
-    * `git push heroku master` (push your project to heroku, and build the application).
-5. If the building process succeed, then you have successfully deployed the application to cloud.
-6. You can find the URL of your application in setting section of your new app.
-    * Normally in the form of:
-    `https://{new_app_name}.herokuapp.com`
+MaterialUI provides a robust, customizable, and accessible library of foundational and advanced components, enabling you to build your own design system and develop React applications faster
+
+**App Structure**
+
+![alt text](https://res.cloudinary.com/andrewstorage/image/upload/v1636078034/yyzzfeplakmvkr8dcaxh.jpg)
+
+**Main Page Structure**
+![alt text](https://res.cloudinary.com/andrewstorage/image/upload/v1636078141/jvks0ls3osjejkagbub2.jpg)
 
 ## Tool Stack
 
@@ -95,11 +87,11 @@ It aims to help the user manage their connections & tasks.
 | react                 | 17.0.2   | Web framework for frontend                                          |
 | react-dom             | 17.0.2   | Serve as the entry point to the DOM and server renderers for React  |
 | react-window          | 1.8.6    | Render part of a large data set, improve performance                |
-| react-scripts         | 4.0.3    | Include scripts and configuration used by Create React App           |
+| react-scripts         | 4.0.3    | Include scripts and configuration used by Create React App          |
 | react-router-dom      | 5.3.0    | DOM bindings for React Router                                       |
 | material-ui           | 4.12.3   | Enable material UI                                                  |
 | axios                 | 0.22.0   | Fetch data from backend APP using AJAX                              |
-
+| kendo-react-scheduler | 4.9.0    | Calendar library      
 ----------------------------------------------------
 
 ## Useful Links
@@ -111,3 +103,5 @@ VSCode official website: https://code.visualstudio.com/
 Heroku official website: https://www.heroku.com/
 
 Git official website: https://git-scm.com/
+
+materialUI official website(V4): https://v4.mui.com/getting-started/usage/
