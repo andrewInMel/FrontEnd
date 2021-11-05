@@ -307,7 +307,7 @@ function AddConnection(props) {
               <Grid item container direction="column" xs={6}>
                 <Grid item>
                   <TextField
-                    value={name}
+                    value={name + " " + lastName}
                     onChange={handleName}
                     InputProps={{ disableUnderline: true }}
                     placeholder="New Contact"
