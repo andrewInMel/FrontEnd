@@ -318,7 +318,7 @@ function Profile(props) {
               <Grid item container direction="column" xs={6}>
                 <Grid item>
                   <TextField
-                    value={name}
+                    value={name + " " + lastName}
                     onChange={handleName}
                     InputProps={{ disableUnderline: true }}
                     placeholder="New Contact"
@@ -537,7 +537,7 @@ function Profile(props) {
             {/* top secton */}
             <Grid item container direction="row">
               {/* about */}
-              <Grid item xs={9}>
+              <Grid item xs={10}>
                 <Typography
                   variant="h6"
                   className={classes.cursorStyle}
@@ -576,7 +576,7 @@ function Profile(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "404px" }}>
+            <Grid item style={{ width: "403.5px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}

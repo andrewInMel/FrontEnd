@@ -13,12 +13,20 @@ const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu(props) {
+export default function LongMenu({
+  setOptionOpen,
+  optionOpen,
+  selected,
+  type,
+  onClose,
+  setIsEdit,
+  isEdit,
+}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [optionOpen, setOptionOpen] = React.useState(false);
   /* open/close option menu */
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -31,7 +39,7 @@ export default function LongMenu(props) {
     //using Delete request to delete the task record
     let signal = window.confirm("Are you sure you want to delete");
     if (signal) {
-      if (props.type === "connection") {
+      if (type === "connection") {
         axios
           .delete(`${serverURL}/api/connections/${id}/`, {
             headers: {
@@ -64,15 +72,14 @@ export default function LongMenu(props) {
   }
 
   /* choice of view/edit or delete task record */
-  const handleOptionClick = (e) => {
-    e.currentTarget.id === "Delete"
-      ? deleteRecord(props.selected.id)
-      : setOptionOpen(true);
-    setAnchorEl(null);
+  const editRecord = () => {
+    setOptionOpen(true);
+    setIsEdit(true);
   };
 
-  const handleDialogClose = () => {
-    setOptionOpen(false);
+  const handleOptionClick = (e) => {
+    e.currentTarget.id === "Delete" ? deleteRecord(selected.id) : editRecord();
+    setAnchorEl(null);
   };
 
   return (
@@ -98,17 +105,21 @@ export default function LongMenu(props) {
           </MenuItem>
         ))}
       </Menu>
-      {props.type === "connection" ? (
+      {type === "connection" ? (
         <EditConnection
           open={optionOpen}
-          onClose={handleDialogClose}
-          userData={props.selected}
+          onClose={onClose}
+          userData={selected}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
         />
       ) : (
         <EditTask
           open={optionOpen}
-          onClose={handleDialogClose}
-          taskData={props.selected}
+          onClose={onClose}
+          taskData={selected}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
         />
       )}
     </div>

@@ -47,6 +47,18 @@ export default function TaskEntry({ task }) {
 
   const classes = useStyles(progress);
 
+  const [optionOpen, setOptionOpen] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState(false);
+
+  const handleClose = () => {
+    setOptionOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOptionOpen(true);
+    console.log("open");
+  };
+
   return (
     <Grid
       container
@@ -61,6 +73,10 @@ export default function TaskEntry({ task }) {
         direction="column"
         xs={4}
         style={{ paddingLeft: "10%" }}
+        onClick={() => {
+          handleOpen();
+          setIsEdit(false);
+        }}
       >
         {/* task name */}
         <Grid item>
@@ -115,7 +131,15 @@ export default function TaskEntry({ task }) {
       </Grid>
       {/* actions */}
       <Grid item xs={2} style={{ paddingLeft: "5%" }}>
-        <Option selected={oneTask} type="task" />
+        <Option
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          setOptionOpen={setOptionOpen}
+          optionOpen={optionOpen}
+          onClose={handleClose}
+          selected={oneTask}
+          type="task"
+        />
       </Grid>
     </Grid>
   );
