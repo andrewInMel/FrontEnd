@@ -64,7 +64,7 @@ It aims to help the user manage their connections & tasks.
   
 **react** 
 
-react is both declarative & component-based library. 
+react is a both declarative & component-based library. 
  * `Declarative`: Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes
  * `component-based`: Build encapsulated components that manage their own state, then compose them to make complex UIs
 
