@@ -317,7 +317,7 @@ function EditConnection(props) {
               <Grid item container direction="column" xs={6}>
                 <Grid item>
                   <TextField
-                    value={name}
+                    value={name + " " + lastName}
                     onChange={handleName}
                     InputProps={{ disableUnderline: true }}
                     placeholder="New Contact"
@@ -846,7 +846,7 @@ function EditConnection(props) {
               <Grid item container direction="column" xs={6}>
                 <Grid item>
                   <TextField
-                    value={name}
+                    value={name+" "+lastName}
                     onChange={handleName}
                     InputProps={{ readOnly: true, disableUnderline: true }}
                     placeholder="New Contact"
