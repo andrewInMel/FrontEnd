@@ -563,7 +563,7 @@ function AddConnection(props) {
               </Grid>
             </Grid>
             {/* divider line */}
-            <Grid item style={{ width: "369px" }}>
+            <Grid item style={{ width: "403.5px" }}>
               <hr className={classes.solidLine} />
             </Grid>
             {/* bottom section */}
