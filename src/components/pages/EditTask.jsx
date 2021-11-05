@@ -11,6 +11,7 @@ import { serverURL } from "./SignIn.jsx";
 import { allConnections } from "./Dashboard.jsx";
 import Cookies from "js-cookie";
 
+
 const useStyles = makeStyles({
   rootStyle: {
     width: "950px",
@@ -111,7 +112,7 @@ export default function EditTask(props) {
   };
 
   /* sent data to backend */
-  const createTask = () => {
+  const updateTask = () => {
     axios
       .patch(`${serverURL}/api/tasks/${data.id}/`, taskData, {
         headers: {
@@ -129,11 +130,9 @@ export default function EditTask(props) {
     props.onClose();
   };
 
-  return (
-    <Dialog open={props.open} onClose={props.onClose}>
-      <div className={classes.rootStyle}>
-        {/* root page */}
-        <Grid
+   const EditComponent = () => {
+     return (
+    <Grid
           container
           direction="row"
           justifyContent="center"
@@ -143,7 +142,7 @@ export default function EditTask(props) {
           <Grid item xs={5} direction="column" alignItems="stretch" container>
             {/* title */}
             <Grid item>
-              <Typography variant="h3">View/Edit task</Typography>
+               <Typography variant="h3">Edit Task</Typography>
             </Grid>
             {/* title */}
             <Grid item className={classes.textPosition}>
@@ -355,12 +354,271 @@ export default function EditTask(props) {
               <CloseIcon onClick={handleClose} />
             </Grid>
             <Grid item>
-              <Button onClick={createTask} variant="contained" color="primary">
+              <Button onClick={updateTask} variant="contained" 
+              style={{backgroundColor: '#478562', color: '#FFFFFF'}}>
                 Save
               </Button>
             </Grid>
           </Grid>
         </Grid>
+     )
+   }
+
+
+   const ViewComponent = () => {
+     return (
+       <Grid
+         container
+         direction="row"
+         justifyContent="center"
+         alignItems="stretch"
+       >
+         {/* left section */}
+         <Grid item xs={5} direction="column" alignItems="stretch" container>
+           {/* title */}
+           <Grid item>
+             <Typography variant="h3">View Task</Typography>
+           </Grid>
+
+           {/* title */}
+           <Grid item className={classes.textPosition}>
+             <Typography className={classes.bold} align="left">
+               Task Name
+             </Typography>
+             <TextField
+               value={taskName}
+               InputProps={{
+                 readOnly: true,
+               }}
+               size="small"
+               variant="outlined"
+               onChange={handleTaskNameChange}
+               multiline={true}
+               fullWidth={true}
+               placeholder="Task Name ..."
+               minRows="1"
+             />
+           </Grid>
+
+           {/* Description */}
+           <Grid item className={classes.textPosition}>
+             <Typography align="left" className={classes.bold}>
+               Description
+             </Typography>
+             <TextField
+               value={text}
+               InputProps={{
+                 readOnly: true,
+               }}
+               variant="outlined"
+               onChange={handleTextChange}
+               multiline={true}
+               fullWidth={true}
+               placeholder="Your description here ..."
+               minRows="4"
+             />
+           </Grid>
+         </Grid>
+
+         {/* middle section */}
+         <Grid
+           item
+           xs={6}
+           container
+           direction="column"
+           justifyContent="center"
+           alignItems="flex-start"
+           className={classes.midStyle}
+         >
+           {/* status */}
+           <Grid
+             item
+             container
+             direction="row"
+             justifyContent="flex-start"
+             alignItems="center"
+             className={classes.rowSpace}
+           >
+             <Grid item xs={4}>
+               <Typography> Status</Typography>
+             </Grid>
+             <Grid item xs={7}>
+               <TextField
+                 //select
+                 value={status}
+                 InputProps={{ disableUnderline: true, readOnly: true }}
+               >
+                 <MenuItem value="In Progress">
+                   <img src="/status/In Progress.svg" alt="progress" />
+                 </MenuItem>
+                 <MenuItem value="Review">
+                   <img src="/status/Review.svg" alt="review" />
+                 </MenuItem>
+                 <MenuItem value="Complete">
+                   <img src="/status/Complete.svg" alt="complete" />
+                 </MenuItem>
+               </TextField>
+             </Grid>
+           </Grid>
+
+           {/* Priority */}
+           <Grid
+             item
+             container
+             direction="row"
+             justifyContent="flex-start"
+             alignItems="center"
+             className={classes.rowSpace}
+           >
+             <Grid item xs={4}>
+               <Typography> Priority</Typography>
+             </Grid>
+             <Grid item xs={7}>
+               <TextField
+                 //select
+                 value={priority}
+                 InputProps={{ disableUnderline: true, readOnly: true }}
+               >
+                 <MenuItem value="Critical">
+                   <img src="/priority/Critical.svg" alt="critical" />
+                 </MenuItem>
+                 <MenuItem value="High">
+                   <img src="/priority/High.svg" alt="high" />
+                 </MenuItem>
+                 <MenuItem value="Medium">
+                   <img src="/priority/Medium.svg" alt="medium" />
+                 </MenuItem>
+                 <MenuItem value="Low">
+                   <img src="/priority/Low.svg" alt="low" />
+                 </MenuItem>
+                 <MenuItem value="Unknown">
+                   <img src="/priority/Unknown.svg" alt="unknown" />
+                 </MenuItem>
+               </TextField>
+             </Grid>
+           </Grid>
+
+           {/* start date */}
+           <Grid
+             item
+             container
+             direction="row"
+             justifyContent="flex-start"
+             alignItems="center"
+             className={classes.rowSpace}
+           >
+             <Grid item xs={4}>
+               <Typography> Start Date</Typography>
+             </Grid>
+             <Grid item xs={7}>
+               <TextField
+                 id="startDate"
+                 type="date"
+                 value={startDate}
+                 InputLabelProps={{
+                   shrink: true,
+                   readOnly: true,
+                 }}
+                 InputProps={{ disableUnderline: true, readOnly: true }}
+               />
+             </Grid>
+           </Grid>
+
+           {/* Due date */}
+           <Grid
+             item
+             container
+             direction="row"
+             justifyContent="flex-start"
+             alignItems="center"
+             className={classes.rowSpace}
+           >
+             <Grid item xs={4}>
+               <Typography> Due date</Typography>
+             </Grid>
+             <Grid item xs={7}>
+               <TextField
+                 id="date"
+                 type="date"
+                 value={dueDate}
+                 InputLabelProps={{
+                   shrink: true,
+                   readOnly: true,
+                 }}
+                 InputProps={{ disableUnderline: true, readOnly: true }}
+               />
+             </Grid>
+           </Grid>
+
+           {/* Assign task memebers */}
+           <Grid
+             item
+             container
+             direction="row"
+             justifyContent="flex-start"
+             alignItems="center"
+             className={classes.rowSpace}
+           >
+             <Grid item xs={4}>
+               <Typography> Assign </Typography>
+             </Grid>
+             <Grid item xs={6}>
+               {allConnections === [] ? null : (
+                 <Autocomplete
+                   multiple
+                   id="task member"
+                   options={allConnections}
+                   getOptionLabel={(option) =>
+                     `${option.firstName} ${option.lastName}`
+                   }
+                   value={members}
+                   onChange={(event, value) => {
+                     addMembers(event, value);
+                   }}
+                   renderInput={(params) => (
+                     <TextField
+                       {...params}
+                       variant="outlined"
+                       label="Task Members"
+                       placeholder="Choose a member"
+                     />
+                   )}
+                 />
+               )}
+             </Grid>
+           </Grid>
+         </Grid>
+         {/* right section */}
+         <Grid
+           container
+           item
+           xs={1}
+           direction="column"
+           justifyContent="space-between"
+           alignItems="flex-end"
+         >
+           <Grid item>
+             <CloseIcon onClick={props.onClose} className={classes.closeIcon} />
+           </Grid>
+           <Grid item>
+             <Button
+               onClick={updateTask}
+               variant="contained"
+               style={{ backgroundColor: "#478562", color: "#FFFFFF" }}
+             >
+               Save
+             </Button>
+           </Grid>
+         </Grid>
+       </Grid>
+     );
+        }
+
+  return (
+    <Dialog open={props.open} onClose={props.onClose}>
+      <div className={classes.rootStyle}>
+        {/* root page */}
+        {props.isEdit ?  <EditComponent /> : <ViewComponent /> } 
       </div>
     </Dialog>
   );
