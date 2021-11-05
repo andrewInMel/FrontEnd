@@ -62,7 +62,7 @@ It aims to help the user manage their connections & tasks.
 
 ##  Tech Info
   
-**react** 
+**React** 
 
 react is a both declarative & component-based library. 
  * `Declarative`: Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes
