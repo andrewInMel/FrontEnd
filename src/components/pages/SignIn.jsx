@@ -75,12 +75,12 @@ class SignIn extends Component {
           );
           this.setState({ validated: true });
         } else {
-          alert("Something went wrong");
+          alert("Something went wrong.");
         }
       })
       .catch((error) => {
         console.log(error);
-        alert("Login failed, please check your username/password");
+        alert("Login failed, please check your username/password.");
       });
   };
 

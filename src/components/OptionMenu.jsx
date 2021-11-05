@@ -37,7 +37,7 @@ export default function LongMenu({
   /*  record delete fucntion */
   function deleteRecord(id) {
     //using Delete request to delete the task record
-    let signal = window.confirm("Are you sure you want to delete");
+    let signal = window.confirm("Are you sure you want to delete?");
     if (signal) {
       if (type === "connection") {
         axios
@@ -47,7 +47,7 @@ export default function LongMenu({
             },
           })
           .then(() => {
-            alert("Connection deleted");
+            alert("Connection deleted.");
             window.location.reload(false);
           })
           .catch((error) => {
@@ -61,7 +61,7 @@ export default function LongMenu({
             },
           })
           .then(() => {
-            alert("Task deleted");
+            alert("Task deleted.");
             window.location.reload(false);
           })
           .catch((error) => {

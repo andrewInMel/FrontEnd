@@ -224,7 +224,7 @@ function Profile(props) {
       }
       props.onClose();
     } else {
-      alert("First name must be provided");
+      alert("First name must be provided.");
     }
   };
 
@@ -258,12 +258,12 @@ function Profile(props) {
         }
       )
       .then(() => {
-        alert("Edit profile successfully");
+        alert("Edit profile successful.");
         window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
-        alert("Edit profile failed");
+        alert("Edit profile failed.");
       });
   }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { Grid, Typography } from "@material-ui/core";
+import { Box, CircularProgress, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route, Switch, Redirect } from "react-router-dom";
 import TaskList from "./TaskList.jsx";
@@ -181,7 +181,7 @@ function DashBd(props) {
                 taskData={taskData}
               />
             ) : (
-              <Typography>Loading</Typography>
+              <Typography>Loading...</Typography>
             )}
           </Grid>
           {/* nest routes */}
@@ -244,8 +244,10 @@ function DashBd(props) {
                     />
                   </Switch>
                 ) : (
-                  <Typography> Loading...</Typography>
+                  <Box display= "flex" justifyContent= "center">
+                    <CircularProgress color="secondary" /></Box>
                 )}
+                
               </div>
             </Grid>
             {/* "Add" functionality */}

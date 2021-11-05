@@ -108,26 +108,26 @@ export default function AddTask(props) {
         })
         .then(() => {
           resetAll();
-          alert("Task create successfully");
+          alert("Task created successfully.");
           window.location.reload(false);
         })
         .catch((error) => {
           console.log(error);
           if (error.response) {
             if (error.response.data.status) {
-              alert(`${error.response.data.status} for status`);
+              alert(`${error.response.data.status}.. for status.`);
             } else if (error.response.data.priority) {
-              alert(`${error.response.data.priority} for priority`);
+              alert(`${error.response.data.priority}.. for priority.`);
             }
           }
         });
       props.onClose();
     } else {
       if (startDate > dueDate) {
-        alert("Start date must be before due date");
+        alert("Start date must be before due date.");
       }
       if (taskName === "") {
-        alert("Task name is required");
+        alert("Task name is required.");
       }
     }
   };

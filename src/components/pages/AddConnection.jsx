@@ -205,14 +205,14 @@ function AddConnection(props) {
           })
           .catch((error) => {
             console.log(error);
-            alert("photo upload failed");
+            alert("Photo upload failed.");
           });
       } else {
         updateDetail("");
       }
       props.onClose();
     } else {
-      alert("First name must be provided");
+      alert("First name must be provided.");
     }
   };
 
@@ -247,12 +247,12 @@ function AddConnection(props) {
       )
       .then(() => {
         resetAll();
-        alert("Connection created successfully");
+        alert("Connection created successfully.");
         window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
-        alert("create connection failed");
+        alert("Create connection failed.");
       });
   }
 

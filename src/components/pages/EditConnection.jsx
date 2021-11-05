@@ -223,7 +223,7 @@ function EditConnection(props) {
       }
       props.onClose();
     } else {
-      alert("First name must be provided");
+      alert("First name must be provided.");
     }
   };
 
@@ -257,12 +257,12 @@ function EditConnection(props) {
         }
       )
       .then(() => {
-        alert("Edit connection successfully");
+        alert("Edit connection was successful.");
         window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
-        alert("Edit connection failed");
+        alert("Edit connection failed.");
       });
   }
 

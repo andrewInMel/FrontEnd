@@ -87,7 +87,7 @@ class SignUp extends Component {
               this.setState({ signedUp: true });
             });
           } else {
-            alert("Something went wrong, please try again");
+            alert("Something went wrong, please try again.");
           }
         })
         .catch((error) => {
@@ -98,11 +98,11 @@ class SignUp extends Component {
               alert(error.response.data.non_field_errors);
             }
           } else {
-            alert("Sorry, Something went wrong. Please try again");
+            alert("Sorry, something went wrong. Please try again.");
           }
         });
     } else {
-      alert("Something is wrong with the password");
+      alert("Something is wrong with your password.");
       this.setState({ match: false });
     }
   };
