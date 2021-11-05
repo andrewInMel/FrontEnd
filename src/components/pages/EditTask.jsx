@@ -114,21 +114,36 @@ export default function EditTask(props) {
 
   /* sent data to backend */
   const updateTask = () => {
-    axios
-      .patch(`${serverURL}/api/tasks/${data.id}/`, taskData, {
-        headers: {
-          Authorization: `Token ${Cookies.get("token")}`,
-        },
-      })
-      .then(() => {
-        alert("Task Edit successfully");
-        window.location.reload(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Task Edit failed");
-      });
-    props.onClose();
+    if (startDate < dueDate && taskName !== "") {
+      axios
+        .patch(`${serverURL}/api/tasks/${data.id}/`, taskData, {
+          headers: {
+            Authorization: `Token ${Cookies.get("token")}`,
+          },
+        })
+        .then(() => {
+          alert("Task Edit successfully");
+          window.location.reload(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response) {
+            if (error.response.data.status) {
+              alert(`${error.response.data.status} for status`);
+            } else if (error.response.data.priority) {
+              alert(`${error.response.data.priority} for priority`);
+            }
+          }
+        });
+      props.onClose();
+    } else {
+      if (startDate > dueDate) {
+        alert("Start date must be before due date");
+      }
+      if (taskName === "") {
+        alert("Task name is required");
+      }
+    }
   };
 
   const EditComponent = (
@@ -147,7 +162,7 @@ export default function EditTask(props) {
         {/* title */}
         <Grid item className={classes.textPosition}>
           <Typography className={classes.bold} align="left">
-            Task Name
+            Task Name*
           </Typography>
           <TextField
             value={taskName}
@@ -196,7 +211,7 @@ export default function EditTask(props) {
           className={classes.rowSpace}
         >
           <Grid item xs={4}>
-            <Typography> Status</Typography>
+            <Typography> Status*</Typography>
           </Grid>
           <Grid item xs={7}>
             <TextField
@@ -205,6 +220,9 @@ export default function EditTask(props) {
               onChange={handleStatusChange}
               InputProps={{ disableUnderline: true }}
             >
+              <MenuItem value="Default">
+                <img src="/status/Default.svg" alt="Default" />
+              </MenuItem>
               <MenuItem value="In Progress">
                 <img src="/status/In Progress.svg" alt="progress" />
               </MenuItem>
@@ -227,7 +245,7 @@ export default function EditTask(props) {
           className={classes.rowSpace}
         >
           <Grid item xs={4}>
-            <Typography> Priority</Typography>
+            <Typography> Priority*</Typography>
           </Grid>
           <Grid item xs={7}>
             <TextField
@@ -236,6 +254,9 @@ export default function EditTask(props) {
               onChange={handlePriorityChange}
               InputProps={{ disableUnderline: true }}
             >
+              <MenuItem value="Default">
+                <img src="/priority/Default.svg" alt="Default" />
+              </MenuItem>
               <MenuItem value="Critical">
                 <img src="/priority/Critical.svg" alt="critical" />
               </MenuItem>

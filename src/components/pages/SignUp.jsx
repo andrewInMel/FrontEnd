@@ -87,12 +87,19 @@ class SignUp extends Component {
               this.setState({ signedUp: true });
             });
           } else {
-            alert("something went wrong");
+            alert("Something went wrong, please try again");
           }
         })
         .catch((error) => {
-          alert("Sorry, Something went wrong. Please try again");
-          console.log(error);
+          if (error.response) {
+            if (error.response.data.email) {
+              alert(error.response.data.email);
+            } else {
+              alert(error.response.data.non_field_errors);
+            }
+          } else {
+            alert("Sorry, Something went wrong. Please try again");
+          }
         });
     } else {
       alert("Something is wrong with the password");

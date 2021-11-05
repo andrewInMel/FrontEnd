@@ -42,10 +42,20 @@ export default function TaskEntry({ task }) {
   const percentage = Math.round(
     (100 * (currentTime - startTime)) / (dueTime - startTime)
   );
-  const progress = percentage < 100 ? percentage : 100;
+  const progress = () => {
+    if (startTime > currentTime) {
+      return 0;
+    }
+
+    if (percentage < 100) {
+      return percentage;
+    } else {
+      return 100;
+    }
+  };
   /* variable required at runtime */
 
-  const classes = useStyles(progress);
+  const classes = useStyles(progress());
 
   const [optionOpen, setOptionOpen] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(false);
@@ -117,7 +127,7 @@ export default function TaskEntry({ task }) {
         <Grid item>
           <LinearProgress
             variant="determinate"
-            value={progress}
+            value={progress()}
             classes={{
               root: classes.root,
               bar: classes.myBar,

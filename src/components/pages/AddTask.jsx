@@ -40,8 +40,8 @@ export default function AddTask(props) {
   const classes = useStyles();
   /* states */
   const [text, setText] = useState("");
-  const [priority, setPriority] = useState("Critical");
-  const [status, setStatus] = useState("In Progress");
+  const [priority, setPriority] = useState("Default");
+  const [status, setStatus] = useState("Default");
   const [members, setMembers] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -99,30 +99,45 @@ export default function AddTask(props) {
 
   /* sent data to backend */
   const createTask = () => {
-    axios
-      .post(`${serverURL}/api/tasks/`, taskData, {
-        headers: {
-          Authorization: `Token ${Cookies.get("token")}`,
-        },
-      })
-      .then(() => {
-        resetAll();
-        alert("Task create successfully");
-        window.location.reload(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Task Edit failed");
-      });
-    props.onClose();
+    if (startDate < dueDate && taskName !== "") {
+      axios
+        .post(`${serverURL}/api/tasks/`, taskData, {
+          headers: {
+            Authorization: `Token ${Cookies.get("token")}`,
+          },
+        })
+        .then(() => {
+          resetAll();
+          alert("Task create successfully");
+          window.location.reload(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response) {
+            if (error.response.data.status) {
+              alert(`${error.response.data.status} for status`);
+            } else if (error.response.data.priority) {
+              alert(`${error.response.data.priority} for priority`);
+            }
+          }
+        });
+      props.onClose();
+    } else {
+      if (startDate > dueDate) {
+        alert("Start date must be before due date");
+      }
+      if (taskName === "") {
+        alert("Task name is required");
+      }
+    }
   };
 
   /* reset all state */
   const resetAll = () => {
     setMembers([]);
     setText("");
-    setPriority("Critical");
-    setStatus("In Progress");
+    setPriority("Default");
+    setStatus("Default");
     setStartDate("");
     setDueDate("");
     setTaskName("");
@@ -147,7 +162,7 @@ export default function AddTask(props) {
             {/* title */}
             <Grid item className={classes.textPosition}>
               <Typography className={classes.bold} align="left">
-                Task Name
+                Task Name*
               </Typography>
               <TextField
                 value={taskName}
@@ -158,6 +173,7 @@ export default function AddTask(props) {
                 fullWidth={true}
                 placeholder="Task Name ..."
                 minRows="1"
+                required
               />
             </Grid>
             {/* Description */}
@@ -196,7 +212,7 @@ export default function AddTask(props) {
               className={classes.rowSpace}
             >
               <Grid item xs={4}>
-                <Typography> Status</Typography>
+                <Typography> Status*</Typography>
               </Grid>
               <Grid item xs={7}>
                 <TextField
@@ -205,6 +221,9 @@ export default function AddTask(props) {
                   onChange={handleStatusChange}
                   InputProps={{ disableUnderline: true }}
                 >
+                  <MenuItem value="Default">
+                    <img src="/status/Default.svg" alt="Default" />
+                  </MenuItem>
                   <MenuItem value="In Progress">
                     <img src="/status/In Progress.svg" alt="progress" />
                   </MenuItem>
@@ -227,7 +246,7 @@ export default function AddTask(props) {
               className={classes.rowSpace}
             >
               <Grid item xs={4}>
-                <Typography> Priority</Typography>
+                <Typography> Priority*</Typography>
               </Grid>
               <Grid item xs={7}>
                 <TextField
@@ -236,6 +255,9 @@ export default function AddTask(props) {
                   onChange={handlePriorityChange}
                   InputProps={{ disableUnderline: true }}
                 >
+                  <MenuItem value="Default">
+                    <img src="/priority/Default.svg" alt="Default" />
+                  </MenuItem>
                   <MenuItem value="Critical">
                     <img src="/priority/Critical.svg" alt="critical" />
                   </MenuItem>
