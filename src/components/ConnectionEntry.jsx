@@ -72,7 +72,7 @@ export default function ConnectionEntry(props) {
           optionOpen={optionOpen}
           onClose={handleClose}
           selected={oneConnection}
-          type="task"
+          type="connection"
         />
       </Grid>
     </Grid>
