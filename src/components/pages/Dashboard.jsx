@@ -13,7 +13,6 @@ import Add from "../Add.jsx";
 import { serverURL } from "./SignIn.jsx";
 import Axios from "axios";
 import Calendar from "./Calendar.jsx";
-import Cookies from "js-cookie";
 
 const useStyles = makeStyles({
   pushFooter: {
@@ -26,15 +25,14 @@ const useStyles = makeStyles({
   },
 });
 
-let allConnections = [];
+let myConnections = [];
 
 function DashBd(props) {
   const classes = useStyles();
-  const [connectionData, setConnectionData] = useState(null);
-  const [taskData, setTaskData] = useState(null);
-  const [clientData, setClientData] = useState(null);
+  const [connectionData, setConnectionData] = useState([]);
+  const [taskData, setTaskData] = useState([]);
+  const [clientData, setClientData] = useState([]);
   const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
-  const userId = sessionStorage.getItem("id");
   let { url, path } = useRouteMatch();
   /* filtered data & page direction */
   const [filteredConnectionData, setFilteredConnectionData] = useState([]);
@@ -47,55 +45,44 @@ function DashBd(props) {
 
   /* fetch user's data */
   useEffect(() => {
-    if (loggedIn) {
-      /* fetch user's own profile & connections' data */
-      Axios.get(`${serverURL}/api/connections/?userId=${userId}`, {
-        headers: {
-          Authorization: `Token ${Cookies.get("token")}`,
-        },
+    /* fetch user's connections' data */
+    Axios.get(`${serverURL}/api/connections/`, { withCredentials: true })
+      .then((res) => {
+        myConnections = res.data;
+        setConnectionData(myConnections);
+        setVipSelection(myConnections);
+        setFilteredConnectionData(myConnections);
       })
-        .then((res) => {
-          const myConnections = res.data.filter(
-            (oneConnection) => oneConnection.selfId !== oneConnection.userId
-          );
-          allConnections = res.data;
-          setConnectionData(myConnections);
-          setVipSelection(myConnections);
-          setFilteredConnectionData(myConnections);
-          setClientData(
-            res.data.filter(
-              (oneConnection) => oneConnection.selfId === oneConnection.userId
-            )[0]
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      /* fetch user's task data */
-      Axios.get(`${serverURL}/api/tasks/?userId=${userId}`, {
-        headers: {
-          Authorization: `Token ${Cookies.get("token")}`,
-        },
+      .catch((error) => {
+        console.log(error);
+      });
+    /* fetch user's profile */
+    Axios.get(`${serverURL}/api/users`, { withCredentials: true })
+      .then((user) => {
+        //          console.log(user);
+        setClientData(user.data);
       })
-        .then((response) => {
-          setTaskData(response.data);
-          setFilteredTaskData(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      sessionStorage.removeItem("status");
-      sessionStorage.removeItem("id");
-      sessionStorage.removeItem("navStatus");
-    }
+      .catch((err) => {
+        console.log(err);
+      });
+
+    /* fetch user's task data */
+    Axios.get(`${serverURL}/api/tasks/`, { withCredentials: true })
+      .then((response) => {
+        setTaskData(response.data);
+        setFilteredTaskData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     /* clear states when unmounted */
     return () => {
       setConnectionData(null);
       setTaskData(null);
       setClientData(null);
     };
-  }, [userId, loggedIn]);
+  }, []);
 
   /* use regular expression to pattern match wanted tasks */
   const filterTasks = (e) => {
@@ -126,15 +113,15 @@ function DashBd(props) {
     }
   }, [vipSelection, searchValue]);
 
-  /* filter Vip connections */
+  /* filter vip connections */
   useEffect(() => {
-    /* Vip connneciton filter */
+    /* vip connneciton filter */
     function filterVipConnections(value) {
       if (value === false) {
         setVipSelection(connectionData);
       } else {
         const tempData = connectionData.filter((connection) => {
-          return connection.Vip === true;
+          return connection.vip === true;
         });
         setVipSelection(tempData);
       }
@@ -244,10 +231,10 @@ function DashBd(props) {
                     />
                   </Switch>
                 ) : (
-                  <Box display= "flex" justifyContent= "center">
-                    <CircularProgress color="secondary" /></Box>
+                  <Box display="flex" justifyContent="center">
+                    <CircularProgress color="secondary" />
+                  </Box>
                 )}
-                
               </div>
             </Grid>
             {/* "Add" functionality */}
@@ -267,4 +254,4 @@ function DashBd(props) {
 }
 
 export default DashBd;
-export { allConnections };
+export { myConnections };

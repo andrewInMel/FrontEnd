@@ -70,7 +70,7 @@ function renderRow({ data, index, style }) {
   return (
     <ListItem
       style={style}
-      key={data.dataList == null ? 0 : data.dataList[index].id}
+      key={data.dataList == null ? 0 : data.dataList[index]._id}
       classes={{
         root: index % 2 === 0 ? null : data.myStyle,
       }}

@@ -14,7 +14,6 @@ import { serverURL } from "./SignIn.jsx";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Cookies from "js-cookie";
 import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme) => ({
@@ -87,39 +86,29 @@ function EditConnection(props) {
   const classes = useStyles();
   /* left section state */
   const [userPhoto, setUserPhoto] = useState(null);
-  const [occupation, setOccupation] = useState(data.occupation);
-  const [vip, setVip] = useState(data.Vip);
-  const [twitter, setTwitter] = useState(
-    data.twitter === null ? "" : data.twitter
-  );
-  const [instagram, setInstagram] = useState(
-    data.twitter === null ? "" : data.instagram
-  );
-  const [github, setGithub] = useState(
-    data.twitter === null ? "" : data.github
-  );
-  const [linkedIn, setLinkedIn] = useState(
-    data.twitter === null ? "" : data.linkedIn
-  );
+  const [occupation, setOccupation] = useState(data.occupation ?? "");
+  const [vip, setVip] = useState(data.vip ?? false);
+  const [twitter, setTwitter] = useState(data.twitter ?? "");
+  const [instagram, setInstagram] = useState(data.twitter ?? "");
+  const [github, setGithub] = useState(data.twitter ?? "");
+  const [linkedIn, setLinkedIn] = useState(data.twitter ?? "");
   /* about states */
   const [name, setName] = useState(data.firstName);
-  const [email, setEmail] = useState(data.emailAddress);
-  const [addr, setAddr] = useState(data.address);
-  const [phone, setPhone] = useState(data.phoneNumber);
-  const [company, setCompany] = useState(data.company);
-  const [birthday, setBirthday] = useState(data.birthday);
-  const [lastName, setLastName] = useState(data.lastName);
+  const [email, setEmail] = useState(data.email);
+  const [addr, setAddr] = useState(data.address ?? "");
+  const [phone, setPhone] = useState(data.phoneNumber ?? "");
+  const [company, setCompany] = useState(data.company ?? "");
+  const [birthday, setBirthday] = useState(data.birthday ?? "");
+  const [lastName, setLastName] = useState(data.lastName ?? "");
   /* notes states */
-  const [noteList, setNoteList] = useState(
-    data.notes == null ? [] : data.notes
-  );
+  const [noteList, setNoteList] = useState(data.notes ?? []);
   const [noteText, setNoteText] = useState("");
   /* helper states */
-  const [photoSrc, setPhotoSrc] = useState(data.imageSrc);
+  const [photoSrc, setPhotoSrc] = useState(data.imageSrc ?? "");
   const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
   const [option, setOption] = useState(true);
   const myRef = useRef(null);
-  const id = data.id;
+  const id = data._id;
   /* tags */
   const [chosenTags, setChosenTags] = useState(
     data.tags == null ? [] : data.tags
@@ -229,31 +218,28 @@ function EditConnection(props) {
 
   function updateDetail(myImageSrc) {
     axios
-      .patch(
-        `${serverURL}/api/connections/${id}/`,
+      .post(
+        `${serverURL}/api/connections/update/${id}`,
         {
-          userId: sessionStorage.getItem("id"),
-          emailAddress: email,
-          address: addr,
-          phoneNumber: phone,
-          company: company,
-          birthday: birthday,
           firstName: name,
           lastName: lastName,
+          email: email,
+          phoneNumber: phone,
+          address: addr,
+          company: company,
           occupation: occupation,
-          Vip: vip,
-          twitter: twitter,
-          instagram: instagram,
-          github: github,
-          linkedIn: linkedIn,
-          notes: noteList,
+          birthday: birthday,
+          vip: vip,
           imageSrc: myImageSrc,
+          notes: noteList,
           tags: chosenTags,
+          github: github,
+          instagram: instagram,
+          linkedIn: linkedIn,
+          twitter: twitter,
         },
         {
-          headers: {
-            Authorization: `Token ${Cookies.get("token")}`,
-          },
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -268,25 +254,25 @@ function EditConnection(props) {
 
   const resetAll = () => {
     setName(data.firstName);
-    setLastName(data.lastName);
+    setLastName(data.lastName ?? "");
     setUserPhoto(null);
-    setOccupation(data.occupation);
-    setVip(data.Vip);
-    setTwitter(data.twitter === null ? "" : data.twitter);
-    setInstagram(data.instagram === null ? "" : data.instagram);
-    setGithub(data.github === null ? "" : data.github);
-    setLinkedIn(data.linkedIn === null ? "" : data.linkedIn);
-    setEmail(data.emailAddress);
-    setAddr(data.address);
-    setPhone(data.phoneNumber);
-    setCompany(data.company);
+    setOccupation(data.occupation ?? "");
+    setVip(data.vip ?? false);
+    setTwitter(data.twitter ?? "");
+    setInstagram(data.instagram ?? "");
+    setGithub(data.github ?? "");
+    setLinkedIn(data.linkedIn ?? "");
+    setEmail(data.email ?? "");
+    setAddr(data.address ?? "");
+    setPhone(data.phoneNumber ?? "");
+    setCompany(data.company ?? "");
     setBirthday(data.birthday);
-    setNoteList(data.notes == null ? [] : data.notes);
+    setNoteList(data.notes ?? []);
     setNoteText("");
-    setPhotoSrc(data.imageSrc);
+    setPhotoSrc(data.imageSrc ?? "");
     setLinkOpen([false, false, false, false]);
     setOption(true);
-    setChosenTags(data.tags == null ? [] : data.tags);
+    setChosenTags(data.tags ?? []);
   };
 
   const EditComponent = (

@@ -6,6 +6,7 @@ import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import Option from "./OptionMenu";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { myConnections } from "./pages/Dashboard.jsx";
 
 const useStyles = makeStyles((theme) => ({
   myWidth: {
@@ -43,7 +44,7 @@ export default function TaskEntry({ task }) {
     (100 * (currentTime - startTime)) / (dueTime - startTime)
   );
   const progress = () => {
-    if (startTime > currentTime) {
+    if (startTime > currentTime || task.endDate === "") {
       return 0;
     }
 
@@ -66,7 +67,6 @@ export default function TaskEntry({ task }) {
 
   const handleOpen = () => {
     setOptionOpen(true);
-    console.log("open");
   };
 
   return (
@@ -95,15 +95,20 @@ export default function TaskEntry({ task }) {
         {/* member photos */}
         <Grid item>
           <AvatarGroup max={5}>
-            {oneTask.connections.map((person) => (
-              <Avatar
-                key={person.id}
-                alt={person.name}
-                src={person.imageSrc}
-                className={classes.small}
-                sizes={classes.small}
-              />
-            ))}
+            {oneTask.members.map((connectionId) => {
+              const person = myConnections.find(
+                (onePerson) => onePerson._id === connectionId
+              );
+              return person == null ? null : (
+                <Avatar
+                  key={person._id}
+                  alt={person.firstName}
+                  src={person.imageSrc}
+                  className={classes.small}
+                  sizes={classes.small}
+                />
+              );
+            })}
           </AvatarGroup>
         </Grid>
       </Grid>

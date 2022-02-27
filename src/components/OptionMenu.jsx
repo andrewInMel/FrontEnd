@@ -7,7 +7,6 @@ import EditTask from "./pages/EditTask.jsx";
 import EditConnection from "./pages/EditConnection.jsx";
 import { serverURL } from "./pages/SignIn.jsx";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const options = ["Edit", "Delete"];
 
@@ -42,9 +41,7 @@ export default function LongMenu({
       if (type === "connection") {
         axios
           .delete(`${serverURL}/api/connections/${id}/`, {
-            headers: {
-              Authorization: `Token ${Cookies.get("token")}`,
-            },
+            withCredentials: true,
           })
           .then(() => {
             alert("Connection deleted.");
@@ -56,9 +53,7 @@ export default function LongMenu({
       } else {
         axios
           .delete(`${serverURL}/api/tasks/${id}/`, {
-            headers: {
-              Authorization: `Token ${Cookies.get("token")}`,
-            },
+            withCredentials: true,
           })
           .then(() => {
             alert("Task deleted.");
@@ -78,7 +73,7 @@ export default function LongMenu({
   };
 
   const handleOptionClick = (e) => {
-    e.currentTarget.id === "Delete" ? deleteRecord(selected.id) : editRecord();
+    e.currentTarget.id === "Delete" ? deleteRecord(selected._id) : editRecord();
     setAnchorEl(null);
   };
 

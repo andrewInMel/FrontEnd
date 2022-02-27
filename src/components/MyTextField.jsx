@@ -28,6 +28,7 @@ function MyTextField(props) {
       value={props.fieldValue}
       onChange={props.handler}
       type={props.type}
+      autoComplete="on"
       InputProps={{
         classes: {
           input: classes.input,

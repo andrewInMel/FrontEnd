@@ -17,7 +17,7 @@ const Calendar = ({ taskList, switchView }) => {
 
   const sampleData = taskList.map((dataItem) => {
     return {
-      id: dataItem.id,
+      id: dataItem._id,
       start: parseAdjust(dataItem.endDate),
       startTimezone: null,
       end: PlusOneHour(dataItem.endDate),

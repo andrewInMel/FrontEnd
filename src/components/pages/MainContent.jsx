@@ -61,7 +61,9 @@ function MainContent(props) {
   const data2 = sortedTasklist.slice(0, 4);
   /* vip connection */
   const data = props.connectionList
-    .filter((connection) => connection.Vip === true)
+    .filter((connection) => {
+      return connection.vip === true;
+    })
     .slice(0, 3);
 
   return (
@@ -166,7 +168,6 @@ function MainContent(props) {
             <Grid
               container
               direction="column"
-              justifyContent="center"
               alignItems="center"
               className={classes.topBox}
             >
@@ -177,7 +178,7 @@ function MainContent(props) {
                 <ul className={classes.listStyle}>
                   {data.map((oneCircle) => {
                     return (
-                      <li key={oneCircle.id}>
+                      <li key={oneCircle._id}>
                         <CircleEntry circle={oneCircle} />
                       </li>
                     );
@@ -197,7 +198,7 @@ function MainContent(props) {
           <ul className={classes.listStyle}>
             {data2.map((oneTask) => {
               return (
-                <li className={classes.taskStyle} key={oneTask.id}>
+                <li className={classes.taskStyle} key={oneTask._id}>
                   <TaskEntry task={oneTask} />
                 </li>
               );

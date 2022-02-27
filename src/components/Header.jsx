@@ -189,7 +189,6 @@ export default function PrimarySearchAppBar(props) {
             <Box style={{ paddingLeft: " 20px" }}>
               {props.taskData && <Alert taskData={props.taskData} />}
             </Box>
-
             {/* profile */}
             <Grid item className={classes.sectionDesktop}>
               <AccountCircle
@@ -202,12 +201,14 @@ export default function PrimarySearchAppBar(props) {
       </AppBar>
     );
   };
-
   return (
     <div>
       {path === "/Dashboard/task" ? taskHeader() : connectionHeader()}
-      {/*copied connectionHeader for now*/}
-      <Profile open={open} onClose={handleClose} userData={props.data} />
+      {props.data.length !== 0 ? (
+        <Profile open={open} onClose={handleClose} userData={props.data} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

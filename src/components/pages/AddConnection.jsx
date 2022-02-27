@@ -14,7 +14,6 @@ import ListItem from "@material-ui/core/ListItem";
 import { serverURL } from "./SignIn.jsx";
 import axios from "axios";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -219,30 +218,27 @@ function AddConnection(props) {
   function updateDetail(myImageSrc) {
     axios
       .post(
-        `${serverURL}/api/connections/`,
+        `${serverURL}/api/connections/create`,
         {
-          userId: sessionStorage.getItem("id"),
-          emailAddress: email,
-          address: addr,
-          phoneNumber: phone,
-          company: company,
-          birthday: birthday,
           firstName: name,
           lastName: lastName,
+          email: email,
+          phoneNumber: phone,
+          address: addr,
+          company: company,
           occupation: occupation,
-          Vip: vip,
-          twitter: twitter,
-          instagram: instagram,
-          github: github,
-          linkedIn: linkedIn,
-          notes: noteList,
+          birthday: birthday,
+          vip: vip,
           imageSrc: myImageSrc,
+          notes: noteList,
           tags: chosenTags,
+          github: github,
+          instagram: instagram,
+          linkedIn: linkedIn,
+          twitter: twitter,
         },
         {
-          headers: {
-            Authorization: `Token ${Cookies.get("token")}`,
-          },
+          withCredentials: true,
         }
       )
       .then(() => {

@@ -8,8 +8,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { serverURL } from "./SignIn.jsx";
-import { allConnections } from "./Dashboard.jsx";
-import Cookies from "js-cookie";
+import { myConnections } from "./Dashboard.jsx";
 
 const useStyles = makeStyles({
   rootStyle: {
@@ -46,27 +45,27 @@ export default function AddTask(props) {
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [taskName, setTaskName] = useState("");
+  const [displayOpt, setDisplayMembers] = useState([]);
 
   /* data to be sent to backend */
   const taskData = {
-    userId: sessionStorage.getItem("id"),
-    name: taskName,
+    taskName: taskName,
     description: text,
     priority: priority,
     status: status,
-    connections: members,
-    startDate:
-      startDate === "" ? new Date().toISOString().slice(0, 10) : startDate,
+    members: members,
+    startDate: startDate ?? new Date().toISOString().slice(0, 10),
     endDate: dueDate,
   };
 
   /* add task member */
   function addMembers(event, values) {
     if (event != null) {
-      setMembers(values);
+      const valueIds = values.map((connection) => connection._id);
+      setMembers(valueIds);
+      setDisplayMembers(values);
     }
   }
-
   /* control methods */
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -99,12 +98,11 @@ export default function AddTask(props) {
 
   /* sent data to backend */
   const createTask = () => {
-    if (startDate < dueDate && taskName !== "") {
+    if ((startDate < dueDate || dueDate === "") && taskName !== "") {
+      console.log(taskData);
       axios
-        .post(`${serverURL}/api/tasks/`, taskData, {
-          headers: {
-            Authorization: `Token ${Cookies.get("token")}`,
-          },
+        .post(`${serverURL}/api/tasks/create`, taskData, {
+          withCredentials: true,
         })
         .then(() => {
           resetAll();
@@ -113,13 +111,6 @@ export default function AddTask(props) {
         })
         .catch((error) => {
           console.log(error);
-          if (error.response) {
-            if (error.response.data.status) {
-              alert(`${error.response.data.status}.. for status.`);
-            } else if (error.response.data.priority) {
-              alert(`${error.response.data.priority}.. for priority.`);
-            }
-          }
         });
       props.onClose();
     } else {
@@ -336,16 +327,17 @@ export default function AddTask(props) {
               <Grid item xs={4}>
                 <Typography> Assign </Typography>
               </Grid>
-              <Grid item xs={6}>
-                {allConnections === [] ? null : (
+              <Grid item xs={7}>
+                {myConnections === [] ? null : (
                   <Autocomplete
                     multiple
                     id="task member"
-                    options={allConnections}
-                    getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
-                    }
-                    value={members}
+                    options={myConnections}
+                    getOptionLabel={(option) => {
+                      console.log(option);
+                      return `${option.firstName} ${option.lastName}`;
+                    }}
+                    value={displayOpt}
                     onChange={(event, value) => {
                       addMembers(event, value);
                     }}

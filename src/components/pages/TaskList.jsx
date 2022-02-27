@@ -85,7 +85,7 @@ function renderRow({ data, index, style }) {
   return (
     <ListItem
       style={style}
-      key={data.taskList == null ? 0 : data.taskList[index].id}
+      key={data.taskList == null ? 0 : data.taskList[index]._id}
       classes={{
         root: index % 2 === 0 ? null : data.myStyle,
       }}

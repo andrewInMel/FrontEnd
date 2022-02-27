@@ -14,7 +14,6 @@ import { withStyles } from "@material-ui/core/styles";
 import MyTextField from "../MyTextField";
 import { extStyles } from "../Style.js";
 import theme from "../Theme.js";
-import Cookies from "js-cookie";
 
 const intStyles = {
   centreContainer: {
@@ -33,8 +32,7 @@ const intStyles = {
   },
 };
 
-const serverURL = "https://connectdcrm.herokuapp.com";
-// const serverURL = "http://localhost:8000";
+const serverURL = "https://myconnectd.herokuapp.com";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
@@ -56,27 +54,20 @@ class SignIn extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
-    Axios.post(`${serverURL}/auth/login/`, this.state)
+    Axios.post(`${serverURL}/auth/login`, this.state, { withCredentials: true })
       .then((res) => {
-        if (res.data.token && res.data.user_id && res.data.expiry) {
-          if (localStorage.getItem("tags") === null) {
-            localStorage.setItem(
-              "tags",
-              JSON.stringify(["family", "friend", "colleague"])
-            );
-          }
-          Cookies.remove("token");
-          Cookies.set("token", res.data.token);
-          sessionStorage.setItem("status", true);
-          sessionStorage.setItem("id", res.data.user_id);
-          sessionStorage.setItem(
-            "navStatus",
-            JSON.stringify([true, false, false])
+        if (localStorage.getItem("tags") === null) {
+          localStorage.setItem(
+            "tags",
+            JSON.stringify(["family", "friend", "colleague"])
           );
-          this.setState({ validated: true });
-        } else {
-          alert("Something went wrong.");
         }
+        sessionStorage.setItem("status", true);
+        sessionStorage.setItem(
+          "navStatus",
+          JSON.stringify([true, false, false])
+        );
+        this.setState({ validated: true });
       })
       .catch((error) => {
         console.log(error);

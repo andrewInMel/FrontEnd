@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Grid, Avatar, Typography, Switch } from "@material-ui/core";
+import { TextField, Grid, Avatar, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
@@ -13,8 +13,6 @@ import AddSocialMedia from "../AddSocialMedia.jsx";
 import { serverURL } from "./SignIn.jsx";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   formGapStyle: {
@@ -85,45 +83,28 @@ function Profile(props) {
   const data = props.userData;
   const classes = useStyles();
   /* left section state */
-  const [userPhoto, setUserPhoto] = useState(null);
-  const [occupation, setOccupation] = useState(data.occupation);
-  const [vip, setVip] = useState(data.Vip);
-  const [twitter, setTwitter] = useState(
-    data.twitter === null ? "" : data.twitter
-  );
-  const [instagram, setInstagram] = useState(
-    data.twitter === null ? "" : data.instagram
-  );
-  const [github, setGithub] = useState(
-    data.twitter === null ? "" : data.github
-  );
-  const [linkedIn, setLinkedIn] = useState(
-    data.twitter === null ? "" : data.linkedIn
-  );
+  const [userPhoto, setUserPhoto] = useState("");
+  const [occupation, setOccupation] = useState(data.occupation ?? "");
+  const [twitter, setTwitter] = useState(data.twitter ?? "");
+  const [instagram, setInstagram] = useState(data.instagram ?? "");
+  const [github, setGithub] = useState(data.github ?? "");
+  const [linkedIn, setLinkedIn] = useState(data.linkedIn ?? "");
   /* about states */
-  const [name, setName] = useState(data.firstName);
-  const [email, setEmail] = useState(data.emailAddress);
-  const [addr, setAddr] = useState(data.address);
-  const [phone, setPhone] = useState(data.phoneNumber);
-  const [company, setCompany] = useState(data.company);
-  const [birthday, setBirthday] = useState(data.birthday);
-  const [lastName, setLastName] = useState(data.lastName);
+  const [name, setName] = useState(data.firstName ?? "");
+  const [email, setEmail] = useState(data.email ?? "");
+  const [addr, setAddr] = useState(data.address ?? "");
+  const [phone, setPhone] = useState(data.phoneNumber ?? "");
+  const [company, setCompany] = useState(data.company ?? "");
+  const [birthday, setBirthday] = useState(data.birthday ?? "");
+  const [lastName, setLastName] = useState(data.lastName ?? "");
   /* notes states */
-  const [noteList, setNoteList] = useState(
-    data.notes == null ? [] : data.notes
-  );
+  const [noteList, setNoteList] = useState(data.notes ?? []);
   const [noteText, setNoteText] = useState("");
   /* helper states */
-  const [photoSrc, setPhotoSrc] = useState(data.imageSrc);
+  const [photoSrc, setPhotoSrc] = useState(data.imageSrc ?? "");
   const [linkOpen, setLinkOpen] = useState([false, false, false, false]);
   const [option, setOption] = useState(true);
   const myRef = useRef(null);
-  const id = data.id;
-  /* tags */
-  const [chosenTags, setChosenTags] = useState(
-    data.tags == null ? [] : data.tags
-  );
-  const tags = JSON.parse(localStorage.getItem("tags"));
 
   /* handle about */
   const handleEmail = (event) => {
@@ -175,10 +156,6 @@ function Profile(props) {
     setOccupation(event.target.value);
   };
 
-  const handleVip = () => {
-    setVip(!vip);
-  };
-
   const handleAbout = () => {
     setOption(true);
   };
@@ -194,17 +171,15 @@ function Profile(props) {
   };
   /* image preview */
   useEffect(() => {
-    if (userPhoto !== null) {
+    if (userPhoto !== "") {
       setPhotoSrc(URL.createObjectURL(userPhoto));
     }
   }, [userPhoto]);
 
   /* submit connection detail */
   const submitConnection = () => {
-    const newTags = chosenTags.filter((oneTag) => !tags.includes(oneTag));
-    localStorage.setItem("tags", JSON.stringify([...tags, ...newTags]));
     if (name !== "") {
-      if (userPhoto !== null) {
+      if (userPhoto !== "") {
         const fd = new FormData();
         fd.append("file", userPhoto);
         fd.append("upload_preset", "myUpload");
@@ -230,11 +205,10 @@ function Profile(props) {
 
   function updateDetail(myImageSrc) {
     axios
-      .patch(
-        `${serverURL}/api/connections/${id}/`,
+      .post(
+        `${serverURL}/api/users/update`,
         {
-          userId: sessionStorage.getItem("id"),
-          emailAddress: email,
+          email: email,
           address: addr,
           phoneNumber: phone,
           company: company,
@@ -242,24 +216,18 @@ function Profile(props) {
           firstName: name,
           lastName: lastName,
           occupation: occupation,
-          Vip: vip,
           twitter: twitter,
           instagram: instagram,
           github: github,
           linkedIn: linkedIn,
           notes: noteList,
           imageSrc: myImageSrc,
-          tags: chosenTags,
         },
-        {
-          headers: {
-            Authorization: `Token ${Cookies.get("token")}`,
-          },
-        }
+        { withCredentials: true }
       )
       .then(() => {
         alert("Edit profile successful.");
-        window.location.reload(false);
+        //        window.location.reload(false);
       })
       .catch((error) => {
         console.log(error);
@@ -268,26 +236,24 @@ function Profile(props) {
   }
 
   const resetAll = () => {
-    setName(data.firstName);
-    setLastName(data.lastName);
-    setUserPhoto(null);
-    setOccupation(data.occupation);
-    setVip(data.Vip);
-    setTwitter(data.twitter === null ? "" : data.twitter);
-    setInstagram(data.instagram === null ? "" : data.instagram);
-    setGithub(data.github === null ? "" : data.github);
-    setLinkedIn(data.linkedIn === null ? "" : data.linkedIn);
-    setEmail(data.emailAddress);
-    setAddr(data.address);
-    setPhone(data.phoneNumber);
-    setCompany(data.company);
-    setBirthday(data.birthday);
-    setNoteList(data.notes == null ? [] : data.notes);
+    setName(data.firstName ?? "");
+    setLastName(data.lastName ?? "");
+    setUserPhoto("");
+    setOccupation(data.occupation ?? "");
+    setTwitter(data.twitter ?? "");
+    setInstagram(data.instagram ?? "");
+    setGithub(data.github ?? "");
+    setLinkedIn(data.linkedIn ?? "");
+    setEmail(data.email ?? "");
+    setAddr(data.address ?? "");
+    setPhone(data.phoneNumber ?? "");
+    setCompany(data.company ?? "");
+    setBirthday(data.birthday ?? "");
+    setNoteList(data.notes ?? []);
     setNoteText("");
-    setPhotoSrc(data.imageSrc);
+    setPhotoSrc(data.imageSrc ?? "");
     setLinkOpen([false, false, false, false]);
     setOption(true);
-    setChosenTags(data.tags == null ? [] : data.tags);
   };
 
   return (
@@ -321,22 +287,14 @@ function Profile(props) {
                   hidden
                 />
               </Grid>
-              {/* name and VIP switch */}
-              <Grid item container direction="column" xs={6}>
-                <Grid item>
-                  <TextField
-                    value={name + " " + lastName}
-                    onChange={handleName}
-                    InputProps={{ disableUnderline: true }}
-                    placeholder="New Contact"
-                  />
-                </Grid>
-                <Grid item container alignItems="center">
-                  <Grid item xs={2}>
-                    <Typography variant="subtitle1">VIP</Typography>
-                  </Grid>
-                  <Switch checked={vip} onChange={handleVip} />
-                </Grid>
+              {/* name */}
+              <Grid item xs={6}>
+                <TextField
+                  value={name + " " + lastName}
+                  onChange={handleName}
+                  InputProps={{ disableUnderline: true }}
+                  placeholder="New Contact"
+                />
               </Grid>
             </Grid>
             {/* middle section */}
@@ -476,30 +434,6 @@ function Profile(props) {
                 >
                   Reset Links
                 </Button>
-              </Grid>
-              {/* customise tags */}
-              <Grid item style={{ paddingTop: "30px" }}>
-                <Typography variant="subtitle1" gutterBottom={true}>
-                  Choose or Customize Tag
-                </Typography>
-                <Autocomplete
-                  style={{ width: "230px" }}
-                  freeSolo
-                  multiple
-                  id="tags"
-                  options={tags}
-                  getOptionLabel={(tag) => tag}
-                  value={chosenTags}
-                  size="small"
-                  onChange={(event, value) => {
-                    if (event != null) {
-                      setChosenTags(value);
-                    }
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} variant="outlined" />
-                  )}
-                />
               </Grid>
               <AddSocialMedia
                 open={linkOpen[0]}
@@ -765,18 +699,6 @@ function Profile(props) {
                     />
                   </Grid>
                 </Grid>
-                {/* tag */}
-                {/* <Grid
-                  item
-                  container
-                  direction="row"
-                  alignItems="center"
-                  className={classes.formGapStyle}
-                >
-                  <Grid item xs={4}>
-                    <Typography> Tags </Typography>
-                  </Grid>
-                </Grid> */}
               </Grid>
             ) : (
               /* notes component */

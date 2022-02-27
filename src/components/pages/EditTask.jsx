@@ -8,8 +8,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { serverURL } from "./SignIn.jsx";
-import { allConnections } from "./Dashboard.jsx";
-import Cookies from "js-cookie";
+import { myConnections } from "./Dashboard.jsx";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 
@@ -40,27 +39,27 @@ const useStyles = makeStyles({
 
 export default function EditTask(props) {
   const data = props.taskData;
+  const taskMembers = myConnections.filter((connection) => {
+    return data.members.includes(connection._id);
+  });
   const classes = useStyles();
   /* states */
   const [text, setText] = useState(data.description);
   const [priority, setPriority] = useState(data.priority);
   const [status, setStatus] = useState(data.status);
-
-  const [members, setMembers] = useState(data.connections);
+  const [members, setMembers] = useState([]);
   const [startDate, setStartDate] = useState(data.startDate);
-
   const [dueDate, setDueDate] = useState(data.endDate);
-  const [taskName, setTaskName] = useState(data.name);
+  const [taskName, setTaskName] = useState(data.taskName);
+  const [displayOpt, setDisplayMembers] = useState(taskMembers);
 
   /* data to be sent to backend */
   const taskData = {
-    userId: sessionStorage.getItem("id"),
-    id: data.id,
-    name: taskName,
+    taskName: taskName,
     description: text,
     priority: priority,
     status: status,
-    connections: members,
+    members: members,
     startDate: startDate,
     endDate: dueDate,
   };
@@ -68,7 +67,9 @@ export default function EditTask(props) {
   /* add task member */
   function addMembers(event, values) {
     if (event != null) {
-      setMembers(values);
+      const valueIds = values.map((connection) => connection._id);
+      setMembers(valueIds);
+      setDisplayMembers(values);
     }
   }
 
@@ -103,7 +104,7 @@ export default function EditTask(props) {
   };
 
   const resetAll = () => {
-    setMembers(data.connections);
+    setMembers([]);
     setText(data.description);
     setPriority(data.priority);
     setStatus(data.status);
@@ -114,12 +115,10 @@ export default function EditTask(props) {
 
   /* sent data to backend */
   const updateTask = () => {
-    if (startDate < dueDate && taskName !== "") {
+    if ((startDate < dueDate || dueDate === "") && taskName !== "") {
       axios
-        .patch(`${serverURL}/api/tasks/${data.id}/`, taskData, {
-          headers: {
-            Authorization: `Token ${Cookies.get("token")}`,
-          },
+        .post(`${serverURL}/api/tasks/update/${data._id}`, taskData, {
+          withCredentials: true,
         })
         .then(() => {
           alert("Task edit was successful.");
@@ -127,13 +126,7 @@ export default function EditTask(props) {
         })
         .catch((error) => {
           console.log(error);
-          if (error.response) {
-            if (error.response.data.status) {
-              alert(`${error.response.data.status}.. for status.`);
-            } else if (error.response.data.priority) {
-              alert(`${error.response.data.priority}.. for priority.`);
-            }
-          }
+          alert("Something went wrong, Please try again later");
         });
       props.onClose();
     } else {
@@ -336,15 +329,15 @@ export default function EditTask(props) {
             <Typography> Assign </Typography>
           </Grid>
           <Grid item xs={6}>
-            {allConnections === [] ? null : (
+            {myConnections === [] ? null : (
               <Autocomplete
                 multiple
                 id="task member"
-                options={allConnections}
+                options={myConnections}
                 getOptionLabel={(option) =>
                   `${option.firstName} ${option.lastName}`
                 }
-                value={members}
+                value={displayOpt}
                 onChange={(event, value) => {
                   addMembers(event, value);
                 }}
@@ -460,7 +453,7 @@ export default function EditTask(props) {
           alignItems="center"
           className={classes.rowSpace}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Typography> Status</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -477,7 +470,7 @@ export default function EditTask(props) {
           alignItems="center"
           className={classes.rowSpace}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Typography> Priority</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -494,7 +487,7 @@ export default function EditTask(props) {
           alignItems="center"
           className={classes.rowSpace}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Typography> Start Date</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -520,7 +513,7 @@ export default function EditTask(props) {
           alignItems="center"
           className={classes.rowSpace}
         >
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Typography> Due date</Typography>
           </Grid>
           <Grid item xs={7}>
@@ -549,10 +542,10 @@ export default function EditTask(props) {
           <Grid item xs={4}>
             <Typography> Assigned </Typography>
           </Grid>
-          <Grid item xs={6}>
-            {data.connections.length === 0
+          <Grid item xs={8}>
+            {displayOpt.length === 0
               ? null
-              : data.connections.map((node) => {
+              : displayOpt.map((node) => {
                   return (
                     <Chip
                       avatar={<Avatar alt="" src={node.imageSrc} />}
@@ -560,6 +553,7 @@ export default function EditTask(props) {
                       key={`${Math.floor(Math.random() * 10000)} ${
                         node.firstName
                       }`}
+                      style={{ margin: "0 5px 5px 0" }}
                     />
                   );
                 })}

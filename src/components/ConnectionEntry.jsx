@@ -13,7 +13,6 @@ export default function ConnectionEntry(props) {
 
   const handleOpen = () => {
     setOptionOpen(true);
-    console.log("open");
   };
 
   const oneConnection = props.connection;
@@ -41,7 +40,7 @@ export default function ConnectionEntry(props) {
           </Typography>
         </Grid>
         <Grid item>
-          <Typography>{oneConnection.title}</Typography>
+          <Typography>{oneConnection.occupation}</Typography>
         </Grid>
       </Grid>
 
@@ -61,7 +60,7 @@ export default function ConnectionEntry(props) {
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>
-        {oneConnection.Vip ? <img src={VIP} alt="" /> : null}
+        {oneConnection.vip ? <img src={VIP} alt="" /> : null}
       </Grid>
       {/* actions */}
       <Grid item xs={1}>

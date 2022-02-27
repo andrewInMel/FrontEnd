@@ -32,11 +32,10 @@ const Alert = ({ taskData }) => {
       const day = moment(oneTask.endDate).endOf("day").fromNow();
       if (day === "in 2 days" || day === "in a day") {
         setReminders((prevReminders) => {
-          if (prevReminders.length === 0) {
-            return [...prevReminders, { task: oneTask, exprire: day }];
-          } else if (
-            prevReminders.filter((oneReminder) => oneReminder.id === oneTask.id)
-              .length === 0
+          if (
+            prevReminders.filter(
+              (oneReminder) => oneReminder._id === oneTask._id
+            ).length === 0
           ) {
             return [...prevReminders, { task: oneTask, exprire: day }];
           } else {
@@ -63,8 +62,8 @@ const Alert = ({ taskData }) => {
       >
         {reminders
           ? reminders.map((reminder) => (
-              <MenuItem key={reminder.task.id}>
-                {reminder.task.name} is due {reminder.exprire}
+              <MenuItem key={reminder.task._id}>
+                {reminder.task.taskName} is due {reminder.exprire}
               </MenuItem>
             ))
           : null}
