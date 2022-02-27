@@ -27,7 +27,7 @@ const intStyles = {
     paddingTop: "2vh",
   },
 };
-const url = "http://localhost:5000";
+const url = "https://myconnectd.herokuapp.com";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignUp extends Component {
