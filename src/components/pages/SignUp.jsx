@@ -14,6 +14,7 @@ import { withStyles } from "@material-ui/core/styles";
 import MyTextField from "../MyTextField";
 import { extStyles } from "../Style.js";
 import theme from "../Theme.js";
+import { serverURL } from "./SignIn.jsx";
 
 const intStyles = {
   fieldSpace: {
@@ -27,7 +28,6 @@ const intStyles = {
     paddingTop: "2vh",
   },
 };
-const url = "https://myconnectd.herokuapp.com";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignUp extends Component {
@@ -66,7 +66,7 @@ class SignUp extends Component {
       this.state.password !== ""
     ) {
       this.setState({ match: true });
-      Axios.post(`${url}/api/users/register`, this.state)
+      Axios.post(`${serverURL}/api/users/register`, this.state)
         .then(() => {
           alert("User created");
           this.setState({ signedUp: true });
