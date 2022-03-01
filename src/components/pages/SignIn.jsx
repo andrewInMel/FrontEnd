@@ -32,7 +32,7 @@ const intStyles = {
   },
 };
 
-const serverURL = "https://api.andrewliu.id.au";
+const serverURL = `${process.env.REACT_APP_API_URL}`;
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
