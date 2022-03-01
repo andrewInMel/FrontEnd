@@ -32,7 +32,7 @@ const intStyles = {
   },
 };
 
-const serverURL = "https://myconnectd.herokuapp.com";
+const serverURL = "https://api.andrewliu.id.au";
 const combinedStyles = { ...intStyles, ...extStyles };
 
 class SignIn extends Component {
