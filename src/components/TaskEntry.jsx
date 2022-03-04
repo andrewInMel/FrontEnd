@@ -90,7 +90,7 @@ export default function TaskEntry({ task }) {
       >
         {/* task name */}
         <Grid item>
-          <Typography>{oneTask.name}</Typography>
+          <Typography>{oneTask.taskName}</Typography>
         </Grid>
         {/* member photos */}
         <Grid item>

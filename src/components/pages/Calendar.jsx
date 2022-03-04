@@ -23,7 +23,7 @@ const Calendar = ({ taskList, switchView }) => {
       end: PlusOneHour(dataItem.endDate),
       endTimezone: null,
       isAllDay: false,
-      title: dataItem.name,
+      title: dataItem.taskName,
       description: dataItem.description,
       recurrenceRule: null,
       recurrenceId: null,

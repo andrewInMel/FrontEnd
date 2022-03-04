@@ -17,11 +17,15 @@ export default function ConnectionEntry(props) {
 
   const oneConnection = props.connection;
   return (
-    <Grid container direction="row" alignItems="center">
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      style={{ minWidth: "900px" }}
+    >
       {/* Connection photos */}
-
       <Grid item xs={1} style={{ paddingLeft: "3%" }}>
-        <Avatar alt={oneConnection.name} src={oneConnection.imageSrc} />
+        <Avatar alt={oneConnection.firstName} src={oneConnection.imageSrc} />
       </Grid>
       {/* Connection name & title*/}
       <Grid
@@ -51,12 +55,6 @@ export default function ConnectionEntry(props) {
       {/* phone number */}
       <Grid item xs={2}>
         <Typography> {oneConnection.phoneNumber} </Typography>
-      </Grid>
-      {/* task */}
-      <Grid item xs={1}>
-        {/* <Typography>
-          {oneConnection.tasks === null ? 0 : oneConnection.tasks.length}
-        </Typography> */}
       </Grid>
       {/* vip indication */}
       <Grid item xs={1}>

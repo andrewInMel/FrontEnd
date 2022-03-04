@@ -110,7 +110,7 @@ export default function EditTask(props) {
     setStatus(data.status);
     setStartDate(data.startDate);
     setDueDate(data.endDate);
-    setTaskName(data.name);
+    setTaskName(data.taskName);
   };
 
   /* sent data to backend */

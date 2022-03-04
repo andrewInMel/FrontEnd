@@ -6,7 +6,9 @@ import { Typography, Grid } from "@material-ui/core";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import AssessmentIcon from "@material-ui/icons/Assessment";
-import Cookies from "js-cookie";
+import Axios from "axios";
+import { serverURL } from "./pages/SignIn.jsx";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
   },
   middleStyle: {
     flexGrow: "1",
-    padding: "0 0 0 50px",
+    padding: (matches) => (matches ? "0 0 0 50px" : "0"),
   },
   bottomStyle: {
     height: "80px",
@@ -30,9 +32,9 @@ const useStyles = makeStyles({
     margin: "auto",
   },
   text: {
-    fontWeight: "600",
+    fontWeight: 600,
     textDecoration: "none",
-    fontSize: "20px",
+    fontSize: (matches) => (matches ? "20px" : "15px"),
     color: "#4F7E83",
   },
   iconStyle: {
@@ -47,14 +49,20 @@ const useStyles = makeStyles({
 });
 
 function Sidebar(props) {
+  const matches = useMediaQuery("(min-width:1000px)");
   const [clicked, setClicked] = useState(
     JSON.parse(sessionStorage.getItem("navStatus"))
   );
-  const classes = useStyles();
+  const classes = useStyles(matches);
 
   const handleSignOut = () => {
-    Cookies.remove("token");
-    props.setStatus(false);
+    Axios.get(`${serverURL}/auth/logout`, { withCredentials: true })
+      .then(() => {
+        props.setStatus(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Grid

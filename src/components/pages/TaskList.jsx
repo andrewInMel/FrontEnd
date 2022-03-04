@@ -63,7 +63,6 @@ function TaskList(props) {
       </Button>
 
       <TaskListHeader headerClass={classes} />
-
       <FixedSizeList
         height={window.innerHeight * 0.7}
         width={myWidth}

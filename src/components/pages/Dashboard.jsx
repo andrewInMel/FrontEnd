@@ -28,19 +28,24 @@ const useStyles = makeStyles({
 let myConnections = [];
 
 function DashBd(props) {
+  const [customPath, setCustomPath] = useState("dashboard");
+  let { url, path } = useRouteMatch();
   const classes = useStyles();
-  const [connectionData, setConnectionData] = useState([]);
-  const [taskData, setTaskData] = useState([]);
   const [clientData, setClientData] = useState([]);
   const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
-  let { url, path } = useRouteMatch();
-  /* filtered data & page direction */
+
+  /* connection realted state*/
+  const [connectionData, setConnectionData] = useState([]);
   const [filteredConnectionData, setFilteredConnectionData] = useState([]);
-  const [filteredTaskData, setFilteredTaskData] = useState([]);
+  const [cnxSearchValue, setCnxSearchValue] = useState("");
   const [vipSelection, setVipSelection] = useState([]);
-  const [customPath, setCustomPath] = useState("dashboard");
-  const [searchValue, setSearchValue] = useState("");
   const [vip, SetVip] = useState(false);
+  /* task realted state */
+  const [taskData, setTaskData] = useState([]);
+  const [filteredTaskData, setFilteredTaskData] = useState([]);
+  const [taskSearchValue, setTaskSearchValue] = useState("");
+  const [prioritySelection, setPrioritySelection] = useState([]);
+  const [priority, setPriority] = useState("All");
   const [showCalendar, setShowCalendar] = useState(false);
 
   /* fetch user's data */
@@ -50,8 +55,6 @@ function DashBd(props) {
       .then((res) => {
         myConnections = res.data;
         setConnectionData(myConnections);
-        setVipSelection(myConnections);
-        setFilteredConnectionData(myConnections);
       })
       .catch((error) => {
         console.log(error);
@@ -59,7 +62,6 @@ function DashBd(props) {
     /* fetch user's profile */
     Axios.get(`${serverURL}/api/users`, { withCredentials: true })
       .then((user) => {
-        //          console.log(user);
         setClientData(user.data);
       })
       .catch((err) => {
@@ -70,7 +72,6 @@ function DashBd(props) {
     Axios.get(`${serverURL}/api/tasks/`, { withCredentials: true })
       .then((response) => {
         setTaskData(response.data);
-        setFilteredTaskData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -84,16 +85,36 @@ function DashBd(props) {
     };
   }, []);
 
-  /* use regular expression to pattern match wanted tasks */
-  const filterTasks = (e) => {
-    const regex = new RegExp(`${e.target.value}`, "gi");
-    const myTasks = taskData.filter((task) => {
-      return task.name.match(regex) || task.priority.match(regex);
-    });
-    setFilteredTaskData(myTasks);
-  };
+  /* implement seasrch functionality on task */
+  useEffect(() => {
+    /* use regular expression to pattern match wanted tasks */
+    function filterTasks(value) {
+      const regex = new RegExp(`${value}`, "gi");
+      const myTask = prioritySelection.filter((oneTask) =>
+        oneTask.taskName.match(regex)
+      );
+      setFilteredTaskData(myTask);
+    }
+    filterTasks(taskSearchValue);
+  }, [prioritySelection, taskSearchValue]);
 
-  /* implement seasrch function on connection */
+  /* filter prioritised task */
+  useEffect(() => {
+    /* prioritised task filter */
+    function priorityTaskFilter(value) {
+      if (value === "All") {
+        setPrioritySelection(taskData);
+      } else {
+        const tempData = taskData.filter((oneTask) => {
+          return oneTask.priority === value;
+        });
+        setPrioritySelection(tempData);
+      }
+    }
+    priorityTaskFilter(priority);
+  }, [priority, taskData]);
+
+  /* implement seasrch functionality on connection */
   useEffect(() => {
     /* use regular expression to pattern match wanted connections */
     function filterConnections(value) {
@@ -108,10 +129,8 @@ function DashBd(props) {
       });
       setFilteredConnectionData(myConns);
     }
-    if (vipSelection) {
-      filterConnections(searchValue);
-    }
-  }, [vipSelection, searchValue]);
+    filterConnections(cnxSearchValue);
+  }, [vipSelection, cnxSearchValue]);
 
   /* filter vip connections */
   useEffect(() => {
@@ -126,15 +145,14 @@ function DashBd(props) {
         setVipSelection(tempData);
       }
     }
-    if (connectionData) {
-      filterVipConnections(vip);
-    }
+    filterVipConnections(vip);
   }, [vip, connectionData]);
 
   const switchView = () => {
     setShowCalendar(!showCalendar);
   };
 
+  /* page layout */
   if (!loggedIn) {
     return <Redirect to="/Signin" />;
   } else {
@@ -161,9 +179,10 @@ function DashBd(props) {
               <Header
                 {...props}
                 customPath={customPath}
-                setSearchValue={setSearchValue}
+                setCnxSearchValue={setCnxSearchValue}
+                setTaskSearchValue={setTaskSearchValue}
                 SetVip={SetVip}
-                filterTasks={filterTasks}
+                setPriority={setPriority}
                 data={clientData}
                 taskData={taskData}
               />

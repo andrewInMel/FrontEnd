@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [dropdown, setDropdown] = React.useState("");
+  const [dropdown, setDropdown] = React.useState("All");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -87,17 +87,20 @@ export default function PrimarySearchAppBar(props) {
     setOpen(false);
   };
 
-  const handleChangeDropdown = (event) => {
-    setDropdown(event.target.value);
-    props.filterTasks(event);
-  };
-
   const handleVipToggle = (event) => {
     props.SetVip(event.target.checked);
   };
 
-  const handleSearchValue = (event) => {
-    props.setSearchValue(event.target.value);
+  const handleTaskPriority = (event) => {
+    setDropdown(event.target.value);
+    props.setPriority(event.target.value);
+  };
+
+  const handleCnxSearchValue = (event) => {
+    props.setCnxSearchValue(event.target.value);
+  };
+  const handletaskSearchValue = (event) => {
+    props.setTaskSearchValue(event.target.value);
   };
 
   const path = props.location.pathname;
@@ -117,7 +120,7 @@ export default function PrimarySearchAppBar(props) {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-                onChange={(e) => props.filterTasks(e)}
+                onChange={handletaskSearchValue}
               />
             </Grid>
           </Box>
@@ -127,11 +130,11 @@ export default function PrimarySearchAppBar(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              onChange={handleChangeDropdown}
+              onChange={handleTaskPriority}
               value={dropdown}
               label="priority"
             >
-              <MenuItem value={""}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Critical"}>Critical</MenuItem>
               <MenuItem value={"High"}>High</MenuItem>
               <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -172,7 +175,7 @@ export default function PrimarySearchAppBar(props) {
                     input: classes.inputInput,
                   }}
                   inputProps={{ "aria-label": "search" }}
-                  onChange={handleSearchValue}
+                  onChange={handleCnxSearchValue}
                 />
               </Grid>
             </Box>
