@@ -46,9 +46,18 @@ class SignIn extends Component {
   }
 
   /* handlers */
-  handleGoogleLogin = () => {
+  handleGoogleLogin = async () => {
+    if (localStorage.getItem("tags") === null) {
+      localStorage.setItem(
+        "tags",
+        JSON.stringify(["family", "friend", "colleague"])
+      );
+    }
+    sessionStorage.setItem("status", true);
+    sessionStorage.setItem("navStatus", JSON.stringify([true, false, false]));
     window.open(`${serverURL}/auth/google`, "_self");
   };
+
   usernameHandler = (event) => {
     this.setState({ username: event.target.value });
   };
