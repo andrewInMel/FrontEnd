@@ -1,18 +1,17 @@
-# COMP30022 IT Project (Connectd) Frontend
+# Frontend
 
 ## Introduction
 
-This is the front end repository for the IT Project (COMP30022) subject. This is a personal CRM (customer relationship manager) called Connectd, created with React, Django, and MongoDB.
+This is the front end repository for the rewritten project Connectd. Connectd is a personal CRM (customer relationship manager) web application, created with React, Express framework, and MongoDB.
+**The original project is documented at:** [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)
 
-* Frontend repository is located at: [**Frontend Repository**](https://github.com/Andrew-Liu-mel/COMP30022-FrontEnd)
+* Frontend repository is located at: [**Frontend Repository**](https://github.com/andrewInMel/Frontend)
 
-* Backend repository is located at: [**Backend Repository**](https://github.com/Andrew-Liu-mel/COMP30022)
+* Backend repository is located at: [**Backend Repository**](https://github.com/andrewInMel/Backend)
 
-* Frontend hosted on: [**Heroku - connectd-front**](https://connectd-front.herokuapp.com/)
+* Frontend URL: [**Heroku - connectd-front**](https://front.andrewliu.id.au)
 
-* Backend hosted on: [**Heroku - connectdcrm**](https://connectdcrm.herokuapp.com/)
-
-* This project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)
+* Backend URL: [**Heroku - connectdcrm**](https://api.andrewliu.id.au)
 
 ## About the Front-end App
 
@@ -21,22 +20,10 @@ It aims to help the user manage their connections & tasks.
 
 ## Table of contents
 
-- [Team Members](#team-members)
 - [Local Configuration](#local-configuration)
 - [Deploy to Cloud](#deploy-to-cloud)
 - [Tool Stack](#tool-stack)
 - [Useful Links](#useful-links)
-
-## Team Members
-
-| Name           | Role              | Contact                         |
-| :------------  | :------------     | :------------                   |
-| Alexander Cain | Scrum Master      | acain1@student.unimelb.edu.au   |
-| Han Liu        | Frontend Lead     | liuh8@student.unimelb.edu.au    |
-| David Fletcher | Product Owner     | dfletcher@student.unimelb.edu.au |
-| Jackson Hu     | Backend Lead      | renweih@student.unimelb.edu.au  |
-| Tymara Metcalf | UI / UX Designer  | tmetcalf@student.unimelb.edu.au |
-
 
 ## Local Configuration:
 
