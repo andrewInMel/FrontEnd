@@ -46,6 +46,9 @@ class SignIn extends Component {
   }
 
   /* handlers */
+  handleGoogleLogin = () => {
+    window.open(`${serverURL}/auth/google`, "_self");
+  };
   usernameHandler = (event) => {
     this.setState({ username: event.target.value });
   };
@@ -162,6 +165,17 @@ class SignIn extends Component {
                   Login
                 </Button>
               </Grid>
+
+              <Grid item className={classes.space}>
+                <Button
+                  className={classes.btnLandingLogIn}
+                  style={{ width: "25vw" }}
+                  onClick={this.handleGoogleLogin}
+                >
+                  Google Login
+                </Button>
+              </Grid>
+
               {/* redirct to signup */}
               <Grid item className={classes.spaceStyle}>
                 <Typography variant="caption" component={Link} to="/Signup">
