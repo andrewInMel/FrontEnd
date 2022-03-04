@@ -28,6 +28,16 @@ function TaskList(props) {
   const [myWidth, setMyWidth] = useState(null);
   const ref = useRef(null);
 
+  /* sort task by its due date */
+  const sortedTasklist = props.taskList.sort((el1, el2) => {
+    if (el1.endDate > el2.endDate) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  /* delay re-render page  */
   function delay(callback, ms) {
     var timer = 0;
     return function () {
@@ -67,10 +77,10 @@ function TaskList(props) {
         height={window.innerHeight * 0.7}
         width={myWidth}
         itemSize={80}
-        itemCount={props.taskList.length}
+        itemCount={sortedTasklist.length}
         itemData={{
           myStyle: classes.changeColor,
-          taskList: props.taskList,
+          taskList: sortedTasklist,
           otherData: true,
         }}
       >
