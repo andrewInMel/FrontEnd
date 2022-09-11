@@ -176,7 +176,7 @@ export default function PrimarySearchAppBar(props) {
                   <SearchIcon />
                 </div>
                 <InputBase
-                  placeholder="Search by  connection or company or location"
+                  placeholder="Search connection by name or company or location"
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
