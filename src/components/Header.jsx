@@ -102,8 +102,13 @@ export default function PrimarySearchAppBar(props) {
   const handletaskSearchValue = (event) => {
     props.setTaskSearchValue(event.target.value);
   };
-
+  {
+    /* locate the path of the web page */
+  }
   const path = props.location.pathname;
+  {
+    /*Task search bar */
+  }
   const taskHeader = () => {
     return (
       <AppBar color="transparent" position="static">
@@ -156,7 +161,9 @@ export default function PrimarySearchAppBar(props) {
       </AppBar>
     );
   };
-
+  {
+    /* Connection search bar */
+  }
   const connectionHeader = () => {
     return (
       <AppBar color="transparent" position="static">

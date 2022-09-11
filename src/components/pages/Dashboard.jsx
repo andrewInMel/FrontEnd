@@ -33,7 +33,6 @@ function DashBd(props) {
   const classes = useStyles();
   const [clientData, setClientData] = useState([]);
   const [loggedIn, setLoggedIn] = useState(sessionStorage.getItem("status"));
-
   /* connection realted state*/
   const [connectionData, setConnectionData] = useState([]);
   const [filteredConnectionData, setFilteredConnectionData] = useState([]);
